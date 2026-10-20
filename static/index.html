@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <title>云上仙都 · 非遗数字化传承与VR全景云游览</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 全景容器 -->
+    <div id="pano-container">
+      <canvas id="pano-canvas"></canvas>
+      <div id="hotspot-layer"></div>
+      <div id="loading" class="hidden">
+        <div class="spinner"></div>
+        <p id="loading-text">全景加载中…</p>
+      </div>
+      <div id="hint" class="hint">拖动 / 滑动旋转视角 · 点击闪光图标探索非遗</div>
+    </div>
+
+    <!-- 顶部栏 -->
+    <header id="topbar">
+      <div class="brand">
+        <h1 id="app-title">云上仙都</h1>
+        <p id="app-subtitle">非遗数字化传承 · VR全景云游览</p>
+      </div>
+      <nav id="scene-tabs" aria-label="场景切换"></nav>
+    </header>
+
+    <!-- 底部控制区 -->
+    <div id="controls">
+      <div class="control-group" id="age-group">
+        <span class="control-label" id="age-label">讲解版本</span>
+        <div class="seg" id="age-selector"></div>
+      </div>
+      <button id="lang-toggle" class="pill" title="切换语言">中 / EN</button>
+    </div>
+
+    <!-- AI 讲解面板 -->
+    <aside id="guide-panel" class="panel">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="scene-name" id="panel-scene">—</span>
+          <span class="badge" id="panel-mode">本地模式</span>
+        </div>
+        <button id="panel-close" class="icon-btn" aria-label="收起">⌄</button>
+      </div>
+
+      <div class="panel-body">
+        <p class="guide-text" id="guide-text">正在生成讲解词…</p>
+
+        <div class="row-actions">
+          <button id="btn-speak" class="btn primary">🔊 播放讲解</button>
+          <button id="btn-stop" class="btn ghost hidden">■ 停止</button>
+        </div>
+
+        <div class="keywords-block">
+          <p class="keywords-title" id="kw-title">关键词溯源 · 点击释义</p>
+          <div id="keyword-chips" class="chips"></div>
+        </div>
+
+        <div id="explain-box" class="explain-box hidden">
+          <div class="explain-head">
+            <span class="explain-term" id="explain-term"></span>
+            <span class="explain-meta" id="explain-meta"></span>
+          </div>
+          <p class="explain-text" id="explain-text"></p>
+          <div class="row-actions">
+            <button id="btn-speak-explain" class="btn primary small">🔊 语音释义</button>
+            <button id="btn-close-explain" class="btn ghost small">关闭</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div id="webgl-fallback" class="hidden">
+      当前浏览器不支持 WebGL，无法渲染 360° 全景。请使用最新版 Chrome / Edge / 微信内置浏览器访问。
+    </div>
+  </div>
+
+  <script src="/static/js/panorama.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

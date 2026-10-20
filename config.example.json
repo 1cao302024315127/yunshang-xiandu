@@ -1,0 +1,10 @@
+{
+  "dashscope_api_key": "",
+  "dashscope_model": "qwen-plus",
+  "iflytek": {
+    "appid": "",
+    "api_key": "",
+    "api_secret": "",
+    "voice_name": "xiaoyan"
+  }
+}

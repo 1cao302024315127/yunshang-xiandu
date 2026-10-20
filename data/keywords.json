@@ -1,0 +1,174 @@
+{
+  "keywords": {
+    "huangdi": {
+      "term": { "zh": "轩辕黄帝", "en": "Yellow Emperor (Xuanyuan)" },
+      "pinyin": "xuān yuán huáng dì",
+      "category": "人物",
+      "definition": {
+        "zh": "中华民族的人文始祖，上古“五帝”之首，号轩辕氏。相传他统一华夏各部、制衣冠、造舟车、定音律、作文字，被后世尊为中华文明的奠基人，全球华人都自称“炎黄子孙”。",
+        "en": "The cultural forefather of the Chinese nation and first of the legendary 'Five Emperors', styled Xuanyuan. Legend credits him with unifying the tribes, creating clothing and writing, setting the calendar and musical scales. He is honored as the founder of Chinese civilization, and ethnic Chinese worldwide call themselves 'descendants of Yan and Huang'."
+      },
+      "analogy": {
+        "zh": "可以类比西方文明对“文明奠基者”的崇敬——正如古希腊人心中的宙斯、古罗马的开国者罗慕路斯那样，黄帝在中国人心中既是传说中的祖先，也是“文明从哪里来”的精神象征。",
+        "en": "It can be likened to how Western civilization honors its 'founders' — as Zeus was to the ancient Greeks or Romulus to Rome, the Yellow Emperor is both a legendary ancestor and a spiritual symbol of 'where civilization came from'."
+      },
+      "extended": {
+        "zh": "“轩辕祭典”正是围绕祭祀黄帝而形成的国家非遗。仙都相传是黄帝炼丹、升天之地，因此成为南方祭祀黄帝的中心，与北方陕西黄帝陵形成“北陵南祠”的格局。",
+        "en": "The 'Xuanyuan Ceremony' is a national intangible cultural heritage centered on worshipping the Yellow Emperor. Xiandu is said to be where he refined elixir and ascended, making it the southern center of Huangdi worship, paired with the Huangdi Mausoleum in Shaanxi — 'North Mausoleum, South Temple'."
+      }
+    },
+    "jisi": {
+      "term": { "zh": "祭祀", "en": "Sacrificial Rite" },
+      "pinyin": "jì sì",
+      "category": "礼制",
+      "definition": {
+        "zh": "通过庄重的仪式，向天地、祖先或神灵表达敬畏、追思与祈福。它是中国传统“礼”文化最核心的形态，讲究“敬天法祖”，维系着家族伦理与社会秩序。",
+        "en": "A solemn ritual expressing reverence, remembrance and blessing toward heaven, ancestors or deities. It is the core form of China's traditional 'rite' (li) culture, rooted in 'honoring heaven and following the ancestors', sustaining family ethics and social order."
+      },
+      "analogy": {
+        "zh": "类似西方宗教中的礼拜、弥撒或感恩节的感恩祷告，都是通过固定仪式连接人与神圣/祖先。区别在于，中国的祭祀更强调“敬天法祖”的伦理秩序，而非单纯的祈愿。",
+        "en": "Similar to worship, mass or Thanksgiving prayers in Western religions — fixed rituals connecting people to the sacred or the ancestors. The difference is that Chinese rites emphasize the ethical order of 'honoring heaven and ancestors' rather than mere petition."
+      },
+      "extended": {
+        "zh": "缙云轩辕祭典完整保留了击鼓鸣钟、恭读祭文、敬献五牲、乐舞告祭等古礼环节，是研究中国传统礼制“活态传承”的珍贵样本。",
+        "en": "The Jinyun Xuanyuan Ceremony fully preserves the ancient rites — drumming and bells, reading the eulogy, offering the five animals, and music-dance tribute — a precious living sample for studying China's ritual tradition."
+      }
+    },
+    "liyue": {
+      "term": { "zh": "礼乐", "en": "Rites and Music" },
+      "pinyin": "lǐ yuè",
+      "category": "礼制",
+      "definition": {
+        "zh": "“礼”与“乐”的合称，是中国古代治国安邦的根本制度：礼用来规范人的行为与等级秩序，乐用来调和人的情感与心灵。二者相辅相成，构成“礼乐文明”。",
+        "en": "The compound of 'rite' (li) and 'music' (yue), the bedrock institutions of ancient Chinese statecraft: rites regulate conduct and hierarchy, music harmonizes emotion and spirit. Together they form the 'ritual-music civilization'."
+      },
+      "analogy": {
+        "zh": "可以类比西方中世纪宫廷礼仪与教堂圣乐的关系——礼仪规范秩序，圣乐感化人心。但中国的“礼乐”不止于仪式与音乐，更被上升为治国之道与道德教化体系。",
+        "en": "Comparable to the relationship between medieval court etiquette and church sacred music in the West — etiquette orders society, sacred music moves hearts. But Chinese 'liyue' goes beyond ceremony and music to become a whole theory of governance and moral education."
+      },
+      "extended": {
+        "zh": "相传黄帝“制礼作乐”，奠定了礼乐制度的雏形。轩辕祭典中的编钟雅乐与乐舞告祭，正是上古礼乐文化的当代回响。",
+        "en": "Legend says the Yellow Emperor 'instituted rites and composed music', laying the foundations. The chime-bell music and ceremonial dance in the Xuanyuan Ceremony are a modern echo of that ancient tradition."
+      }
+    },
+    "bianzhong": {
+      "term": { "zh": "编钟", "en": "Chime Bells" },
+      "pinyin": "biān zhōng",
+      "category": "器物",
+      "definition": {
+        "zh": "中国古代大型青铜打击乐器，由按音高顺序悬挂的大小铜钟编组而成，敲击不同部位可发出两个不同音。它是祭祀、朝会等庄重场合使用的“雅乐”核心乐器。",
+        "en": "A grand set of ancient Chinese bronze percussion instruments — bells of graded sizes hung in pitch order, each producing two tones struck at different points. It was the core instrument of 'refined music' (yayue) used in sacrifices and court assemblies."
+      },
+      "analogy": {
+        "zh": "地位类似西方教堂里的管风琴或钟琴——都是庄重仪式中极具仪式感的“礼乐之器”，用宏大的音色营造神圣庄严的氛围。",
+        "en": "Its status resembles that of the pipe organ or carillon in Western churches — ceremonial instruments of solemn rites, using grand timbre to create a sacred, majestic atmosphere."
+      },
+      "extended": {
+        "zh": "出土于湖北随州的曾侯乙编钟（战国）是迄今发现规模最大、音律最完整的编钟，被誉为“古代世界的第八大奇迹”。轩辕祭典以编钟雅乐告祭，彰显礼乐正统。",
+        "en": "The Marquis Yi of Zeng chime-bells (Warring States), unearthed in Suizhou, Hubei, are the largest and most tonally complete ever found, hailed as the 'eighth wonder of the ancient world'. The Xuanyuan Ceremony uses chime-bell music to affirm ritual orthodoxy."
+      }
+    },
+    "wusheng": {
+      "term": { "zh": "五牲", "en": "Five Sacrificial Animals" },
+      "pinyin": "wǔ shēng",
+      "category": "祭品",
+      "definition": {
+        "zh": "传统祭祀中敬献给神灵或祖先的祭品，通常指牛、羊、猪、鸡、鱼等牲畜（历代组合略有不同），代表献祭者最大的诚意与敬意。",
+        "en": "Offerings presented to deities or ancestors in traditional sacrifice, typically cattle, sheep, pig, chicken and fish (the combination varied across dynasties), representing the offerer's utmost sincerity and reverence."
+      },
+      "analogy": {
+        "zh": "可以类比古代希伯来或古希腊宗教中的动物献祭传统——以最贵重的牲畜奉献给神明，表达感恩与敬畏。中国的“五牲”同样承载着“以最隆重之礼敬天法祖”的观念。",
+        "en": "Comparable to animal-sacrifice traditions in ancient Hebrew or Greek religion — offering the most valued livestock to the divine as gratitude and awe. The Chinese 'five animals' likewise embody the idea of honoring heaven and ancestors with the grandest rite."
+      },
+      "extended": {
+        "zh": "在缙云轩辕祭典中，敬献五牲是核心仪程之一，与恭读祭文、乐舞告祭共同构成完整的祭祀礼制，体现对始祖黄帝的最高敬意。",
+        "en": "In the Jinyun Xuanyuan Ceremony, offering the five animals is a core step, together with reading the eulogy and music-dance tribute, expressing the highest reverence for the Yellow Emperor."
+      }
+    },
+    "yayue": {
+      "term": { "zh": "雅乐", "en": "Refined Music" },
+      "pinyin": "yǎ yuè",
+      "category": "音乐",
+      "definition": {
+        "zh": "中国古代用于祭祀、朝会等庄重场合的正统音乐，以编钟、编磬等金石之音为主，旋律庄重典雅，是“礼乐文明”中“乐”的最高典范。",
+        "en": "The orthodox music of ancient China for solemn occasions like sacrifices and court assemblies, dominated by the sounds of metal and stone (chime-bells, stone-chimes), stately and elegant — the highest model of 'music' in ritual-music civilization."
+      },
+      "analogy": {
+        "zh": "对应西方语境中的“圣乐”（sacred music），如格里高利圣咏、弥撒曲——专为神圣仪式创作，追求庄严、肃穆而非娱乐性。",
+        "en": "Corresponds to Western 'sacred music' — Gregorian chant, mass settings — composed for sacred ritual, pursuing solemnity rather than entertainment."
+      },
+      "extended": {
+        "zh": "轩辕祭典中的乐舞告祭即属于雅乐传统，以编钟雅乐配合祭祀舞蹈，重现上古“以乐通神”的礼制场景。",
+        "en": "The music-and-dance tribute in the Xuanyuan Ceremony belongs to this yayue tradition, pairing chime-bell music with ritual dance to re-enact the ancient rite of 'reaching the divine through music'."
+      }
+    },
+    "ding": {
+      "term": { "zh": "鼎", "en": "Bronze Tripod (Ding)" },
+      "pinyin": "dǐng",
+      "category": "器物",
+      "definition": {
+        "zh": "中国古代青铜礼器，三足两耳，最初是炊器，后演变为王权与国家的象征。“定鼎”“问鼎中原”等成语即源于此，代表江山社稷的归属。",
+        "en": "An ancient Chinese bronze ritual vessel — three legs, two handles. Originally a cooking vessel, it evolved into a symbol of royal power and the state. Idioms like 'settling the tripod' and 'aspiring to the throne' derive from it, signifying possession of the realm."
+      },
+      "analogy": {
+        "zh": "如同西方文化中的王冠、权杖或玉玺，都是国家最高权力的实物象征。谁掌握“鼎”，谁就拥有正统性与合法性。",
+        "en": "Like the crown, scepter or royal seal in Western culture — physical symbols of supreme state power. Whoever holds the 'ding' holds legitimacy and orthodoxy."
+      },
+      "extended": {
+        "zh": "相传黄帝在鼎湖峰顶铸鼎，丹成后乘龙升天，“鼎湖”因此得名。鼎既象征黄帝的功业，也寄托了国泰民安的美好祈愿。",
+        "en": "Legend says the Yellow Emperor cast a tripod on Dinghu Peak, and after the elixir was done rode a dragon to heaven — hence the name 'Dinghu'. The ding symbolizes both the Yellow Emperor's achievements and the wish for national peace."
+      }
+    },
+    "qifu": {
+      "term": { "zh": "祈福", "en": "Blessing & Prayer" },
+      "pinyin": "qí fú",
+      "category": "习俗",
+      "definition": {
+        "zh": "向天地、祖先或神明祈求福佑、平安与顺遂的民俗活动，常伴随进香、许愿、挂祈福带等仪式，寄托人们对美好生活的朴素愿望。",
+        "en": "A folk practice of praying to heaven, ancestors or deities for blessing, peace and prosperity, often accompanied by incense-offering, making wishes and hanging blessing ribbons — carrying people's simple hopes for a good life."
+      },
+      "analogy": {
+        "zh": "类似西方的许愿、点蜡烛祈祷或在教堂静思祈福，都是人类共通的、向超越性力量表达愿望与感恩的行为。",
+        "en": "Similar to Western wish-making, lighting candles, or praying in church — a universal human act of expressing wishes and gratitude to a transcendent power."
+      },
+      "extended": {
+        "zh": "在轩辕祭典广场，游客常系上祈福带、默许心愿，将个人祈愿与对始祖黄帝的追思融为一体，成为祭典最具亲和力的一环。",
+        "en": "At the Xuanyuan Ceremony Square, visitors often tie blessing ribbons and make silent wishes, blending personal prayers with remembrance of the Yellow Emperor — the most approachable part of the ceremony."
+      }
+    },
+    "huangdi_ciyu": {
+      "term": { "zh": "黄帝祠宇", "en": "Huangdi Ancestral Temple" },
+      "pinyin": "huáng dì cí yǔ",
+      "category": "建筑",
+      "definition": {
+        "zh": "始建于东晋、原名“缙云堂”的黄帝祭祀建筑，位于仙都景区，被誉为“天下第一祠”，与陕西黄帝陵并称“北陵南祠”，是中国南方祭祀轩辕黄帝的核心场所。",
+        "en": "A temple for worshipping the Yellow Emperor, first built in the Eastern Jin dynasty as 'Jinyun Hall', located in the Xiandu Scenic Area. Hailed as the 'Number One Ancestral Temple Under Heaven' and paired with the Huangdi Mausoleum in Shaanxi, it is the core site of Huangdi worship in southern China."
+      },
+      "analogy": {
+        "zh": "地位类似西方的著名圣殿或宗庙——如希腊德尔斐神庙、罗马万神殿那样，是族群共同记忆与精神认同的物理坐标。",
+        "en": "Its status resembles famous shrines or ancestral halls in the West — like the Temple of Apollo at Delphi or the Roman Pantheon — a physical anchor of a people's shared memory and spiritual identity."
+      },
+      "extended": {
+        "zh": "祠宇依山面水、红墙黄瓦，殿内供奉轩辕黄帝圣像，每年清明、重阳在此举行“缙云轩辕祭典”，是缙云作为“黄帝缙云·人间仙都”文化名片的象征。",
+        "en": "Facing water with mountains behind, red walls and yellow tiles, the temple enshrines the Yellow Emperor's statue. The Jinyun Xuanyuan Ceremony is held here each Qingming and Double Ninth Festival — the symbol of Jinyun's cultural identity."
+      }
+    },
+    "dinghu_peak": {
+      "term": { "zh": "鼎湖峰", "en": "Dinghu Peak" },
+      "pinyin": "dǐng hú fēng",
+      "category": "地标",
+      "definition": {
+        "zh": "仙都景区的标志性景观，高约170米，拔地而起、状如春笋，被誉为“天下第一峰”。相传黄帝在此峰顶铸鼎炼丹，峰顶小湖名“鼎湖”。",
+        "en": "The landmark of the Xiandu Scenic Area, about 170 meters high, rising sheer from the ground like a bamboo shoot, honored as the 'Number One Peak Under Heaven'. The Yellow Emperor is said to have cast a tripod and refined elixir on its summit, whose small pond is called 'Dinghu'."
+      },
+      "analogy": {
+        "zh": "如同西方名胜中的标志性自然奇观——如爱尔兰莫赫悬崖、美国优胜美地的酋长岩，都是“一眼即可识别”的国家/文化地标符号。",
+        "en": "Like iconic natural wonders in the West — the Cliffs of Moher in Ireland or El Capitan in Yosemite — instantly recognizable national and cultural landmark symbols."
+      },
+      "extended": {
+        "zh": "鼎湖峰是仙都“黄帝文化”的地理原点，倒影与周边山水构成“仙人荟萃”的意境，也是历代文人墨客题咏的对象。",
+        "en": "Dinghu Peak is the geographic origin of Xiandu's 'Yellow Emperor culture'. Its reflection and surrounding landscape create the imagery of 'immortals gathering', celebrated by poets across the ages."
+      }
+    }
+  }
+}

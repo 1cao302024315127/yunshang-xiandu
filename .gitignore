@@ -1,0 +1,15 @@
+# ===== 密钥与本地配置（切勿提交/分享）=====
+config.json
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ===== 编辑器 / 系统 =====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

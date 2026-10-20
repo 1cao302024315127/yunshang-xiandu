@@ -1,0 +1,40 @@
+{
+  "ages": {
+    "youth": {
+      "label": { "zh": "青少年版", "en": "Youth Edition" },
+      "tone": "趣味科普、互动提问、生动比喻",
+      "opener": {
+        "zh": "嘿，欢迎来到仙都！我是你的AI小导游～今天带你看一个超酷的地方。先考考你：你相信一座山是仙人骑着龙“飞”出来的吗？别急，跟我一起往下看就知道啦！",
+        "en": "Hey, welcome to Xiandu! I'm your AI guide. Let me show you something really cool. Quick quiz: do you believe a mountain was 'flown out' by an immortal riding a dragon? Hang on — let's find out together!"
+      },
+      "closer": {
+        "zh": "怎么样，是不是觉得古人的想象力超厉害？如果你在现场，最想摸摸哪块石头、许个什么愿呢？记得点一下画面里的闪光小图标，还能听到更多神奇故事哦！",
+        "en": "Cool, right? The ancients had amazing imaginations! If you were here, which rock would you most want to touch, and what wish would you make? Tap the glowing icons to hear more amazing stories!"
+      }
+    },
+    "middle": {
+      "label": { "zh": "中年版", "en": "Adult Edition" },
+      "tone": "文化深度、历史脉络、理性思辨",
+      "opener": {
+        "zh": "您好，欢迎来到仙都。这一站，我们不妨放慢脚步，从历史的脉络去读懂眼前的山水。仙都之所以不同，不仅在于风景，更在于它承载了“黄帝文化”这一中华文明的精神源流。",
+        "en": "Hello, welcome to Xiandu. At this stop, let's slow down and read the landscape through the lens of history. What makes Xiandu special is not just its scenery, but that it carries the 'Yellow Emperor culture' — a spiritual source of Chinese civilization."
+      },
+      "closer": {
+        "zh": "山水有形，文化无价。眼前的景观，其实是千年礼乐文明留下的坐标。若您对其中某个词、某段典故想进一步深究，点击画面中的热点，我为您溯源释义。",
+        "en": "Mountains have form, but culture is priceless. What you see is a coordinate left by millennia of ritual-music civilization. If you'd like to delve deeper into a term or allusion, tap a hotspot and I'll trace it to its source for you."
+      }
+    },
+    "senior": {
+      "label": { "zh": "老年版", "en": "Senior Edition" },
+      "tone": "从容厚重、家国情怀、追根溯源",
+      "opener": {
+        "zh": "您好，欢迎您来到仙都。这里的一山一水，都连着咱们中华民族的老祖宗。慢慢走、慢慢看，我陪您一起，把黄帝的故事、祭祀的规矩，从头给您讲讲。",
+        "en": "Hello, welcome to Xiandu. Every mountain and stream here connects to the ancestors of the Chinese nation. Take your time — I'll walk with you and tell you, from the beginning, the story of the Yellow Emperor and the ways of the ancient rites."
+      },
+      "closer": {
+        "zh": "看完了这一处，您心里是不是也生出几分亲切？咱们这一脉相传的文化，就藏在这些老规矩、老仪式里。您若想再听仔细些，点一下那些发光的小图标，我慢慢给您讲。",
+        "en": "Having seen this place, does it feel a little familiar? The culture passed down through our line is hidden in these old rites and ceremonies. If you'd like to hear more, tap a glowing icon and I'll tell you at your pace."
+      }
+    }
+  }
+}
