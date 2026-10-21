@@ -169,6 +169,40 @@
         "zh": "鼎湖峰是仙都“黄帝文化”的地理原点，倒影与周边山水构成“仙人荟萃”的意境，也是历代文人墨客题咏的对象。",
         "en": "Dinghu Peak is the geographic origin of Xiandu's 'Yellow Emperor culture'. Its reflection and surrounding landscape create the imagery of 'immortals gathering', celebrated by poets across the ages."
       }
+    },
+    "gubridge": {
+      "term": { "zh": "古桥", "en": "Ancient Bridge" },
+      "pinyin": "gǔ qiáo",
+      "category": "建筑",
+      "definition": {
+        "zh": "泛指古代修建、留存至今的桥梁。浙南地区多石拱桥、廊桥，桥不仅是交通要道，更承载着商贸往来、乡土记忆与“桥文化”，是山水村落的重要地标。",
+        "en": "Bridges built in ancient times and preserved to this day. Southern Zhejiang is rich in stone arch bridges and covered bridges; these are not just thoroughfares but carriers of trade, local memory and 'bridge culture' — landmarks of mountain villages."
+      },
+      "analogy": {
+        "zh": "如同欧洲的老桥（如佛罗伦萨的老桥）既是通道也是地标与公共空间，中国的古桥同样连接地理，也连接人与人、人与山水的情感。",
+        "en": "Like Europe's historic bridges (e.g., Florence's Ponte Vecchio) — both passageway and landmark/public space — China's ancient bridges connect places and also bind people to each other and to the landscape."
+      },
+      "extended": {
+        "zh": "仙都的丁字桥因形似“丁”字得名，是景区内兼具通行与观景功能的古桥，与清溪、两岸绿意共同构成仙都山水画卷的一部分。",
+        "en": "Xiandu's Dingzi Bridge is named for its T-shaped form, a historic bridge serving both passage and sightseeing, forming part of Xiandu's landscape together with the stream and greenery."
+      }
+    },
+    "wenchuang": {
+      "term": { "zh": "文创", "en": "Cultural-Creative" },
+      "pinyin": "wén chuàng",
+      "category": "文化",
+      "definition": {
+        "zh": "“文化创意”的简称，指以文化为内核、以创意为手段，将非遗、历史等文化资源转化为贴近当代生活的产品与体验，是传统文化“活起来”的重要途径。",
+        "en": "Short for 'cultural-creative': using culture as the core and creativity as the means, transforming intangible heritage, history and other cultural resources into products and experiences relevant to modern life — a key path to bringing traditional culture alive."
+      },
+      "analogy": {
+        "zh": "类似博物馆的文创商店或纪念品，如大英博物馆、故宫文创，都是把文化符号转化为可带走、可使用的当代好物。",
+        "en": "Like museum gift shops — the British Museum or the Palace Museum's creative products — turning cultural symbols into take-home, usable modern objects."
+      },
+      "extended": {
+        "zh": "岩拓书店将仙都的非遗元素融入阅读空间与文创设计，是传统文化在文旅场景中的当代表达，让游客在书香中感受文化记忆。",
+        "en": "Yantuo Bookstore weaves Xiandu's intangible-heritage motifs into its reading space and creative design — a contemporary expression of traditional culture in a cultural-tourism setting."
+      }
     }
   }
 }

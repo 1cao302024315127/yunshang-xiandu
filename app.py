@@ -44,9 +44,17 @@ def _load_json(name):
 SCENES = _load_json("scenes.json")
 KEYWORDS = _load_json("keywords.json")
 GUIDES = _load_json("guides.json")
+CEREMONY = _load_json("ceremony.json")
+BRIDGE = _load_json("bridge.json")
 
-_LANGS = ("zh", "en")
+_LANGS = ("zh", "en", "ja", "ko")
 _AGES = ("youth", "middle", "senior")
+_LANG_NAMES = {"zh": "中文", "en": "English", "ja": "日本語", "ko": "한국어"}
+
+
+def _pick(d, lang):
+    """按语言取值, 缺失回退英文/中文(本地模板兜底时保证不崩)。"""
+    return d.get(lang) or d.get("en") or d.get("zh")
 
 
 # --------------------------------------------------------------------------- #
@@ -208,32 +216,32 @@ def _find_scene(scene_id):
 
 
 def _llm_guide(scene, age_style, lang, cfg):
-    lang_name = "中文" if lang == "zh" else "English"
+    lang_name = _LANG_NAMES.get(lang, "中文")
     system = (
         f"你是一位精通中国传统文化与缙云仙都景区非遗的资深导游。"
-        f"请面向「{age_style['label'][lang]}」的游客讲解, 风格要求: {age_style['tone']}。"
+        f"请面向「{_pick(age_style['label'], lang)}」的游客讲解, 风格要求: {age_style['tone']}。"
         f"请用{lang_name}输出, 语言自然、口语化、有感染力, 篇幅150字左右。"
-        f"以下是你需要讲解的景点事实(可润色但不要编造史实):\n{scene['guide'][lang]}"
+        f"以下是你需要讲解的景点事实(可润色但不要编造史实):\n{_pick(scene['guide'], lang)}"
     )
     messages = [
         {"role": "system", "content": system},
-        {"role": "user", "content": f"请为景点「{scene['name'][lang]}」生成一段导游讲解词。"},
+        {"role": "user", "content": f"请为景点「{_pick(scene['name'], lang)}」生成一段导游讲解词。"},
     ]
     return _dashscope_chat(messages, cfg["dashscope_api_key"], cfg["dashscope_model"])
 
 
 def _llm_explain(kw, lang, cfg):
-    lang_name = "中文" if lang == "zh" else "English"
+    lang_name = _LANG_NAMES.get(lang, "中文")
     system = (
         f"你是一位跨文化传播专家, 擅长向外国游客/年轻群体通俗易懂地解释中国非遗词汇。"
         f"请用{lang_name}输出, 先给出核心释义, 再用目标人群熟悉的文化做类比, "
         f"最后补充背景典故。要通俗、准确、杜绝编造史实。"
-        f"参考素材:\n词条:{kw['term'][lang]}\n释义:{kw['definition'][lang]}"
-        f"\n类比:{kw['analogy'][lang]}\n延伸:{kw['extended'][lang]}"
+        f"参考素材:\n词条:{_pick(kw['term'], lang)}\n释义:{_pick(kw['definition'], lang)}"
+        f"\n类比:{_pick(kw['analogy'], lang)}\n延伸:{_pick(kw['extended'], lang)}"
     )
     messages = [
         {"role": "system", "content": system},
-        {"role": "user", "content": f"请溯源解释非遗关键词「{kw['term'][lang]}」。"},
+        {"role": "user", "content": f"请溯源解释非遗关键词「{_pick(kw['term'], lang)}」。"},
     ]
     return _dashscope_chat(messages, cfg["dashscope_api_key"], cfg["dashscope_model"])
 
@@ -249,7 +257,11 @@ def compose_guide(scene_id, age, lang):
         except Exception as exc:  # 大模型异常时静默降级本地模板
             app.logger.warning("LLM guide failed, fallback to local: %s", exc)
 
-    text = f"{age_style['opener'][lang]}\n\n{scene['guide'][lang]}\n\n{age_style['closer'][lang]}"
+    text = "%s\n\n%s\n\n%s" % (
+        _pick(age_style["opener"], lang),
+        _pick(scene["guide"], lang),
+        _pick(age_style["closer"], lang),
+    )
     return text, "local"
 
 
@@ -265,13 +277,56 @@ def explain_keyword(keyword, lang):
         except Exception as exc:
             app.logger.warning("LLM explain failed, fallback to local: %s", exc)
 
-    text = (
-        f"【{kw['term'][lang]}】（{kw['pinyin']}）\n\n"
-        f"{kw['definition'][lang]}\n\n"
-        f"跨文化类比: {kw['analogy'][lang]}\n\n"
-        f"{kw['extended'][lang]}"
+    text = "%s（%s）\n\n%s\n\n%s\n\n%s" % (
+        _pick(kw["term"], lang),
+        kw["pinyin"],
+        _pick(kw["definition"], lang),
+        _pick(kw["analogy"], lang),
+        _pick(kw["extended"], lang),
     )
     return text, "local"
+
+
+# --------------------------------------------------------------------------- #
+# 自由问答 (AI 导游答疑)
+# --------------------------------------------------------------------------- #
+def _keyword_context(lang):
+    """把词库拼成上下文, 喂给大模型防止其瞎编史实。"""
+    lines = []
+    for kw in KEYWORDS["keywords"].values():
+        lines.append("%s: %s" % (_pick(kw["term"], lang), _pick(kw["definition"], lang)))
+    return "\n".join(lines)
+
+
+def _llm_ask(question, lang, cfg):
+    lang_name = _LANG_NAMES.get(lang, "中文")
+    system = (
+        "你是「云上仙都」景区的AI导游, 精通仙都非遗与黄帝文化。请用%s回答游客的问题, "
+        "语言通俗、亲切、准确。只依据下面提供的词库知识回答, 不知道就说不知道, "
+        "不要编造具体年代、排名或史实。\n参考词库:\n%s" % (lang_name, _keyword_context(lang))
+    )
+    messages = [
+        {"role": "system", "content": system},
+        {"role": "user", "content": question},
+    ]
+    return _dashscope_chat(messages, cfg["dashscope_api_key"], cfg["dashscope_model"])
+
+
+_ASK_FALLBACK = {
+    "zh": "这个问题我得再请教更专业的老师～您也可以试着问我词库里有的词，比如「祭祀」「礼乐」「轩辕黄帝」。",
+    "en": "Let me ask a more expert teacher for this one. You can also try asking about terms like 'Sacrificial Rite', 'Rites and Music', or the 'Yellow Emperor'.",
+    "ja": "この質問はさらに専門の先生に伺います～「祭祀」「礼楽」「黄帝」など、詞庫にある言葉をお試しください。",
+    "ko": "이 질문은 더 전문적인 선생님께 여쭤볼게요~ '제사(祭祀)', '예악(礼乐)', '황제(黄帝)' 같은 용어를 시도해 보세요.",
+}
+
+
+def _local_ask(question, lang):
+    """无大模型时的本地兜底: 命中词库则返回释义, 否则给引导语。"""
+    for kw in KEYWORDS["keywords"].values():
+        term = kw["term"].get("zh", "")
+        if term and term in question:
+            return "%s\n\n%s" % (_pick(kw["definition"], lang), _pick(kw["analogy"], lang))
+    return _ASK_FALLBACK.get(lang, _ASK_FALLBACK["zh"])
 
 
 # --------------------------------------------------------------------------- #
@@ -299,6 +354,8 @@ def api_config():
         "scenes": SCENES["scenes"],
         "keywords": KEYWORDS["keywords"],
         "ages": GUIDES["ages"],
+        "ceremony": CEREMONY["ceremony"],
+        "bridge": BRIDGE,
         "defaults": {"age": "middle", "lang": "zh"},
     })
 
@@ -326,10 +383,28 @@ def api_explain():
     return jsonify({
         "text": text,
         "mode": mode,
-        "term": kw["term"][lang],
+        "term": _pick(kw["term"], lang),
         "pinyin": kw["pinyin"],
         "category": kw["category"],
     })
+
+
+@app.post("/api/ask")
+def api_ask():
+    """AI 导游自由问答: 大模型回答, 无 Key 时本地词库兜底。"""
+    body = request.get_json(silent=True) or {}
+    question = (body.get("question") or "").strip()
+    lang = body.get("lang", "zh") if body.get("lang") in _LANGS else "zh"
+    if not question:
+        return jsonify({"error": "empty question"}), 400
+
+    cfg = load_config()
+    if cfg["dashscope_api_key"]:
+        try:
+            return jsonify({"answer": _llm_ask(question, lang, cfg), "mode": "llm"})
+        except Exception as exc:
+            app.logger.warning("LLM ask failed, fallback to local: %s", exc)
+    return jsonify({"answer": _local_ask(question, lang), "mode": "local"})
 
 
 @app.post("/api/tts")
@@ -341,6 +416,9 @@ def api_tts():
     if not text:
         return jsonify({"error": "empty text"}), 400
 
+    # 讯飞 xiaoyan 仅支持中/英; 日/韩语走浏览器原生 TTS(发音更准)
+    if lang in ("ja", "ko"):
+        return jsonify({"mode": "browser", "text": text, "lang": lang})
     cfg = load_config()
     try:
         audio = _iflytek_tts(text, cfg)

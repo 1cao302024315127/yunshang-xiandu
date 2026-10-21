@@ -1,0 +1,50 @@
+{
+  "ceremony": {
+    "title": {
+      "zh": "缙云轩辕祭典 · 流程",
+      "en": "Jinyun Xuanyuan Ceremony · Process"
+    },
+    "hint": {
+      "zh": "点击每个步骤，查看详情并收听讲解",
+      "en": "Tap each step for details and narration"
+    },
+    "steps": [
+      {
+        "id": "guzhong",
+        "icon": "🔔",
+        "title": { "zh": "击鼓鸣钟", "en": "Drum & Bell" },
+        "desc": {
+          "zh": "祭典开始，鼓乐齐鸣、钟声悠远，以庄严的声响宣告典礼开启，也象征着沟通天地。",
+          "en": "The ceremony opens as drums and bells resound far and wide, announcing the start with solemn sound that also symbolizes communion with heaven and earth."
+        }
+      },
+      {
+        "id": "jiwen",
+        "icon": "📜",
+        "title": { "zh": "恭读祭文", "en": "Reading the Eulogy" },
+        "desc": {
+          "zh": "主祭人肃立，恭读祭文，追思始祖黄帝的功德，表达海内外华人的共同追念。",
+          "en": "The chief officiant stands solemnly and reads the eulogy, recalling the Yellow Emperor's achievements and expressing the shared remembrance of Chinese people worldwide."
+        }
+      },
+      {
+        "id": "wusheng",
+        "icon": "🍊",
+        "title": { "zh": "敬献五牲", "en": "Offering the Five Animals" },
+        "desc": {
+          "zh": "敬献五牲祭品，以最隆重的礼数表达对始祖黄帝的至高敬意，体现“敬天法祖”的传统。",
+          "en": "The five sacrificial animals are presented with the grandest rites as the highest reverence for the Yellow Emperor, embodying the tradition of 'honoring heaven and following the ancestors'."
+        }
+      },
+      {
+        "id": "yuewu",
+        "icon": "🎵",
+        "title": { "zh": "乐舞告祭", "en": "Music & Dance Tribute" },
+        "desc": {
+          "zh": "编钟雅乐与祭祀舞蹈齐作，以“以乐通神”的礼制告祭始祖，祭典在恢弘乐舞中礼成。",
+          "en": "Chime-bell refined music and ritual dance rise together, offering tribute to the forefather through the rite of 'reaching the divine through music' — the ceremony concludes in grandeur."
+        }
+      }
+    ]
+  }
+}

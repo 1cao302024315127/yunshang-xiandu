@@ -3,48 +3,55 @@
     "zh": "云上仙都 · 非遗数字化传承与VR全景云游览",
     "en": "Yunshang Xiandu · ICH Digital Inheritance & VR Panoramic Tour"
   },
+  "map": { "width": 800, "height": 500 },
   "scenes": [
     {
-      "id": "dinghu_peak",
-      "name": { "zh": "鼎湖峰", "en": "Dinghu Peak" },
-      "panorama": "/static/assets/panoramas/dinghu_peak.jpg",
+      "id": "dingzi_bridge",
+      "name": { "zh": "丁字桥", "en": "Dingzi Bridge" },
+      "tag": { "zh": "古桥", "en": "Ancient Bridge" },
+      "icon": "🌉",
+      "panorama": "/static/assets/panoramas/dingzi_bridge.jpg",
+      "map": { "x": 165, "y": 150 },
       "guide": {
-        "zh": "这里是仙都景区的标志——鼎湖峰。它拔地而起，高约170米，宛如一支直插云霄的春笋，被誉为“天下第一峰”。相传轩辕黄帝曾在此峰顶铸鼎炼丹，丹成之后骑龙升天，峰顶至今留有“鼎湖”遗迹。整座山峰临溪而立，倒影与蓝天相映，是仙都山水画卷中最浓墨重彩的一笔。",
-        "en": "This is the landmark of the Xiandu Scenic Area — Dinghu Peak. Rising some 170 meters straight from the ground like a towering bamboo shoot, it is hailed as the 'Number One Peak Under Heaven'. Legend says the Yellow Emperor cast a bronze tripod (ding) here to refine elixir and, once it was done, rode a dragon to the heavens — the 'Dinghu' pond on the summit is said to be that very trace. The peak stands by the stream, its reflection mingling with the sky, the most striking stroke in Xiandu's landscape scroll."
+        "zh": "丁字桥是仙都景区内一座古朴的石桥，横跨清溪，因桥形呈“丁”字而得名。它连接着仙都的山水与街巷，是游客穿行、驻足、远眺的必经之地。桥下溪水潺潺，两岸绿意葱茏，古朴与自然在此交融，是仙都山水画卷里一处充满生活气息的节点。",
+        "en": "Dingzi Bridge is a rustic stone bridge in the Xiandu Scenic Area, named for its T-shaped layout. Spanning a clear stream, it links the landscape with the old lanes — a place where visitors pause to gaze across the water amid lush greenery, simplicity and nature meeting here in Xiandu's landscape scroll."
       },
       "hotspots": [
-        { "id": "h1", "keyword": "dinghu_peak", "yaw": -55, "pitch": 4 },
-        { "id": "h2", "keyword": "huangdi", "yaw": 15, "pitch": -2 },
-        { "id": "h3", "keyword": "ding", "yaw": 95, "pitch": 6 }
+        { "id": "h1", "keyword": "gubridge", "yaw": -45, "pitch": 4 },
+        { "id": "h2", "keyword": "qifu", "yaw": 40, "pitch": -2 }
+      ]
+    },
+    {
+      "id": "yantuo_bookstore",
+      "name": { "zh": "岩拓书店", "en": "Yantuo Bookstore" },
+      "tag": { "zh": "文创书店", "en": "Culture Bookstore" },
+      "icon": "📚",
+      "panorama": "/static/assets/panoramas/yantuo_bookstore.jpg",
+      "map": { "x": 640, "y": 360 },
+      "guide": {
+        "zh": "岩拓书店是仙都景区内一处将书香与山水文化融合的文创阅读空间。店内陈设雅致，融入非遗元素与现代设计，让游客在游览之余得以静心翻阅，在纸墨与山水之间品味仙都的文化记忆。",
+        "en": "Yantuo Bookstore is a cultural-creative reading space in Xiandu that blends books with the region's landscape culture. Elegantly furnished, it weaves intangible-heritage motifs into modern design, offering visitors a quiet place to read and savor Xiandu's cultural memory."
+      },
+      "hotspots": [
+        { "id": "h1", "keyword": "wenchuang", "yaw": -40, "pitch": 3 },
+        { "id": "h2", "keyword": "huangdi", "yaw": 45, "pitch": -2 }
       ]
     },
     {
       "id": "huangdi_temple",
       "name": { "zh": "黄帝祠宇", "en": "Huangdi Ancestral Temple" },
+      "tag": { "zh": "轩辕祭主会场", "en": "Xuanyuan Ceremony Venue" },
+      "icon": "🏛️",
       "panorama": "/static/assets/panoramas/huangdi_temple.jpg",
+      "map": { "x": 400, "y": 235 },
       "guide": {
         "zh": "黄帝祠宇始建于东晋，原名“缙云堂”，是中国南方祭祀轩辕黄帝的核心场所，被誉为“天下第一祠”，与陕西黄帝陵并称“北陵南祠”。每年清明、重阳，这里都会举行隆重的“缙云轩辕祭典”。祠宇依山面水，红墙黄瓦，殿内供奉着中华民族人文始祖轩辕黄帝，庄严肃穆。",
         "en": "The Huangdi Ancestral Temple was first built in the Eastern Jin dynasty under the name 'Jinyun Hall'. It is the core site for worshipping the Yellow Emperor in southern China, honored as the 'Number One Ancestral Temple Under Heaven', and is paired with the Huangdi Mausoleum in Shaanxi as 'North Mausoleum, South Temple'. Every year at Qingming and the Double Ninth Festival, the grand 'Jinyun Xuanyuan Ceremony' is held here. The temple faces water with mountains behind, red walls and yellow tiles, enshrining the Yellow Emperor — solemn and majestic."
       },
       "hotspots": [
-        { "id": "h1", "keyword": "huangdi_ciyu", "yaw": -40, "pitch": 5 },
+        { "id": "h1", "keyword": "huangdi_ciyu", "yaw": -45, "pitch": 5 },
         { "id": "h2", "keyword": "jisi", "yaw": 40, "pitch": -2 },
-        { "id": "h3", "keyword": "huangdi", "yaw": 130, "pitch": 4 }
-      ]
-    },
-    {
-      "id": "jidian_square",
-      "name": { "zh": "轩辕祭典广场", "en": "Xuanyuan Ceremony Square" },
-      "panorama": "/static/assets/panoramas/jidian_square.jpg",
-      "guide": {
-        "zh": "轩辕祭典广场是“缙云轩辕祭典”这一国家级非物质文化遗产的主会场。祭典严格遵循古礼：击鼓鸣钟、恭读祭文、敬献五牲、乐舞告祭，钟鼓与编钟雅乐交相呼应，再现了华夏礼乐文明的恢弘气象。游客置身其间，能亲身感受到那份穿越千年的敬畏与追思。",
-        "en": "The Xuanyuan Ceremony Square is the main venue of the 'Jinyun Xuanyuan Ceremony', a national intangible cultural heritage item. The ceremony strictly follows ancient rites: drumming and bell-ringing, solemn reading of the eulogy, offering of the five sacrificial animals, and music-and-dance tribute — with bells, drums and chime-bells echoing one another, re-enacting the grandeur of Chinese ritual-music civilization. Standing here, visitors can feel that reverence and remembrance spanning thousands of years."
-      },
-      "hotspots": [
-        { "id": "h1", "keyword": "liyue", "yaw": -70, "pitch": 3 },
-        { "id": "h2", "keyword": "bianzhong", "yaw": 0, "pitch": -1 },
-        { "id": "h3", "keyword": "wusheng", "yaw": 70, "pitch": 5 },
-        { "id": "h4", "keyword": "qifu", "yaw": 150, "pitch": -3 }
+        { "id": "h3", "keyword": "huangdi", "yaw": 135, "pitch": 4 }
       ]
     }
   ]

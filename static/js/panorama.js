@@ -43,7 +43,7 @@
     '  vec3 U = vec3(-sy * sp, cp, -cy * sp);',
     '  vec3 dir = normalize(F + R * (ndc.x * uTanFov * uAspect) + U * (ndc.y * uTanFov));',
     '  float u = 0.5 + atan(dir.x, dir.z) / (2.0 * PI);',
-    '  float v = 0.5 - asin(clamp(dir.y, -1.0, 1.0)) / PI;',
+    '  float v = 0.5 + asin(clamp(dir.y, -1.0, 1.0)) / PI;',
     '  gl_FragColor = texture2D(uTex, vec2(u, v));',
     '}',
   ].join('\n');
@@ -81,6 +81,10 @@
     this._lastX = 0;
     this._lastY = 0;
     this._aspect = 1;
+    this.vx = 0;
+    this.vy = 0;
+    this._lastMoveTime = 0;
+    this._targetYaw = null;
 
     this._initGL();
     this._initEvents();
@@ -159,8 +163,11 @@
     c.addEventListener('pointerdown', function (e) {
       self._dragging = true;
       self._resumeAt = Infinity;
+      self._targetYaw = null;
+      self.vx = 0; self.vy = 0;
       var p = pos(e);
       self._lastX = p.x; self._lastY = p.y;
+      self._lastMoveTime = performance.now();
       c.setPointerCapture && c.setPointerCapture(e.pointerId);
     });
 
@@ -170,10 +177,15 @@
       var dx = p.x - self._lastX;
       var dy = p.y - self._lastY;
       self._lastX = p.x; self._lastY = p.y;
+      var now = performance.now();
+      var dt = Math.max((now - self._lastMoveTime) / 1000, 0.001);
+      self._lastMoveTime = now;
       self.yaw += dx * 0.005;
       self.pitch += dy * 0.005;
       if (self.pitch > 89 * DEG) self.pitch = 89 * DEG;
       if (self.pitch < -89 * DEG) self.pitch = -89 * DEG;
+      self.vx = (dx * 0.005) / dt;   // 记录角速度, 松手后惯性滑行
+      self.vy = (dy * 0.005) / dt;
     });
 
     function end() {
@@ -212,6 +224,7 @@
       var el = document.createElement('div');
       el.className = 'hotspot';
       el.innerHTML = '<span class="hotspot-dot"></span><span class="hotspot-label"></span>';
+      el.querySelector('.hotspot-dot').textContent = h.icon || '';
       el.querySelector('.hotspot-label').textContent = h.label;
       el.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -285,12 +298,42 @@
   PanoramaViewer.prototype._loop = function (now) {
     var dt = Math.min((now - this._lastTime) / 1000, 0.1);
     this._lastTime = now;
-    if (!this._dragging && now >= this._resumeAt) {
-      this.yaw += AUTO_SPEED * dt;
+
+    if (this._targetYaw !== null) {
+      // 镜头缓动转向目标(faceYaw)
+      var diff = this._targetYaw - this.yaw;
+      if (Math.abs(diff) < 0.003) {
+        this.yaw = this._targetYaw;
+        this._targetYaw = null;
+      } else {
+        this.yaw += diff * Math.min(1, dt * 5);
+      }
+    } else if (!this._dragging) {
+      // 惯性滑行
+      if (Math.abs(this.vx) > 0.02 || Math.abs(this.vy) > 0.02) {
+        this.yaw += this.vx * dt;
+        this.pitch += this.vy * dt;
+        if (this.pitch > 89 * DEG) this.pitch = 89 * DEG;
+        if (this.pitch < -89 * DEG) this.pitch = -89 * DEG;
+        var f = Math.pow(0.05, dt);
+        this.vx *= f; this.vy *= f;
+        this._resumeAt = now + RESUME_DELAY;
+      } else if (now >= this._resumeAt) {
+        this.yaw += AUTO_SPEED * dt;
+      }
     }
+
     this._updatePins();
     this._draw();
     requestAnimationFrame(this._loop);
+  };
+
+  // 让镜头平滑转向指定方位角(度), 用于进入场景时对准首个热点
+  PanoramaViewer.prototype.faceYaw = function (yawDeg) {
+    var target = yawDeg * DEG;
+    var d = target - this.yaw;
+    d = Math.atan2(Math.sin(d), Math.cos(d));  // 取最短路径
+    this._targetYaw = this.yaw + d;
   };
 
   global.PanoramaViewer = PanoramaViewer;

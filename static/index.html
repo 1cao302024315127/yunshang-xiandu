@@ -12,9 +12,10 @@
     <!-- 全景容器 -->
     <div id="pano-container">
       <canvas id="pano-canvas"></canvas>
+      <div id="pano-preview"></div>
       <div id="hotspot-layer"></div>
       <div id="loading" class="hidden">
-        <div class="spinner"></div>
+        <div class="spinner-wrap"><div class="spinner"></div><span class="spinner-crane">🦢</span></div>
         <p id="loading-text">全景加载中…</p>
       </div>
       <div id="hint" class="hint">拖动 / 滑动旋转视角 · 点击闪光图标探索非遗</div>
@@ -26,7 +27,10 @@
         <h1 id="app-title">云上仙都</h1>
         <p id="app-subtitle">非遗数字化传承 · VR全景云游览</p>
       </div>
-      <nav id="scene-tabs" aria-label="场景切换"></nav>
+      <div class="topbar-right">
+        <nav id="scene-tabs" aria-label="场景切换"></nav>
+        <button id="btn-map" class="pill map-btn" title="返回导览地图">🗺 地图</button>
+      </div>
     </header>
 
     <!-- 底部控制区 -->
@@ -35,7 +39,7 @@
         <span class="control-label" id="age-label">讲解版本</span>
         <div class="seg" id="age-selector"></div>
       </div>
-      <button id="lang-toggle" class="pill" title="切换语言">中 / EN</button>
+      <select id="lang-select" class="pill lang-select" title="切换语言"></select>
     </div>
 
     <!-- AI 讲解面板 -->
@@ -69,11 +73,217 @@
           <p class="explain-text" id="explain-text"></p>
           <div class="row-actions">
             <button id="btn-speak-explain" class="btn primary small">🔊 语音释义</button>
+            <button id="btn-bridge" class="btn ghost small hidden">🌉 文化桥对比</button>
             <button id="btn-close-explain" class="btn ghost small">关闭</button>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <button id="btn-quiz" class="btn ghost small">🎯 小测验</button>
+          <button id="btn-ceremony" class="btn ghost small">📜 祭典流程</button>
+          <button id="btn-artifact" class="btn ghost small">🏺 3D 器物</button>
+          <button id="btn-poster" class="btn ghost small">🖼 分享海报</button>
+        </div>
+
+        <div class="qa-block">
+          <p class="keywords-title" id="qa-title">💬 向 AI 导游提问</p>
+          <div id="qa-log" class="qa-log"></div>
+          <div class="qa-input-row">
+            <input id="qa-input" type="text" maxlength="120" placeholder="输入问题…" />
+            <button id="qa-send" class="btn primary small">发送</button>
           </div>
         </div>
       </div>
     </aside>
+
+    <!-- 地图选择界面（进入场景前的导览图） -->
+    <div id="map-screen">
+      <div class="map-wrap">
+        <svg id="map-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="mapbg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0e1526"/>
+              <stop offset="1" stop-color="#101a24"/>
+            </linearGradient>
+            <radialGradient id="spotglow" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stop-color="rgba(232,178,58,0.30)"/>
+              <stop offset="1" stop-color="rgba(232,178,58,0)"/>
+            </radialGradient>
+          </defs>
+          <rect width="800" height="500" fill="url(#mapbg)"/>
+
+          <!-- 山峦剪影 -->
+          <path d="M0 128 L82 58 L150 112 L230 46 L322 128 Z" fill="#16202f"/>
+          <path d="M470 96 L560 34 L640 88 L720 40 L800 98 L800 146 L470 146 Z" fill="#131d2a"/>
+
+          <!-- 河流 -->
+          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#2b4a6f" stroke-width="20" fill="none" stroke-linecap="round" opacity="0.55"/>
+          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#3f6d9e" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.8"/>
+
+          <!-- 景点连线 -->
+          <path d="M165 150 C 265 180, 335 210, 400 235 C 485 266, 560 320, 640 360" stroke="#e8b23a" stroke-width="2" fill="none" stroke-dasharray="6 6" opacity="0.45"/>
+
+          <!-- 标题 -->
+          <text x="400" y="46" text-anchor="middle" fill="#e8b23a" font-size="30" font-weight="700">仙都导览图</text>
+          <text id="map-subtitle" x="400" y="72" text-anchor="middle" fill="#9aa7bd" font-size="14">点击标记，选择要参观的景点</text>
+
+          <!-- 标记（JS 按 scenes.json 填充） -->
+          <g id="map-markers"></g>
+        </svg>
+        <div class="map-legend" id="map-legend">导览图 · 共 3 处景点</div>
+      </div>
+    </div>
+
+    <!-- 吉祥物讲解形象：仙都小仙鹤 -->
+    <div id="mascot" class="hidden">
+      <div class="mascot-bubble" id="mascot-bubble"></div>
+      <div class="mascot-figure">
+        <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <radialGradient id="mBody" cx="0.5" cy="0.35" r="0.75">
+              <stop offset="0" stop-color="#ffffff"/>
+              <stop offset="0.72" stop-color="#f2f5f9"/>
+              <stop offset="1" stop-color="#d8dfe9"/>
+            </radialGradient>
+            <linearGradient id="mCrest" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ff7a6e"/>
+              <stop offset="1" stop-color="#e03226"/>
+            </linearGradient>
+            <linearGradient id="mBeak" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffc855"/>
+              <stop offset="1" stop-color="#f28c12"/>
+            </linearGradient>
+            <radialGradient id="mBell" cx="0.35" cy="0.3" r="0.9">
+              <stop offset="0" stop-color="#ffe08a"/>
+              <stop offset="1" stop-color="#e0a31f"/>
+            </radialGradient>
+            <filter id="mShadow" x="-40%" y="-40%" width="180%" height="190%">
+              <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#0a0f1a" flood-opacity="0.35"/>
+            </filter>
+          </defs>
+
+          <g class="mascot-fig" filter="url(#mShadow)">
+            <ellipse cx="100" cy="222" rx="46" ry="8" fill="#0a0f1a" opacity="0.18"/>
+
+            <!-- 脚 -->
+            <path d="M78 210 L82 224 L70 224 Z" fill="#f28c12"/>
+            <path d="M122 210 L118 224 L130 224 Z" fill="#f28c12"/>
+
+            <!-- 身体 -->
+            <path d="M100 66 C74 66 52 86 47 118 C43 150 53 178 70 195 C80 203 91 207 100 207 C109 207 120 203 130 195 C147 178 157 150 153 118 C148 86 126 66 100 66 Z" fill="url(#mBody)" stroke="#c7d2e0" stroke-width="1.5"/>
+
+            <!-- 翅膀 -->
+            <g class="wing wing-l"><path d="M52 130 C40 141 37 160 45 176 C52 169 55 151 57 138 Z" fill="#e6ecf3" stroke="#c7d2e0" stroke-width="1.5"/></g>
+            <g class="wing wing-r"><path d="M148 130 C160 141 163 160 155 176 C148 169 145 151 143 138 Z" fill="#e6ecf3" stroke="#c7d2e0" stroke-width="1.5"/></g>
+
+            <!-- 头 -->
+            <circle cx="100" cy="76" r="40" fill="url(#mBody)" stroke="#c7d2e0" stroke-width="1.5"/>
+
+            <!-- 红冠(丹顶) -->
+            <ellipse cx="100" cy="41" rx="25" ry="12.5" fill="url(#mCrest)"/>
+
+            <!-- 眼睛 -->
+            <g class="eye"><circle cx="82" cy="72" r="8.5" fill="#28303c"/><circle cx="84.6" cy="69.4" r="3" fill="#fff"/></g>
+            <g class="eye"><circle cx="118" cy="72" r="8.5" fill="#28303c"/><circle cx="120.6" cy="69.4" r="3" fill="#fff"/></g>
+
+            <!-- 腮红 -->
+            <ellipse cx="69" cy="86" rx="8" ry="5" fill="#ffb3a7" opacity="0.55"/>
+            <ellipse cx="131" cy="86" rx="8" ry="5" fill="#ffb3a7" opacity="0.55"/>
+
+            <!-- 喙（下喙可开合） -->
+            <path class="beak beak-upper" d="M88 92 Q100 78 112 92 Z" fill="url(#mBeak)"/>
+            <path class="beak beak-lower" d="M88 92 Q100 107 112 92 Z" fill="#e8890c"/>
+
+            <!-- 红丝带 + 金色铃铛(编钟意象) -->
+            <path d="M84 116 Q100 108 116 116" fill="none" stroke="#e03226" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="100" cy="130" r="8.5" fill="url(#mBell)" stroke="#c78a12" stroke-width="1.2"/>
+            <circle cx="100" cy="134" r="2.2" fill="#8a5d08"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 非遗小测验弹窗 -->
+    <div id="quiz-modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-head">
+          <span id="quiz-title">🎯 非遗知识小测验</span>
+          <button class="modal-close" data-close="quiz-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="quiz-progress" class="quiz-progress"></div>
+          <p id="quiz-question" class="quiz-question"></p>
+          <div id="quiz-options" class="quiz-options"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 轩辕祭典流程弹窗 -->
+    <div id="ceremony-modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-head">
+          <span id="ceremony-title">📜 轩辕祭典流程</span>
+          <button class="modal-close" data-close="ceremony-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <p id="ceremony-hint" class="modal-hint"></p>
+          <div id="ceremony-steps" class="timeline"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 文化桥跨文化对比弹窗 -->
+    <div id="bridge-modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-head">
+          <span id="bridge-title">🌉 文化桥 · 跨文化对比</span>
+          <button class="modal-close" data-close="bridge-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="bridge-vs">
+            <div class="bridge-side ours"><span class="bridge-tag" id="bridge-ours-tag">中华</span><span class="b-name" id="bridge-ours-name"></span></div>
+            <div class="bridge-vs-icon">VS</div>
+            <div class="bridge-side theirs"><span class="bridge-tag" id="bridge-theirs-tag">外国</span><span class="b-name" id="bridge-theirs-name"></span></div>
+          </div>
+          <div id="bridge-rows" class="bridge-rows"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D 器物展示弹窗 -->
+    <div id="artifact-modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-head">
+          <span id="artifact-title">🏺 3D 器物展示</span>
+          <button class="modal-close" data-close="artifact-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="artifact-tabs">
+            <button class="artifact-tab active" data-type="bianzhong">🔔 编钟</button>
+            <button class="artifact-tab" data-type="ding">🏺 鼎</button>
+          </div>
+          <canvas id="artifact-canvas"></canvas>
+          <p class="artifact-hint" id="artifact-hint">拖动旋转 · 点击器物敲响/了解</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 分享海报弹窗 -->
+    <div id="poster-modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-head">
+          <span id="poster-title">🖼 分享海报</span>
+          <button class="modal-close" data-close="poster-modal">✕</button>
+        </div>
+        <div class="modal-body poster-body">
+          <canvas id="poster-canvas" width="600" height="900"></canvas>
+          <div class="poster-actions">
+            <button id="btn-download" class="btn primary">⬇ 下载图片</button>
+            <button id="btn-share" class="btn ghost">🔗 分享</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="webgl-fallback" class="hidden">
       当前浏览器不支持 WebGL，无法渲染 360° 全景。请使用最新版 Chrome / Edge / 微信内置浏览器访问。
@@ -81,6 +291,7 @@
   </div>
 
   <script src="/static/js/panorama.js"></script>
+  <script src="/static/js/artifact3d.js"></script>
   <script src="/static/js/app.js"></script>
 </body>
 </html>
