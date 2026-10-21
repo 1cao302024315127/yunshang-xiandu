@@ -212,6 +212,7 @@
     };
     img.onerror = function () {
       if (self.onLoadingChange) self.onLoadingChange(false);
+      if (self.onError) self.onError();
     };
     img.src = url;
   };

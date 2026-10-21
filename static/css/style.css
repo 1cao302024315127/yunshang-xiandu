@@ -494,6 +494,40 @@ html, body {
 #poster-canvas { width: auto; max-width: 100%; max-height: 54vh; border-radius: 12px; border: 1px solid var(--border); }
 .poster-actions { display: flex; gap: 10px; justify-content: center; margin-top: 14px; }
 
+/* ---------- 完整词库 / 提示 / 面板展开 / 语言回退 ---------- */
+.lexicon-list { display: flex; flex-direction: column; gap: 8px; }
+.lexicon-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; text-align: left;
+  font-size: 14px; color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border); border-radius: 12px; cursor: pointer;
+  transition: all .2s;
+}
+.lexicon-item:hover { border-color: var(--accent); background: rgba(232, 178, 58, 0.08); }
+.lexicon-item .lex-icon { font-size: 18px; }
+.lexicon-item .lex-term { flex: 1; font-weight: 600; }
+.lexicon-item .lex-cat { font-size: 12px; color: var(--muted); }
+
+#toast {
+  position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%);
+  z-index: 200;
+  padding: 10px 20px; font-size: 14px; color: #fff;
+  background: rgba(16, 24, 40, 0.95); border: 1px solid var(--border);
+  border-radius: 999px; box-shadow: var(--shadow);
+  opacity: 0; pointer-events: none; transition: opacity .25s ease;
+}
+#toast.show { opacity: 1; }
+
+.panel-expand {
+  position: fixed; right: 18px; top: 88px; z-index: 70;
+  padding: 9px 14px; font-size: 13px; color: #1a1205;
+  background: linear-gradient(135deg, #ffe08a, var(--accent));
+  border: none; border-radius: 999px 0 0 999px; cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.lang-note { max-width: 150px; font-size: 11px; color: var(--muted); line-height: 1.4; }
+
 /* ---------- 移动端 ---------- */
 @media (max-width: 720px) {
   #topbar { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px 14px; }

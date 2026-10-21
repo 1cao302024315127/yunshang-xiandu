@@ -2,47 +2,79 @@
   "ceremony": {
     "title": {
       "zh": "缙云轩辕祭典 · 流程",
-      "en": "Jinyun Xuanyuan Ceremony · Process"
+      "en": "Jinyun Xuanyuan Ceremony · Process",
+      "ja": "縉雲軒轅祭典・進行手順",
+      "ko": "缙운 쉐인 제전 · 진행 절차"
     },
     "hint": {
       "zh": "点击每个步骤，查看详情并收听讲解",
-      "en": "Tap each step for details and narration"
+      "en": "Tap each step for details and narration",
+      "ja": "各ステップをクリックすると、詳細と解説音声を確認できます。",
+      "ko": "각 단계를 클릭하여 자세한 정보를 확인하고 설명을 들으세요."
     },
     "steps": [
       {
         "id": "guzhong",
         "icon": "🔔",
-        "title": { "zh": "击鼓鸣钟", "en": "Drum & Bell" },
+        "title": {
+          "zh": "击鼓鸣钟",
+          "en": "Drum & Bell",
+          "ja": "太鼓を打ち鐘を鳴らす",
+          "ko": "북을 치고 종을 울림"
+        },
         "desc": {
           "zh": "祭典开始，鼓乐齐鸣、钟声悠远，以庄严的声响宣告典礼开启，也象征着沟通天地。",
-          "en": "The ceremony opens as drums and bells resound far and wide, announcing the start with solemn sound that also symbolizes communion with heaven and earth."
+          "en": "The ceremony opens as drums and bells resound far and wide, announcing the start with solemn sound that also symbolizes communion with heaven and earth.",
+          "ja": "祭典の開始にあたり、太鼓と楽器が一斉に鳴り響き、鐘の音が遠くまで届く中、厳粛な音響で儀式の始まりを告げ、同時に天地との交わりを象徴します。",
+          "ko": "제전이 시작되며 북과 악기의 소리가 울려 퍼지고, 종소리는 멀리까지 퍼지며 엄숙한 음향으로 의식의 개시를 알리며 천지와 소통함을 상징합니다."
         }
       },
       {
         "id": "jiwen",
         "icon": "📜",
-        "title": { "zh": "恭读祭文", "en": "Reading the Eulogy" },
+        "title": {
+          "zh": "恭读祭文",
+          "en": "Reading the Eulogy",
+          "ja": "祭文を奉読する",
+          "ko": "제문 낭독"
+        },
         "desc": {
           "zh": "主祭人肃立，恭读祭文，追思始祖黄帝的功德，表达海内外华人的共同追念。",
-          "en": "The chief officiant stands solemnly and reads the eulogy, recalling the Yellow Emperor's achievements and expressing the shared remembrance of Chinese people worldwide."
+          "en": "The chief officiant stands solemnly and reads the eulogy, recalling the Yellow Emperor's achievements and expressing the shared remembrance of Chinese people worldwide.",
+          "ja": "主祭者が厳かに立ち、祭文を奉読し、始祖である黄帝の功徳を追慕し、海内外の華人が共に捧げる追思の意を表します。",
+          "ko": "주제관이 숙연히 서서 제문을 공경스럽게 낭독하며, 시조 황제의 공덕을 추모하고 해외 중국인들의 공동 추념을 표현합니다."
         }
       },
       {
         "id": "wusheng",
         "icon": "🍊",
-        "title": { "zh": "敬献五牲", "en": "Offering the Five Animals" },
+        "title": {
+          "zh": "敬献五牲",
+          "en": "Offering the Five Animals",
+          "ja": "五牲を供える",
+          "ko": "오생(오가축) 봉헌"
+        },
         "desc": {
           "zh": "敬献五牲祭品，以最隆重的礼数表达对始祖黄帝的至高敬意，体现“敬天法祖”的传统。",
-          "en": "The five sacrificial animals are presented with the grandest rites as the highest reverence for the Yellow Emperor, embodying the tradition of 'honoring heaven and following the ancestors'."
+          "en": "The five sacrificial animals are presented with the grandest rites as the highest reverence for the Yellow Emperor, embodying the tradition of 'honoring heaven and following the ancestors'.",
+          "ja": "五種類の犠牲を捧げ、始祖黄帝へ最も格式高い礼をもって至高の敬意を表し、「天を敬い、祖先を法とする」という伝統を体現します。",
+          "ko": "오생(돼지·소·양·닭·오리) 제물을 봉헌하여 시조 황제에 대한 최고의 경의를 가장 엄숙한 예의로 표하며, ‘하늘을 공경하고 조상을 본받는다’는 전통을 구현합니다."
         }
       },
       {
         "id": "yuewu",
         "icon": "🎵",
-        "title": { "zh": "乐舞告祭", "en": "Music & Dance Tribute" },
+        "title": {
+          "zh": "乐舞告祭",
+          "en": "Music & Dance Tribute",
+          "ja": "楽舞をもって祭る",
+          "ko": "악무 고제"
+        },
         "desc": {
           "zh": "编钟雅乐与祭祀舞蹈齐作，以“以乐通神”的礼制告祭始祖，祭典在恢弘乐舞中礼成。",
-          "en": "Chime-bell refined music and ritual dance rise together, offering tribute to the forefather through the rite of 'reaching the divine through music' — the ceremony concludes in grandeur."
+          "en": "Chime-bell refined music and ritual dance rise together, offering tribute to the forefather through the rite of 'reaching the divine through music' — the ceremony concludes in grandeur.",
+          "ja": "編鐘による雅楽と祭祀の舞が一体となって奏され、「楽をもって神と通ずる」という礼制に基づき始祖を祭り、壮大な楽舞の中で祭典は終了します。",
+          "ko": "편종 아악과 제사 춤이 함께 연주되어 ‘음악으로 신과 소통한다’는 예제 원칙에 따라 시조를 고제하며, 웅장한 음악과 춤 속에서 제전이 성대하게 마무리됩니다."
         }
       }
     ]

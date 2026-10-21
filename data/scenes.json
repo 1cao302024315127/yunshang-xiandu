@@ -1,57 +1,142 @@
 {
   "title": {
     "zh": "云上仙都 · 非遗数字化传承与VR全景云游览",
-    "en": "Yunshang Xiandu · ICH Digital Inheritance & VR Panoramic Tour"
+    "en": "Yunshang Xiandu · ICH Digital Inheritance & VR Panoramic Tour",
+    "ja": "雲上の仙都・無形文化遺産のデジタル継承とVRパノラマ雲上観光",
+    "ko": "구름 위의 선도 · 무형문화유산의 디지털 계승 및 VR 파노라마 클라우드 관광"
   },
-  "map": { "width": 800, "height": 500 },
+  "map": {
+    "width": 800,
+    "height": 500
+  },
   "scenes": [
     {
       "id": "dingzi_bridge",
-      "name": { "zh": "丁字桥", "en": "Dingzi Bridge" },
-      "tag": { "zh": "古桥", "en": "Ancient Bridge" },
+      "name": {
+        "zh": "丁字桥",
+        "en": "Dingzi Bridge",
+        "ja": "丁字橋",
+        "ko": "정자교"
+      },
+      "tag": {
+        "zh": "古桥",
+        "en": "Ancient Bridge",
+        "ja": "古い橋",
+        "ko": "고다리"
+      },
       "icon": "🌉",
       "panorama": "/static/assets/panoramas/dingzi_bridge.jpg",
-      "map": { "x": 165, "y": 150 },
+      "map": {
+        "x": 165,
+        "y": 150
+      },
       "guide": {
         "zh": "丁字桥是仙都景区内一座古朴的石桥，横跨清溪，因桥形呈“丁”字而得名。它连接着仙都的山水与街巷，是游客穿行、驻足、远眺的必经之地。桥下溪水潺潺，两岸绿意葱茏，古朴与自然在此交融，是仙都山水画卷里一处充满生活气息的节点。",
-        "en": "Dingzi Bridge is a rustic stone bridge in the Xiandu Scenic Area, named for its T-shaped layout. Spanning a clear stream, it links the landscape with the old lanes — a place where visitors pause to gaze across the water amid lush greenery, simplicity and nature meeting here in Xiandu's landscape scroll."
+        "en": "Dingzi Bridge is a rustic stone bridge in the Xiandu Scenic Area, named for its T-shaped layout. Spanning a clear stream, it links the landscape with the old lanes — a place where visitors pause to gaze across the water amid lush greenery, simplicity and nature meeting here in Xiandu's landscape scroll.",
+        "ja": "丁字橋は仙都景勝地内に位置する素朴な石橋で、清渓を横断しており、その橋の形状が「丁」の字に似ていることからこの名が付けられました。この橋は仙都の山々・川・街路を結び、観光客が通行・立ち止まり・遠望する際の必見スポットとなっています。橋の下を流れる清渓はせせらぎ、両岸には緑が濃く、素朴さと自然がここで調和し、生活感に満ちた仙都の山水絵巻におけるひとつの重要なポイントです。",
+        "ko": "정자교는 선도 관광지 내에 위치한 소박한 석조 고다리로, 맑은 계곡을 가로질러 놓여 있으며 다리 모양이 ‘정(丁)’ 자를 닮아 정자교라 이름 지어졌다. 이 다리는 선도의 산수와 골목길을 잇는 연결고리로서, 관광객들이 반드시 지나가고 멈춰 서서 멀리 바라보는 장소이다. 다리 아래로는 시냇물이 속삭이며 흐르고 양쪽 강변은 푸른 녹음으로 가득하여 고전적 분위기와 자연이 조화를 이룬, 선도 산수화 속에서 생활의 정취가 넘치는 한 점이다."
       },
       "hotspots": [
-        { "id": "h1", "keyword": "gubridge", "yaw": -45, "pitch": 4 },
-        { "id": "h2", "keyword": "qifu", "yaw": 40, "pitch": -2 }
+        {
+          "id": "h1",
+          "keyword": "gubridge",
+          "yaw": -45,
+          "pitch": 4
+        },
+        {
+          "id": "h2",
+          "keyword": "qifu",
+          "yaw": 40,
+          "pitch": -2
+        }
       ]
     },
     {
       "id": "yantuo_bookstore",
-      "name": { "zh": "岩拓书店", "en": "Yantuo Bookstore" },
-      "tag": { "zh": "文创书店", "en": "Culture Bookstore" },
+      "name": {
+        "zh": "岩拓书店",
+        "en": "Yantuo Bookstore",
+        "ja": "岩拓書店",
+        "ko": "암타오 서점"
+      },
+      "tag": {
+        "zh": "文创书店",
+        "en": "Culture Bookstore",
+        "ja": "クリエイティブ・カルチャー書店",
+        "ko": "창의문화서점"
+      },
       "icon": "📚",
       "panorama": "/static/assets/panoramas/yantuo_bookstore.jpg",
-      "map": { "x": 640, "y": 360 },
+      "map": {
+        "x": 640,
+        "y": 360
+      },
       "guide": {
         "zh": "岩拓书店是仙都景区内一处将书香与山水文化融合的文创阅读空间。店内陈设雅致，融入非遗元素与现代设计，让游客在游览之余得以静心翻阅，在纸墨与山水之间品味仙都的文化记忆。",
-        "en": "Yantuo Bookstore is a cultural-creative reading space in Xiandu that blends books with the region's landscape culture. Elegantly furnished, it weaves intangible-heritage motifs into modern design, offering visitors a quiet place to read and savor Xiandu's cultural memory."
+        "en": "Yantuo Bookstore is a cultural-creative reading space in Xiandu that blends books with the region's landscape culture. Elegantly furnished, it weaves intangible-heritage motifs into modern design, offering visitors a quiet place to read and savor Xiandu's cultural memory.",
+        "ja": "岩拓書店は仙都景勝地内にあり、書籍の香りと山水文化を融合させたクリエイティブ・カルチャー系の読書空間です。店内の陳列は洗練されており、無形文化遺産の要素と現代的デザインが巧みに取り入れられており、観光の合間に訪れた観光客が静かに読書を楽しめるようになっています。紙と墨の香りと山水の風景の間で、仙都の文化的記憶を味わうことができます。",
+        "ko": "암타오 서점은 선도 관광지 내에서 책의 향기와 산수 문화를 융합한 창의문화 독서 공간이다. 매장 내부는 아름답고 우아하게 꾸며졌으며, 무형문화유산 요소와 현대적 디자인이 어우러져 관광객들이 관광을 마친 후 조용히 책을 펼쳐 읽으며 종이와 먹빛 사이에서 선도의 문화 기억을 음미할 수 있도록 한다."
       },
       "hotspots": [
-        { "id": "h1", "keyword": "wenchuang", "yaw": -40, "pitch": 3 },
-        { "id": "h2", "keyword": "huangdi", "yaw": 45, "pitch": -2 }
+        {
+          "id": "h1",
+          "keyword": "wenchuang",
+          "yaw": -40,
+          "pitch": 3
+        },
+        {
+          "id": "h2",
+          "keyword": "huangdi",
+          "yaw": 45,
+          "pitch": -2
+        }
       ]
     },
     {
       "id": "huangdi_temple",
-      "name": { "zh": "黄帝祠宇", "en": "Huangdi Ancestral Temple" },
-      "tag": { "zh": "轩辕祭主会场", "en": "Xuanyuan Ceremony Venue" },
+      "name": {
+        "zh": "黄帝祠宇",
+        "en": "Huangdi Ancestral Temple",
+        "ja": "黄帝祠宇",
+        "ko": "황제사우"
+      },
+      "tag": {
+        "zh": "轩辕祭主会场",
+        "en": "Xuanyuan Ceremony Venue",
+        "ja": "軒轅祭の主会場",
+        "ko": "헌제 주요 행사장"
+      },
       "icon": "🏛️",
       "panorama": "/static/assets/panoramas/huangdi_temple.jpg",
-      "map": { "x": 400, "y": 235 },
+      "map": {
+        "x": 400,
+        "y": 235
+      },
       "guide": {
         "zh": "黄帝祠宇始建于东晋，原名“缙云堂”，是中国南方祭祀轩辕黄帝的核心场所，被誉为“天下第一祠”，与陕西黄帝陵并称“北陵南祠”。每年清明、重阳，这里都会举行隆重的“缙云轩辕祭典”。祠宇依山面水，红墙黄瓦，殿内供奉着中华民族人文始祖轩辕黄帝，庄严肃穆。",
-        "en": "The Huangdi Ancestral Temple was first built in the Eastern Jin dynasty under the name 'Jinyun Hall'. It is the core site for worshipping the Yellow Emperor in southern China, honored as the 'Number One Ancestral Temple Under Heaven', and is paired with the Huangdi Mausoleum in Shaanxi as 'North Mausoleum, South Temple'. Every year at Qingming and the Double Ninth Festival, the grand 'Jinyun Xuanyuan Ceremony' is held here. The temple faces water with mountains behind, red walls and yellow tiles, enshrining the Yellow Emperor — solemn and majestic."
+        "en": "The Huangdi Ancestral Temple was first built in the Eastern Jin dynasty under the name 'Jinyun Hall'. It is the core site for worshipping the Yellow Emperor in southern China, honored as the 'Number One Ancestral Temple Under Heaven', and is paired with the Huangdi Mausoleum in Shaanxi as 'North Mausoleum, South Temple'. Every year at Qingming and the Double Ninth Festival, the grand 'Jinyun Xuanyuan Ceremony' is held here. The temple faces water with mountains behind, red walls and yellow tiles, enshrining the Yellow Emperor — solemn and majestic.",
+        "ja": "黄帝祠宇は東晋時代に創建され、当初は「縉雲堂」と呼ばれていました。中国南部における軒轅黄帝を祭祀する中心的な場所であり、「天下第一祠」と称され、陝西省の黄帝陵とともに「北陵南祠」と並び称されています。毎年清明節および重陽節には、盛大な「縉雲軒轅祭典」が開催されます。祠宇は山を背に川を正面に臨み、赤い壁と黄色い瓦が特徴で、殿内には中華民族の人間始祖である軒轅黄帝が祀られています。荘厳で厳粛な雰囲気に包まれています。",
+        "ko": "황제사우는 동진 시대에 창건되어 원래 ‘금운당(缙云堂)’이라 불렸으며, 중국 남방 지역에서 황제 허선(轩辕黄帝)을 제사하는 핵심 장소이다. ‘천하 제일 사우’로 불리며, 산시성의 황제릉과 함께 ‘북릉남사(北陵南祠)’라 칭해진다. 매년 청명절과 중양절에는 이곳에서 성대한 ‘금운 허선 제전’이 거행된다. 사우는 산을 등지고 물을 마주한 자리에 위치하며 붉은 벽과 노란 기와가 인상 깊고, 전각 안에는 중화민족의 인문 시조인 허선 황제가 모셔져 있어 엄숙하고 위엄이 넘친다."
       },
       "hotspots": [
-        { "id": "h1", "keyword": "huangdi_ciyu", "yaw": -45, "pitch": 5 },
-        { "id": "h2", "keyword": "jisi", "yaw": 40, "pitch": -2 },
-        { "id": "h3", "keyword": "huangdi", "yaw": 135, "pitch": 4 }
+        {
+          "id": "h1",
+          "keyword": "huangdi_ciyu",
+          "yaw": -45,
+          "pitch": 5
+        },
+        {
+          "id": "h2",
+          "keyword": "jisi",
+          "yaw": 40,
+          "pitch": -2
+        },
+        {
+          "id": "h3",
+          "keyword": "huangdi",
+          "yaw": 135,
+          "pitch": 4
+        }
       ]
     }
   ]

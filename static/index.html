@@ -40,6 +40,7 @@
         <div class="seg" id="age-selector"></div>
       </div>
       <select id="lang-select" class="pill lang-select" title="切换语言"></select>
+      <span id="lang-note" class="lang-note hidden"></span>
     </div>
 
     <!-- AI 讲解面板 -->
@@ -83,6 +84,7 @@
           <button id="btn-ceremony" class="btn ghost small">📜 祭典流程</button>
           <button id="btn-artifact" class="btn ghost small">🏺 3D 器物</button>
           <button id="btn-poster" class="btn ghost small">🖼 分享海报</button>
+          <button id="btn-lexicon" class="btn ghost small">📖 非遗词库</button>
         </div>
 
         <div class="qa-block">
@@ -95,6 +97,8 @@
         </div>
       </div>
     </aside>
+
+    <button id="btn-expand-panel" class="panel-expand hidden">📋 讲解</button>
 
     <!-- 地图选择界面（进入场景前的导览图） -->
     <div id="map-screen">
@@ -124,7 +128,7 @@
           <path d="M165 150 C 265 180, 335 210, 400 235 C 485 266, 560 320, 640 360" stroke="#e8b23a" stroke-width="2" fill="none" stroke-dasharray="6 6" opacity="0.45"/>
 
           <!-- 标题 -->
-          <text x="400" y="46" text-anchor="middle" fill="#e8b23a" font-size="30" font-weight="700">仙都导览图</text>
+          <text id="map-title" x="400" y="46" text-anchor="middle" fill="#e8b23a" font-size="30" font-weight="700">仙都导览图</text>
           <text id="map-subtitle" x="400" y="72" text-anchor="middle" fill="#9aa7bd" font-size="14">点击标记，选择要参观的景点</text>
 
           <!-- 标记（JS 按 scenes.json 填充） -->
@@ -284,6 +288,22 @@
         </div>
       </div>
     </div>
+
+    <!-- 完整非遗词库弹窗 -->
+    <div id="lexicon-modal" class="modal hidden">
+      <div class="modal-card">
+        <div class="modal-head">
+          <span id="lexicon-title">📖 非遗词库</span>
+          <button class="modal-close" data-close="lexicon-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="lexicon-list" class="lexicon-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 全局轻提示 -->
+    <div id="toast" class="hidden"></div>
 
     <div id="webgl-fallback" class="hidden">
       当前浏览器不支持 WebGL，无法渲染 360° 全景。请使用最新版 Chrome / Edge / 微信内置浏览器访问。

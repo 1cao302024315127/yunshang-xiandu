@@ -1,39 +1,66 @@
 {
   "ages": {
     "youth": {
-      "label": { "zh": "青少年版", "en": "Youth Edition" },
+      "label": {
+        "zh": "青少年版",
+        "en": "Youth Edition",
+        "ja": "青少年向けバージョン",
+        "ko": "청소년 버전"
+      },
       "tone": "趣味科普、互动提问、生动比喻",
       "opener": {
         "zh": "嘿，欢迎来到仙都！我是你的AI小导游～今天带你看一个超酷的地方。先考考你：你相信一座山是仙人骑着龙“飞”出来的吗？别急，跟我一起往下看就知道啦！",
-        "en": "Hey, welcome to Xiandu! I'm your AI guide. Let me show you something really cool. Quick quiz: do you believe a mountain was 'flown out' by an immortal riding a dragon? Hang on — let's find out together!"
+        "en": "Hey, welcome to Xiandu! I'm your AI guide. Let me show you something really cool. Quick quiz: do you believe a mountain was 'flown out' by an immortal riding a dragon? Hang on — let's find out together!",
+        "ja": "やあ、仙都へようこそ！私はあなたのAIガイドです～今日は、超かっこいい場所をご案内します。まずクイズです：「山が仙人が竜に乗って『飛んできた』」なんて信じられますか？慌てないで、一緒に先へ進んでいけば、すぐにわかりますよ！",
+        "ko": "안녕하세요, 선두(仙都)에 오신 것을 환영합니다! 저는 여러분의 AI 소형 가이드예요. 오늘은 정말 멋진 장소를 소개해 드릴게요. 먼저 퀴즈 하나 드릴게요: 산 한 자락이 선인이 용을 타고 ‘날아와’ 형성됐다고 믿으시겠어요? 걱정 마세요, 함께 아래로 내려가면 바로 알게 되실 거예요!"
       },
       "closer": {
         "zh": "怎么样，是不是觉得古人的想象力超厉害？如果你在现场，最想摸摸哪块石头、许个什么愿呢？记得点一下画面里的闪光小图标，还能听到更多神奇故事哦！",
-        "en": "Cool, right? The ancients had amazing imaginations! If you were here, which rock would you most want to touch, and what wish would you make? Tap the glowing icons to hear more amazing stories!"
+        "en": "Cool, right? The ancients had amazing imaginations! If you were here, which rock would you most want to touch, and what wish would you make? Tap the glowing icons to hear more amazing stories!",
+        "ja": "どうですか？古人の想像力って、本当にすごいと思いませんか？もし実際に現地に行ったら、どの石に触れたいですか？どんな願い事をしたいですか？画面内のきらきら光るアイコンをタップすると、さらに不思議な物語が聞けますよ！",
+        "ko": "어때요, 고대인들의 상상력이 정말 놀라운 것 같지 않으세요? 만약 현장에 계신다면, 어떤 돌을 가장 먼저 만져보고 싶으신가요? 또 어떤 소원을 빌고 싶으신가요? 화면 속 반짝이는 작은 아이콘을 클릭하시면 더 많은 신비로운 이야기도 들을 수 있어요!"
       }
     },
     "middle": {
-      "label": { "zh": "中年版", "en": "Adult Edition" },
+      "label": {
+        "zh": "中年版",
+        "en": "Adult Edition",
+        "ja": "中年向けバージョン",
+        "ko": "중년 버전"
+      },
       "tone": "文化深度、历史脉络、理性思辨",
       "opener": {
         "zh": "您好，欢迎来到仙都。这一站，我们不妨放慢脚步，从历史的脉络去读懂眼前的山水。仙都之所以不同，不仅在于风景，更在于它承载了“黄帝文化”这一中华文明的精神源流。",
-        "en": "Hello, welcome to Xiandu. At this stop, let's slow down and read the landscape through the lens of history. What makes Xiandu special is not just its scenery, but that it carries the 'Yellow Emperor culture' — a spiritual source of Chinese civilization."
+        "en": "Hello, welcome to Xiandu. At this stop, let's slow down and read the landscape through the lens of history. What makes Xiandu special is not just its scenery, but that it carries the 'Yellow Emperor culture' — a spiritual source of Chinese civilization.",
+        "ja": "こんにちは、仙都へようこそ。このスポットでは、少し足を止め、歴史の流れに沿って、目の前の山水を読み解いてみましょう。仙都が特別なのは、単なる風景の美しさだけではなく、「黄帝文化」という中華文明の精神的源流を宿しているからです。",
+        "ko": "안녕하세요, 선두(仙都)에 오신 것을 진심으로 환영합니다. 이번 코스에서는 잠시 발걸음을 천천히 멈추고, 역사의 흐름 속에서 눈앞의 산수를 읽어보는 시간을 가져보는 건 어떨까요? 선두(仙都)가 특별한 이유는 단순한 경치뿐 아니라, 중화문명의 정신적 근원인 ‘황제 문화’를 담고 있기 때문입니다."
       },
       "closer": {
         "zh": "山水有形，文化无价。眼前的景观，其实是千年礼乐文明留下的坐标。若您对其中某个词、某段典故想进一步深究，点击画面中的热点，我为您溯源释义。",
-        "en": "Mountains have form, but culture is priceless. What you see is a coordinate left by millennia of ritual-music civilization. If you'd like to delve deeper into a term or allusion, tap a hotspot and I'll trace it to its source for you."
+        "en": "Mountains have form, but culture is priceless. What you see is a coordinate left by millennia of ritual-music civilization. If you'd like to delve deeper into a term or allusion, tap a hotspot and I'll trace it to its source for you.",
+        "ja": "山水には形がありますが、文化は何物にも代えがたいものです。目の前の景観は、実は千年にわたる礼楽文明が残した座標なのです。もし、その中に出てくるある語や典故について、さらに詳しく知りたい場合は、画面内のホットスポットをクリックしてください。私がその由来と意味を丁寧にご説明いたします。",
+        "ko": "산수는 형태가 있지만, 문화는 그 어떤 값어치로도 측정할 수 없습니다. 지금 눈앞에 펼쳐진 풍경은 천 년 이상 이어온 예악 문명이 남긴 좌표입니다. 혹시 특정 단어나 고사성어에 대해 더 깊이 알고 싶으시다면, 화면 속 핫스팟을 클릭해 주세요. 제가 그 기원과 의미를 차근차근 설명해 드리겠습니다."
       }
     },
     "senior": {
-      "label": { "zh": "老年版", "en": "Senior Edition" },
+      "label": {
+        "zh": "老年版",
+        "en": "Senior Edition",
+        "ja": "高齢者向けバージョン",
+        "ko": "노년 버전"
+      },
       "tone": "从容厚重、家国情怀、追根溯源",
       "opener": {
         "zh": "您好，欢迎您来到仙都。这里的一山一水，都连着咱们中华民族的老祖宗。慢慢走、慢慢看，我陪您一起，把黄帝的故事、祭祀的规矩，从头给您讲讲。",
-        "en": "Hello, welcome to Xiandu. Every mountain and stream here connects to the ancestors of the Chinese nation. Take your time — I'll walk with you and tell you, from the beginning, the story of the Yellow Emperor and the ways of the ancient rites."
+        "en": "Hello, welcome to Xiandu. Every mountain and stream here connects to the ancestors of the Chinese nation. Take your time — I'll walk with you and tell you, from the beginning, the story of the Yellow Emperor and the ways of the ancient rites.",
+        "ja": "こんにちは、仙都へようこそ。ここにある一つひとつの山や川は、すべて私たち中華民族の祖先とつながっています。ゆっくりと歩き、ゆっくりと見てください。私がそっとお付き合いしながら、黄帝のお話や祭祀の作法を、最初からていねいにお話しします。",
+        "ko": "안녕하세요, 선두(仙都)에 오신 것을 진심으로 환영합니다. 여기 산 한 줄기, 물 한 줄기도 우리 중화민족의 조상과 이어져 있습니다. 천천히 걸으며 천천히 보시고, 제가 곁에서 황제의 이야기와 제사의 예법을 처음부터 차분히 들려드릴게요."
       },
       "closer": {
         "zh": "看完了这一处，您心里是不是也生出几分亲切？咱们这一脉相传的文化，就藏在这些老规矩、老仪式里。您若想再听仔细些，点一下那些发光的小图标，我慢慢给您讲。",
-        "en": "Having seen this place, does it feel a little familiar? The culture passed down through our line is hidden in these old rites and ceremonies. If you'd like to hear more, tap a glowing icon and I'll tell you at your pace."
+        "en": "Having seen this place, does it feel a little familiar? The culture passed down through our line is hidden in these old rites and ceremonies. If you'd like to hear more, tap a glowing icon and I'll tell you at your pace.",
+        "ja": "この場所をご覧になったあと、どこか懐かしい気持ちがわいてきませんか？私たちが代々受け継いできた文化は、こうした古くからの作法や儀式の中に確かに息づいています。もう少し詳しくお聞きになりたい場合は、きらきら光るアイコンをタップしてください。私がゆっくりと、丁寧にお話しします。",
+        "ko": "이곳을 둘러보신 후, 마음속에 어느새 친근함이 스며들지 않으셨나요? 우리 민족이 대대로 이어온 이 문화는 바로 이런 오래된 예법과 전통 의식 속에 고스란히 담겨 있습니다. 더 자세히 들어보고 싶으시다면, 반짝이는 작은 아이콘을 클릭해 주세요. 제가 천천히, 한 가지씩 말씀드릴게요."
       }
     }
   }

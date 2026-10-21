@@ -156,6 +156,23 @@
     ja: { btn: '🖼 シェアポスター', title: '🖼 シェアポスター', download: '⬇ ダウンロード', share: '🔗 シェア' },
     ko: { btn: '🖼 공유 포스터', title: '🖼 공유 포스터', download: '⬇ 다운로드', share: '🔗 공유' },
   };
+  var TOAST_STR = {
+    zh: { copy: '链接已复制', shareCancel: '已取消分享', shareFail: '当前浏览器不支持分享', panoFail: '全景图加载失败，请重试', download: '海报已下载', artifactFail: '当前浏览器不支持 3D 展示' },
+    en: { copy: 'Link copied', shareCancel: 'Share cancelled', shareFail: 'Sharing not supported', panoFail: 'Failed to load panorama', download: 'Poster downloaded', artifactFail: '3D not supported in this browser' },
+    ja: { copy: 'リンクをコピーしました', shareCancel: '共有をキャンセルしました', shareFail: '共有に対応していません', panoFail: 'パノラマの読み込みに失敗しました', download: 'ポスターを保存しました', artifactFail: 'このブラウザは3D表示に対応していません' },
+    ko: { copy: '링크 복사됨', shareCancel: '공유 취소됨', shareFail: '공유를 지원하지 않습니다', panoFail: '파노라마 로딩 실패', download: '포스터 다운로드됨', artifactFail: '이 브라우저는 3D를 지원하지 않습니다' },
+  };
+  var LEXICON_STR = {
+    zh: { btn: '📖 非遗词库', title: '📖 非遗词库' },
+    en: { btn: '📖 ICH Lexicon', title: '📖 ICH Lexicon' },
+    ja: { btn: '📖 詞庫', title: '📖 無形文化遺産の詞庫' },
+    ko: { btn: '📖 용어사전', title: '📖 무형문화유산 용어사전' },
+  };
+  var MAP_TITLE = { zh: '仙都导览图', en: 'Xiandu Guide Map', ja: '仙都ガイドマップ', ko: '셴두 안내지도' };
+  var FALLBACK_STR = {
+    ja: '一部の内容は英語・中国語で表示されます',
+    ko: '일부 내용은 영어·중국어로 표시됩니다',
+  };
 
   var state = {
     config: null,
@@ -171,6 +188,9 @@
   var voices = [];
   var currentAudio = null;
   var mascotTimer = null;
+  var speakToken = 0;
+  var guideToken = 0;
+  var explainToken = 0;
 
   function $(id) { return document.getElementById(id); }
   function t(key) { return I18N[state.lang][key]; }
@@ -191,7 +211,7 @@
   }
 
   function browserSpeak(text, lang, onend) {
-    if (!('speechSynthesis' in window)) return false;
+    if (!('speechSynthesis' in window)) { if (onend) onend(); return false; }
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     var langTag = LANG_MAP[lang] || 'zh-CN';
@@ -208,14 +228,21 @@
   }
 
   function stopSpeak() {
+    speakToken++;  // 使进行中的 speakText 结果失效
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
     mascotHide();
   }
 
   /* ---------------- 吉祥物讲解形象 ---------------- */
+  function setSpeaking(active) {
+    $('btn-stop').classList.toggle('hidden', !active);
+    $('btn-speak').classList.toggle('hidden', active);
+  }
+
   function mascotTalk(text) {
     clearTimeout(mascotTimer);
+    setSpeaking(true);
     $('mascot').classList.remove('hidden');
     $('mascot').classList.add('speaking');
     var short = (text || '').replace(/[*#\n\r]+/g, ' ').replace(/\s+/g, ' ').trim();
@@ -223,12 +250,14 @@
   }
 
   function mascotDone() {
+    setSpeaking(false);
     $('mascot').classList.remove('speaking');
     clearTimeout(mascotTimer);
     mascotTimer = setTimeout(function () { $('mascot').classList.add('hidden'); }, 2600);
   }
 
   function mascotHide() {
+    setSpeaking(false);
     clearTimeout(mascotTimer);
     $('mascot').classList.remove('speaking');
     $('mascot').classList.add('hidden');
@@ -247,11 +276,13 @@
     var url = URL.createObjectURL(blob);
     var a = new Audio(url);
     currentAudio = a;
-    a.onended = function () {
+    var finish = function () {
       URL.revokeObjectURL(url);
       if (currentAudio === a) currentAudio = null;
       if (onend) onend();
     };
+    a.onended = finish;
+    a.onerror = finish;
     a.play();
   }
 
@@ -271,8 +302,12 @@
   }
 
   async function speakText(text, lang) {
+    var token = ++speakToken;
+    // 开始新播报前停止旧音频
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
     mascotTalk(text);
-    var done = function () { mascotDone(); };
+    var done = function () { if (token === speakToken) mascotDone(); };
     try {
       var res = await fetch('/api/tts', {
         method: 'POST',
@@ -280,13 +315,14 @@
         body: JSON.stringify({ text: text, lang: lang }),
       });
       var data = await res.json();
+      if (token !== speakToken) return;  // 已停止或已换新
       if (data.mode === 'audio' && data.audio) {
         playAudioBase64(data.audio, data.mime, done);
       } else {
         browserSpeak(data.text || text, lang, done);
       }
     } catch (e) {
-      browserSpeak(text, lang, done);
+      if (token === speakToken) browserSpeak(text, lang, done);
     }
   }
 
@@ -353,17 +389,20 @@
   async function loadGuide() {
     if (!state.sceneId) return;
     var scene = currentScene();
+    var token = ++guideToken;
     setText('guide-text', t('loadingGuide'));
     try {
       var res = await postJSON('/api/guide', {
         scene_id: scene.id, age: state.age, lang: state.lang,
       });
       var data = await res.json();
+      if (token !== guideToken) return;  // 过期响应丢弃
       state.guideText = data.text;
       state.guideMode = data.mode;
       renderGuideText(data.text);
       updateModeBadge(data.mode);
     } catch (e) {
+      if (token !== guideToken) return;
       setText('guide-text', t('guideFail'));
     }
   }
@@ -374,12 +413,13 @@
     badge.classList.toggle('llm', mode === 'llm');
   }
 
-  async function explainKeyword(keyword) {
+  async function explainKeyword(keyword, silent) {
     var kw = state.config.keywords[keyword];
     if (!kw) return;
+    var token = ++explainToken;
     state.activeKeyword = keyword;
     setText('explain-term', pick(kw.term));
-    setText('explain-meta', kw.pinyin + ' · ' + kw.category);
+    setText('explain-meta', kw.pinyin + ' · ' + catName(kw.category));
     setText('explain-text', '…');
     $('explain-box').classList.remove('hidden');
     var hasBridge = !!(state.config.bridge && state.config.bridge[keyword]);
@@ -388,9 +428,11 @@
     try {
       var res = await postJSON('/api/explain', { keyword: keyword, lang: state.lang });
       var data = await res.json();
+      if (token !== explainToken) return;  // 过期响应丢弃
       setText('explain-text', data.text);
-      speakText(data.text, state.lang);
+      if (!silent) speakText(data.text, state.lang);
     } catch (e) {
+      if (token !== explainToken) return;
       setText('explain-text', pick(kw.definition) + '\n\n' + pick(kw.analogy));
     }
   }
@@ -583,6 +625,15 @@
     setText('loading-text', t('loading'));
     setText('map-subtitle', t('mapSubtitle'));
     setText('map-legend', t('mapLegend'));
+    setText('map-title', MAP_TITLE[state.lang]);
+    setText('btn-lexicon', LEXICON_STR[state.lang].btn);
+    setText('lexicon-title', LEXICON_STR[state.lang].title);
+    var fallback = (state.lang === 'ja' || state.lang === 'ko');
+    var note = $('lang-note');
+    if (note) {
+      note.classList.toggle('hidden', !fallback);
+      if (fallback) note.textContent = FALLBACK_STR[state.lang];
+    }
     setText('qa-title', t('qaTitle'));
     $('qa-input').placeholder = t('qaPlaceholder');
     setText('qa-send', t('qaSend'));
@@ -605,10 +656,7 @@
     renderChips();
     refreshHotspots();
     updateModeBadge(state.guideMode);
-    if (state.activeKeyword) {
-      var kw = state.config.keywords[state.activeKeyword];
-      setText('explain-term', pick(kw.term));
-    }
+    refreshOpenContent();
     if (state.sceneId) {
       setText('panel-scene', pick(currentScene().name));
       loadGuide();
@@ -673,6 +721,7 @@
       else if (q.options[i] === opt) opts[i].classList.add('wrong');
     }
     setTimeout(function () {
+      if ($('quiz-modal').classList.contains('hidden')) return;  // 弹窗已关闭则不再跳题
       quizState.idx++;
       if (quizState.idx < quizState.total) renderQuiz();
       else renderQuizResult();
@@ -695,7 +744,7 @@
   }
 
   /* ---------------- 轩辕祭典流程 ---------------- */
-  function openCeremony() {
+  function renderCeremony() {
     var c = state.config.ceremony;
     setText('ceremony-title', '📜 ' + pick(c.title));
     setText('ceremony-hint', pick(c.hint));
@@ -716,6 +765,10 @@
       });
       box.appendChild(el);
     });
+  }
+
+  function openCeremony() {
+    renderCeremony();
     openModal('ceremony-modal');
   }
 
@@ -760,6 +813,7 @@
       try {
         artifactViewer = new Artifact3D($('artifact-canvas'));
       } catch (e) {
+        toast(TOAST_STR[state.lang].artifactFail);
         return;
       }
       artifactViewer.onTap = function () {
@@ -831,14 +885,23 @@
     a.href = $('poster-canvas').toDataURL('image/png');
     a.download = '云上仙都-' + pick(currentScene().name) + '.png';
     a.click();
+    toast(TOAST_STR[state.lang].download);
   }
 
   function sharePoster() {
     if (navigator.share) {
       navigator.share({ title: '云上仙都', text: '云上仙都 · 非遗 AI 云游览', url: location.href })
-        .catch(function () {});
+        .then(function () {})
+        .catch(function (err) {
+          if (err && err.name === 'AbortError') toast(TOAST_STR[state.lang].shareCancel);
+          else toast(TOAST_STR[state.lang].shareFail);
+        });
     } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(location.href);
+      navigator.clipboard.writeText(location.href)
+        .then(function () { toast(TOAST_STR[state.lang].copy); })
+        .catch(function () { toast(TOAST_STR[state.lang].shareFail); });
+    } else {
+      toast(TOAST_STR[state.lang].shareFail);
     }
   }
 
@@ -876,9 +939,60 @@
       });
   }
 
-  /* ---------------- 弹窗 ---------------- */
+  /* ---------------- 弹窗与提示 ---------------- */
+  var toastTimer = null;
+  function toast(msg) {
+    var el = $('toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.remove('hidden');
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2600);
+  }
+
   function openModal(id) { $(id).classList.remove('hidden'); }
-  function closeModal(id) { $(id).classList.add('hidden'); }
+  function closeModal(id) {
+    $(id).classList.add('hidden');
+    stopSpeak();  // 关闭弹窗时停止相关播报
+  }
+
+  /* ---------------- 完整词库 ---------------- */
+  function openLexicon() {
+    var box = $('lexicon-list');
+    box.innerHTML = '';
+    Object.keys(state.config.keywords).forEach(function (id) {
+      var kw = state.config.keywords[id];
+      var el = document.createElement('button');
+      el.className = 'lexicon-item';
+      el.innerHTML = '<span class="lex-icon">' + (CATEGORY_ICONS[kw.category] || '✨') + '</span>' +
+        '<span class="lex-term">' + pick(kw.term) + '</span>' +
+        '<span class="lex-cat">' + catName(kw.category) + '</span>';
+      el.addEventListener('click', function () {
+        closeModal('lexicon-modal');
+        explainKeyword(id);
+      });
+      box.appendChild(el);
+    });
+    openModal('lexicon-modal');
+  }
+
+  /* ---------------- 语言切换时刷新已打开内容 ---------------- */
+  function refreshOpenContent() {
+    if (state.activeKeyword && $('explain-box') && !$('explain-box').classList.contains('hidden')) {
+      explainKeyword(state.activeKeyword, true);
+    }
+    if ($('ceremony-modal') && !$('ceremony-modal').classList.contains('hidden')) {
+      renderCeremony();
+    }
+    if ($('bridge-modal') && !$('bridge-modal').classList.contains('hidden') && state.activeKeyword) {
+      openBridge(state.activeKeyword);
+    }
+    if (quizState && $('quiz-modal') && !$('quiz-modal').classList.contains('hidden')) {
+      if (quizState.idx < quizState.total) renderQuiz();
+      else renderQuizResult();
+    }
+  }
 
   /* ---------------- 初始化 ---------------- */
   function initViewer() {
@@ -891,6 +1005,9 @@
     viewer.onLoadingChange = function (loading) {
       $('loading').classList.toggle('hidden', !loading);
       if (!loading) $('pano-preview').classList.add('hide');
+    };
+    viewer.onError = function () {
+      toast(TOAST_STR[state.lang].panoFail);
     };
     viewer.onHotspotClick = function (h) {
       explainKeyword(h.keyword);
@@ -916,7 +1033,12 @@
       applyLang();
     });
     $('panel-close').addEventListener('click', function () {
-      $('guide-panel').classList.toggle('collapsed');
+      var collapsed = $('guide-panel').classList.toggle('collapsed');
+      $('btn-expand-panel').classList.toggle('hidden', !collapsed);
+    });
+    $('btn-expand-panel').addEventListener('click', function () {
+      $('guide-panel').classList.remove('collapsed');
+      $('btn-expand-panel').classList.add('hidden');
     });
     $('btn-map').addEventListener('click', showMap);
     $('guide-text').addEventListener('click', function (e) {
@@ -936,6 +1058,7 @@
     $('btn-poster').addEventListener('click', openPoster);
     $('btn-download').addEventListener('click', downloadPoster);
     $('btn-share').addEventListener('click', sharePoster);
+    $('btn-lexicon').addEventListener('click', openLexicon);
     $('qa-send').addEventListener('click', sendQuestion);
     $('qa-input').addEventListener('keydown', function (e) {
       if (e.key === 'Enter') sendQuestion();
@@ -949,8 +1072,9 @@
 
     setTimeout(function () {
       var hint = $('hint');
+      if (!hint) return;
       hint.style.opacity = '0';
-      setTimeout(function () { hint.remove(); }, 900);
+      setTimeout(function () { hint.style.display = 'none'; }, 900);
     }, 6000);
   }
 

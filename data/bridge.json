@@ -1,62 +1,548 @@
 {
   "jisi": {
-    "counterpart": { "zh": "感恩节 · 天主教弥撒", "en": "Thanksgiving · Catholic Mass" },
+    "counterpart": {
+      "zh": "感恩节 · 天主教弥撒",
+      "en": "Thanksgiving · Catholic Mass",
+      "ja": "感謝祭・カトリックミサ",
+      "ko": "감사의 날 · 가톨릭 미사"
+    },
     "icon": "🕯️",
     "rows": [
-      { "dim": { "zh": "起源", "en": "Origin" }, "ours": { "zh": "上古“敬天法祖”", "en": "Ancient 'honor heaven, follow ancestors'" }, "theirs": { "zh": "宗教感恩与纪念", "en": "Religious gratitude & remembrance" } },
-      { "dim": { "zh": "功能", "en": "Function" }, "ours": { "zh": "维系伦理与宗族认同", "en": "Sustain ethics & lineage identity" }, "theirs": { "zh": "感恩与群体凝聚", "en": "Gratitude & communal bonding" } },
-      { "dim": { "zh": "形式", "en": "Form" }, "ours": { "zh": "三献礼、乐舞、祭文", "en": "Triple offering, ritual dance, eulogy" }, "theirs": { "zh": "祷告、礼拜、聚餐", "en": "Prayer, service, feast" } },
-      { "dim": { "zh": "当代表达", "en": "Today" }, "ours": { "zh": "缙云轩辕祭典等非遗", "en": "Jinyun Xuanyuan Ceremony (ICH)" }, "theirs": { "zh": "现代感恩节、主日弥撒", "en": "Modern Thanksgiving & Sunday Mass" } }
+      {
+        "dim": {
+          "zh": "起源",
+          "en": "Origin",
+          "ja": "起源",
+          "ko": "기원"
+        },
+        "ours": {
+          "zh": "上古“敬天法祖”",
+          "en": "Ancient 'honor heaven, follow ancestors'",
+          "ja": "古代の「天を敬い、祖先を法とする」思想",
+          "ko": "고대의 ‘하늘을 공경하고 조상을 따름’"
+        },
+        "theirs": {
+          "zh": "宗教感恩与纪念",
+          "en": "Religious gratitude & remembrance",
+          "ja": "宗教的な感謝と記念",
+          "ko": "종교적 감사와 기념"
+        }
+      },
+      {
+        "dim": {
+          "zh": "功能",
+          "en": "Function",
+          "ja": "機能",
+          "ko": "기능"
+        },
+        "ours": {
+          "zh": "维系伦理与宗族认同",
+          "en": "Sustain ethics & lineage identity",
+          "ja": "倫理観および氏族的アイデンティティの維持",
+          "ko": "윤리와 종족 정체성 유지"
+        },
+        "theirs": {
+          "zh": "感恩与群体凝聚",
+          "en": "Gratitude & communal bonding",
+          "ja": "感謝を通じた共同体の結束",
+          "ko": "감사와 공동체 결속"
+        }
+      },
+      {
+        "dim": {
+          "zh": "形式",
+          "en": "Form",
+          "ja": "形式",
+          "ko": "형식"
+        },
+        "ours": {
+          "zh": "三献礼、乐舞、祭文",
+          "en": "Triple offering, ritual dance, eulogy",
+          "ja": "三献の礼、楽舞、祭文",
+          "ko": "삼헌례, 음악과 무용, 제문"
+        },
+        "theirs": {
+          "zh": "祷告、礼拜、聚餐",
+          "en": "Prayer, service, feast",
+          "ja": "祈り、礼拝、会食",
+          "ko": "기도, 예배, 단체 식사"
+        }
+      },
+      {
+        "dim": {
+          "zh": "当代表达",
+          "en": "Today",
+          "ja": "現代における表現",
+          "ko": "현대적 표현"
+        },
+        "ours": {
+          "zh": "缙云轩辕祭典等非遗",
+          "en": "Jinyun Xuanyuan Ceremony (ICH)",
+          "ja": "縁雲軒轅祭典などの無形文化遺産",
+          "ko": "진윈 쉐난제전 등 무형문화유산"
+        },
+        "theirs": {
+          "zh": "现代感恩节、主日弥撒",
+          "en": "Modern Thanksgiving & Sunday Mass",
+          "ja": "現代の感謝祭、日曜日のミサ",
+          "ko": "현대 감사절, 주일 미사"
+        }
+      }
     ]
   },
   "liyue": {
-    "counterpart": { "zh": "西方宫廷礼仪 · 教堂圣乐", "en": "Court Etiquette · Sacred Music" },
+    "counterpart": {
+      "zh": "西方宫廷礼仪 · 教堂圣乐",
+      "en": "Court Etiquette · Sacred Music",
+      "ja": "西洋の宮廷儀礼・教会音楽",
+      "ko": "서양 궁정 예의범절 · 교회 성악"
+    },
     "icon": "🎼",
     "rows": [
-      { "dim": { "zh": "起源", "en": "Origin" }, "ours": { "zh": "黄帝“制礼作乐”", "en": "Yellow Emperor 'instituted rites & music'" }, "theirs": { "zh": "中世纪宫廷与教会", "en": "Medieval court & church" } },
-      { "dim": { "zh": "功能", "en": "Function" }, "ours": { "zh": "治国安邦、教化人心", "en": "Governance & moral education" }, "theirs": { "zh": "规范秩序、感化灵魂", "en": "Order & spiritual uplift" } },
-      { "dim": { "zh": "形式", "en": "Form" }, "ours": { "zh": "礼制 + 编钟雅乐", "en": "Rites + chime-bell refined music" }, "theirs": { "zh": "礼仪 + 圣咏/管风琴", "en": "Etiquette + chant/organ" } },
-      { "dim": { "zh": "当代表达", "en": "Today" }, "ours": { "zh": "祭典礼乐的活态传承", "en": "Living heritage of ritual music" }, "theirs": { "zh": "音乐会、弥撒曲", "en": "Concerts & mass settings" } }
+      {
+        "dim": {
+          "zh": "起源",
+          "en": "Origin",
+          "ja": "起源",
+          "ko": "기원"
+        },
+        "ours": {
+          "zh": "黄帝“制礼作乐”",
+          "en": "Yellow Emperor 'instituted rites & music'",
+          "ja": "黄帝による「礼を定め、楽を作ること」",
+          "ko": "황제가 ‘예를 제정하고 음악을 창작함’"
+        },
+        "theirs": {
+          "zh": "中世纪宫廷与教会",
+          "en": "Medieval court & church",
+          "ja": "中世の宮廷と教会",
+          "ko": "중세 궁정과 교회"
+        }
+      },
+      {
+        "dim": {
+          "zh": "功能",
+          "en": "Function",
+          "ja": "機能",
+          "ko": "기능"
+        },
+        "ours": {
+          "zh": "治国安邦、教化人心",
+          "en": "Governance & moral education",
+          "ja": "国を治め、国家を安定させ、人心を教化すること",
+          "ko": "나라를 다스리고 안정시키며 사람들의 마음을 교화함"
+        },
+        "theirs": {
+          "zh": "规范秩序、感化灵魂",
+          "en": "Order & spiritual uplift",
+          "ja": "秩序を規範化し、魂を感化すること",
+          "ko": "질서를 규범화하고 영혼을 감화함"
+        }
+      },
+      {
+        "dim": {
+          "zh": "形式",
+          "en": "Form",
+          "ja": "形式",
+          "ko": "형식"
+        },
+        "ours": {
+          "zh": "礼制 + 编钟雅乐",
+          "en": "Rites + chime-bell refined music",
+          "ja": "礼制＋編鐘による雅楽",
+          "ko": "예제 + 편종 아악"
+        },
+        "theirs": {
+          "zh": "礼仪 + 圣咏/管风琴",
+          "en": "Etiquette + chant/organ",
+          "ja": "儀礼＋聖歌／オルガン音楽",
+          "ko": "의례 + 성가/관현악"
+        }
+      },
+      {
+        "dim": {
+          "zh": "当代表达",
+          "en": "Today",
+          "ja": "現代における表現",
+          "ko": "현대적 표현"
+        },
+        "ours": {
+          "zh": "祭典礼乐的活态传承",
+          "en": "Living heritage of ritual music",
+          "ja": "祭礼・儀礼音楽の生きている継承",
+          "ko": "제사 의례 음악의 생생한 전승"
+        },
+        "theirs": {
+          "zh": "音乐会、弥撒曲",
+          "en": "Concerts & mass settings",
+          "ja": "コンサート、ミサ曲",
+          "ko": "콘서트, 미사곡"
+        }
+      }
     ]
   },
   "huangdi": {
-    "counterpart": { "zh": "宙斯 · 罗慕路斯", "en": "Zeus · Romulus" },
+    "counterpart": {
+      "zh": "宙斯 · 罗慕路斯",
+      "en": "Zeus · Romulus",
+      "ja": "ゼウス・ロムルス",
+      "ko": "제우스 · 로물루스"
+    },
     "icon": "🐉",
     "rows": [
-      { "dim": { "zh": "起源", "en": "Origin" }, "ours": { "zh": "上古人文始祖", "en": "Legendary cultural forefather" }, "theirs": { "zh": "神话主神 / 建国者", "en": "Mythic god-king / founder" } },
-      { "dim": { "zh": "功能", "en": "Function" }, "ours": { "zh": "文明奠基、民族认同", "en": "Civilization & ethnic identity" }, "theirs": { "zh": "神权与建国叙事", "en": "Divine & founding narrative" } },
-      { "dim": { "zh": "形式", "en": "Form" }, "ours": { "zh": "祭祀、纪念、祠宇", "en": "Sacrifice, commemoration, temple" }, "theirs": { "zh": "神庙、庆典", "en": "Temples, festivals" } },
-      { "dim": { "zh": "当代表达", "en": "Today" }, "ours": { "zh": "炎黄子孙、黄帝陵祠", "en": "Descendants of Yan-Huang; mausoleum & temple" }, "theirs": { "zh": "奥林匹克、罗马纪念日", "en": "Olympics & Rome's founding day" } }
+      {
+        "dim": {
+          "zh": "起源",
+          "en": "Origin",
+          "ja": "起源",
+          "ko": "기원"
+        },
+        "ours": {
+          "zh": "上古人文始祖",
+          "en": "Legendary cultural forefather",
+          "ja": "上古の人間文明の始祖",
+          "ko": "상고 시대 인문적 시조"
+        },
+        "theirs": {
+          "zh": "神话主神 / 建国者",
+          "en": "Mythic god-king / founder",
+          "ja": "神話上の主神／建国者",
+          "ko": "신화 속 주신 / 건국자"
+        }
+      },
+      {
+        "dim": {
+          "zh": "功能",
+          "en": "Function",
+          "ja": "機能",
+          "ko": "기능"
+        },
+        "ours": {
+          "zh": "文明奠基、民族认同",
+          "en": "Civilization & ethnic identity",
+          "ja": "文明の基盤築き・民族的アイデンティティの形成",
+          "ko": "문명의 기초 마련, 민족 정체성 확립"
+        },
+        "theirs": {
+          "zh": "神权与建国叙事",
+          "en": "Divine & founding narrative",
+          "ja": "神権と建国叙事",
+          "ko": "신권과 건국 서사"
+        }
+      },
+      {
+        "dim": {
+          "zh": "形式",
+          "en": "Form",
+          "ja": "形式",
+          "ko": "형식"
+        },
+        "ours": {
+          "zh": "祭祀、纪念、祠宇",
+          "en": "Sacrifice, commemoration, temple",
+          "ja": "祭祀・記念・祠宇",
+          "ko": "제사, 기념, 사당"
+        },
+        "theirs": {
+          "zh": "神庙、庆典",
+          "en": "Temples, festivals",
+          "ja": "神殿・祝典",
+          "ko": "신전, 축제"
+        }
+      },
+      {
+        "dim": {
+          "zh": "当代表达",
+          "en": "Today",
+          "ja": "当代表現",
+          "ko": "현대 중국어 표현"
+        },
+        "ours": {
+          "zh": "炎黄子孙、黄帝陵祠",
+          "en": "Descendants of Yan-Huang; mausoleum & temple",
+          "ja": "炎黄子孫、黄帝陵祠",
+          "ko": "염황자손, 황제릉사"
+        },
+        "theirs": {
+          "zh": "奥林匹克、罗马纪念日",
+          "en": "Olympics & Rome's founding day",
+          "ja": "オリンピック、ローマ記念日",
+          "ko": "올림픽, 로마 기념일"
+        }
+      }
     ]
   },
   "bianzhong": {
-    "counterpart": { "zh": "管风琴 · 钟琴", "en": "Pipe Organ · Carillon" },
+    "counterpart": {
+      "zh": "管风琴 · 钟琴",
+      "en": "Pipe Organ · Carillon",
+      "ja": "オルガン・カーニングベル",
+      "ko": "관풍금 · 종금"
+    },
     "icon": "🔔",
     "rows": [
-      { "dim": { "zh": "起源", "en": "Origin" }, "ours": { "zh": "先秦青铜礼乐", "en": "Pre-Qin bronze ritual music" }, "theirs": { "zh": "中世纪教堂乐器", "en": "Medieval church instrument" } },
-      { "dim": { "zh": "功能", "en": "Function" }, "ours": { "zh": "祭祀雅乐、礼乐正统", "en": "Sacrificial refined music, ritual orthodoxy" }, "theirs": { "zh": "宗教仪式、音乐", "en": "Religious rite & music" } },
-      { "dim": { "zh": "形式", "en": "Form" }, "ours": { "zh": "铜钟编组、一钟双音", "en": "Graded bells, two tones each" }, "theirs": { "zh": "音管/钟组、键盘", "en": "Pipes/bells + keyboard" } },
-      { "dim": { "zh": "当代表达", "en": "Today" }, "ours": { "zh": "曾侯乙编钟、祭典雅乐", "en": "Marquis Yi bells, ceremonial music" }, "theirs": { "zh": "教堂管风琴、钟楼", "en": "Church organs & bell towers" } }
+      {
+        "dim": {
+          "zh": "起源",
+          "en": "Origin",
+          "ja": "起源",
+          "ko": "기원"
+        },
+        "ours": {
+          "zh": "先秦青铜礼乐",
+          "en": "Pre-Qin bronze ritual music",
+          "ja": "先秦時代の青銅製礼楽器",
+          "ko": "선진 시대 청동 제례 음악기"
+        },
+        "theirs": {
+          "zh": "中世纪教堂乐器",
+          "en": "Medieval church instrument",
+          "ja": "中世の教会楽器",
+          "ko": "중세 교회 악기"
+        }
+      },
+      {
+        "dim": {
+          "zh": "功能",
+          "en": "Function",
+          "ja": "機能",
+          "ko": "기능"
+        },
+        "ours": {
+          "zh": "祭祀雅乐、礼乐正统",
+          "en": "Sacrificial refined music, ritual orthodoxy",
+          "ja": "祭祀用雅楽、礼楽の正統性",
+          "ko": "제사용 아악, 제례 음악의 정통성"
+        },
+        "theirs": {
+          "zh": "宗教仪式、音乐",
+          "en": "Religious rite & music",
+          "ja": "宗教儀式、音楽",
+          "ko": "종교 의식, 음악"
+        }
+      },
+      {
+        "dim": {
+          "zh": "形式",
+          "en": "Form",
+          "ja": "形式",
+          "ko": "형식"
+        },
+        "ours": {
+          "zh": "铜钟编组、一钟双音",
+          "en": "Graded bells, two tones each",
+          "ja": "銅鐘の編成、一鐘二音",
+          "ko": "청동종의 편성, 한 종에 두 음"
+        },
+        "theirs": {
+          "zh": "音管/钟组、键盘",
+          "en": "Pipes/bells + keyboard",
+          "ja": "音管／鐘のセット、鍵盤",
+          "ko": "음관/종 세트, 키보드"
+        }
+      },
+      {
+        "dim": {
+          "zh": "当代表达",
+          "en": "Today",
+          "ja": "当代表現",
+          "ko": "당대의 표현"
+        },
+        "ours": {
+          "zh": "曾侯乙编钟、祭典雅乐",
+          "en": "Marquis Yi bells, ceremonial music",
+          "ja": "曾侯乙編鐘、祭祀用の雅楽",
+          "ko": "증후을 편종, 제사용 아악"
+        },
+        "theirs": {
+          "zh": "教堂管风琴、钟楼",
+          "en": "Church organs & bell towers",
+          "ja": "教会のオルガン、鐘楼",
+          "ko": "교회 관풍금, 종탑"
+        }
+      }
     ]
   },
   "ding": {
-    "counterpart": { "zh": "王冠 · 权杖", "en": "Crown · Scepter" },
+    "counterpart": {
+      "zh": "王冠 · 权杖",
+      "en": "Crown · Scepter",
+      "ja": "王冠・権杖",
+      "ko": "왕관 · 왕지팡이"
+    },
     "icon": "🏺",
     "rows": [
-      { "dim": { "zh": "起源", "en": "Origin" }, "ours": { "zh": "炊器演变为礼器", "en": "Cooking vessel turned ritual vessel" }, "theirs": { "zh": "王权象征物", "en": "Symbols of royal power" } },
-      { "dim": { "zh": "功能", "en": "Function" }, "ours": { "zh": "王权与国家的象征", "en": "Symbol of royal & state power" }, "theirs": { "zh": "王权合法性的象征", "en": "Symbol of royal legitimacy" } },
-      { "dim": { "zh": "形式", "en": "Form" }, "ours": { "zh": "三足两耳青铜器", "en": "Bronze vessel, 3 legs & 2 handles" }, "theirs": { "zh": "冠冕、权杖、宝球", "en": "Crown, scepter, orb" } },
-      { "dim": { "zh": "当代表达", "en": "Today" }, "ours": { "zh": "成语“问鼎”、国宝重器", "en": "Idiom 'aspire to the throne'; national treasure" }, "theirs": { "zh": "加冕礼、王室仪仗", "en": "Coronations & royal regalia" } }
+      {
+        "dim": {
+          "zh": "起源",
+          "en": "Origin",
+          "ja": "起源",
+          "ko": "기원"
+        },
+        "ours": {
+          "zh": "炊器演变为礼器",
+          "en": "Cooking vessel turned ritual vessel",
+          "ja": "調理器具から礼器へと変化した",
+          "ko": "조리기구에서 예기로의 진화"
+        },
+        "theirs": {
+          "zh": "王权象征物",
+          "en": "Symbols of royal power",
+          "ja": "王権の象徴物",
+          "ko": "왕권의 상징물"
+        }
+      },
+      {
+        "dim": {
+          "zh": "功能",
+          "en": "Function",
+          "ja": "機能",
+          "ko": "기능"
+        },
+        "ours": {
+          "zh": "王权与国家的象征",
+          "en": "Symbol of royal & state power",
+          "ja": "王権と国家の象徴",
+          "ko": "왕권과 국가의 상징"
+        },
+        "theirs": {
+          "zh": "王权合法性的象征",
+          "en": "Symbol of royal legitimacy",
+          "ja": "王権の正当性の象徴",
+          "ko": "왕권의 정당성을 나타내는 상징"
+        }
+      },
+      {
+        "dim": {
+          "zh": "形式",
+          "en": "Form",
+          "ja": "形式",
+          "ko": "형식"
+        },
+        "ours": {
+          "zh": "三足两耳青铜器",
+          "en": "Bronze vessel, 3 legs & 2 handles",
+          "ja": "三脚二耳の青銅器",
+          "ko": "삼족 이이 청동기"
+        },
+        "theirs": {
+          "zh": "冠冕、权杖、宝球",
+          "en": "Crown, scepter, orb",
+          "ja": "冠冕、権杖、宝球",
+          "ko": "관면, 지팡이, 보구"
+        }
+      },
+      {
+        "dim": {
+          "zh": "当代表达",
+          "en": "Today",
+          "ja": "当代表現",
+          "ko": "당대의 표현"
+        },
+        "ours": {
+          "zh": "成语“问鼎”、国宝重器",
+          "en": "Idiom 'aspire to the throne'; national treasure",
+          "ja": "成語「問鼎」、国宝級の重器",
+          "ko": "성어 ‘문정’, 국보급 중기"
+        },
+        "theirs": {
+          "zh": "加冕礼、王室仪仗",
+          "en": "Coronations & royal regalia",
+          "ja": "戴冠式、王室儀仗",
+          "ko": "즉위식, 왕실 의장대"
+        }
+      }
     ]
   },
   "gubridge": {
-    "counterpart": { "zh": "佛罗伦萨老桥", "en": "Florence's Ponte Vecchio" },
+    "counterpart": {
+      "zh": "佛罗伦萨老桥",
+      "en": "Florence's Ponte Vecchio",
+      "ja": "フィレンツェの古い橋",
+      "ko": "피렌체의 베키오 다리"
+    },
     "icon": "🌉",
     "rows": [
-      { "dim": { "zh": "起源", "en": "Origin" }, "ours": { "zh": "浙南山水间的古桥/廊桥", "en": "Ancient & covered bridges of S. Zhejiang" }, "theirs": { "zh": "欧洲古城跨河桥", "en": "Old European river bridges" } },
-      { "dim": { "zh": "功能", "en": "Function" }, "ours": { "zh": "交通、商贸、乡土记忆", "en": "Passage, trade, local memory" }, "theirs": { "zh": "交通、商铺、地标", "en": "Passage, shops, landmark" } },
-      { "dim": { "zh": "形式", "en": "Form" }, "ours": { "zh": "石拱桥、廊桥", "en": "Stone arch & covered bridge" }, "theirs": { "zh": "石拱桥、桥上商铺", "en": "Stone arch with shops on top" } },
-      { "dim": { "zh": "当代表达", "en": "Today" }, "ours": { "zh": "丁字桥等景区古桥", "en": "Dingzi Bridge & scenic old bridges" }, "theirs": { "zh": "老桥成为世界地标", "en": "Ponte Vecchio as global landmark" } }
+      {
+        "dim": {
+          "zh": "起源",
+          "en": "Origin",
+          "ja": "起源",
+          "ko": "기원"
+        },
+        "ours": {
+          "zh": "浙南山水间的古桥/廊桥",
+          "en": "Ancient & covered bridges of S. Zhejiang",
+          "ja": "浙江省南部の山水に点在する古代の橋／廊橋",
+          "ko": "저난 지역 산수 사이의 고교/랑차오"
+        },
+        "theirs": {
+          "zh": "欧洲古城跨河桥",
+          "en": "Old European river bridges",
+          "ja": "ヨーロッパの古城に架かる川を越える橋",
+          "ko": "유럽 고도의 강을 가로지르는 다리"
+        }
+      },
+      {
+        "dim": {
+          "zh": "功能",
+          "en": "Function",
+          "ja": "機能",
+          "ko": "기능"
+        },
+        "ours": {
+          "zh": "交通、商贸、乡土记忆",
+          "en": "Passage, trade, local memory",
+          "ja": "交通、商業、郷土の記憶",
+          "ko": "교통, 상업, 향토적 기억"
+        },
+        "theirs": {
+          "zh": "交通、商铺、地标",
+          "en": "Passage, shops, landmark",
+          "ja": "交通、店舗、ランドマーク",
+          "ko": "교통, 상점, 랜드마크"
+        }
+      },
+      {
+        "dim": {
+          "zh": "形式",
+          "en": "Form",
+          "ja": "形式",
+          "ko": "형식"
+        },
+        "ours": {
+          "zh": "石拱桥、廊桥",
+          "en": "Stone arch & covered bridge",
+          "ja": "石造アーチ橋、廊下橋",
+          "ko": "석조 아치교, 복도교"
+        },
+        "theirs": {
+          "zh": "石拱桥、桥上商铺",
+          "en": "Stone arch with shops on top",
+          "ja": "石造アーチ橋、橋上に店舗が並ぶ橋",
+          "ko": "석조 아치교, 다리 위 상점"
+        }
+      },
+      {
+        "dim": {
+          "zh": "当代表达",
+          "en": "Today",
+          "ja": "当代表現",
+          "ko": "당대의 표현"
+        },
+        "ours": {
+          "zh": "丁字桥等景区古桥",
+          "en": "Dingzi Bridge & scenic old bridges",
+          "ja": "丁字橋などの観光地にある古い橋",
+          "ko": "정자교 등 관광지의 고대 다리"
+        },
+        "theirs": {
+          "zh": "老桥成为世界地标",
+          "en": "Ponte Vecchio as global landmark",
+          "ja": "古い橋が世界のランドマークとなる",
+          "ko": "오래된 다리가 세계적 랜드마크가 되다"
+        }
+      }
     ]
   }
 }
