@@ -1,0 +1,133 @@
+{
+  "note": "Homepage layout checks, browser viewport simulation; not real device acceptance.",
+  "checks": [
+    {
+      "available": 305,
+      "cards": 3,
+      "language": "zh-CN",
+      "overflow": false,
+      "titleRight": 242,
+      "width": 320
+    },
+    {
+      "available": 305,
+      "cards": 3,
+      "language": "en",
+      "overflow": false,
+      "titleRight": 283,
+      "width": 320
+    },
+    {
+      "available": 305,
+      "cards": 3,
+      "language": "ja",
+      "overflow": false,
+      "titleRight": 283,
+      "width": 320
+    },
+    {
+      "available": 305,
+      "cards": 3,
+      "language": "ko",
+      "overflow": false,
+      "titleRight": 283,
+      "width": 320
+    },
+    {
+      "available": 375,
+      "cards": 3,
+      "language": "zh-CN",
+      "overflow": false,
+      "titleRight": 267,
+      "width": 390
+    },
+    {
+      "available": 375,
+      "cards": 3,
+      "language": "en",
+      "overflow": false,
+      "titleRight": 348,
+      "width": 390
+    },
+    {
+      "available": 375,
+      "cards": 3,
+      "language": "ja",
+      "overflow": false,
+      "titleRight": 348,
+      "width": 390
+    },
+    {
+      "available": 375,
+      "cards": 3,
+      "language": "ko",
+      "overflow": false,
+      "titleRight": 348,
+      "width": 390
+    },
+    {
+      "available": 753,
+      "cards": 3,
+      "language": "zh-CN",
+      "overflow": false,
+      "titleRight": 343,
+      "width": 768
+    },
+    {
+      "available": 753,
+      "cards": 3,
+      "language": "en",
+      "overflow": false,
+      "titleRight": 490,
+      "width": 768
+    },
+    {
+      "available": 753,
+      "cards": 3,
+      "language": "ja",
+      "overflow": false,
+      "titleRight": 516,
+      "width": 768
+    },
+    {
+      "available": 753,
+      "cards": 3,
+      "language": "ko",
+      "overflow": false,
+      "titleRight": 501,
+      "width": 768
+    },
+    {
+      "available": 1265,
+      "cards": 3,
+      "language": "zh-CN",
+      "overflow": false,
+      "titleRight": 419,
+      "width": 1280
+    },
+    {
+      "available": 1265,
+      "cards": 3,
+      "language": "en",
+      "overflow": false,
+      "titleRight": 580,
+      "width": 1280
+    },
+    {
+      "available": 1265,
+      "cards": 3,
+      "language": "ja",
+      "overflow": false,
+      "titleRight": 617,
+      "width": 1280
+    },
+    {
+      "available": 1265,
+      "cards": 3,
+      "language": "ko",
+      "overflow": false,
+      "titleRight": 599,
+      "width": 1280
+    }
+  ]
+}

@@ -2,15 +2,32 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0b1220">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f5ef">
+  <meta name="description" content="循着山水，走近仙都。探索丁字桥、岩拓书店与黄帝祠宇，听导览、读非遗，开启一段云上文化之旅。">
   <title>云上仙都 · 非遗数字化传承与VR全景云游览</title>
   <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/editorial.css">
 </head>
 <body>
-  <div id="app">
+  <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-mountain" viewBox="0 0 24 24"><path d="m2 19 7-13 5 9 3-5 5 9H2Z"/><path d="m6.5 10.5 2.5 2 2-2M3 22h18"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m16 8-2.5 5.5L8 16l2.5-5.5L16 8Z"/></symbol>
+    <symbol id="icon-map" viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16"/></symbol>
+    <symbol id="icon-headphones" viewBox="0 0 24 24"><path d="M4 14v-3a8 8 0 0 1 16 0v3M7 12H4v8h3v-8Zm10 0h3v8h-3v-8Z"/></symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M12 6v15M3 4c4-1 6 0 9 2 3-2 5-3 9-2v15c-4-1-6 0-9 2-3-2-5-3-9-2V4Z"/></symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></symbol>
+    <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M21 11a9 9 0 0 1-9 9H3l2-5a9 9 0 1 1 16-4Z"/><path d="M8 10h8m-8 4h5"/></symbol>
+    <symbol id="icon-artifact" viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7l9-5Zm0 10 9-5M3 7l9 5v10"/></symbol>
+    <symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m3 17 6-5 4 3 4-5 4 5"/></symbol>
+    <symbol id="icon-quiz" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="icon-ceremony" viewBox="0 0 24 24"><path d="M4 7h16M6 7v13m12-13v13M3 20h18M9 7V4h6v3M9 12h6m-6 4h6"/></symbol>
+  </svg>
+  <div id="app" class="is-home">
     <!-- 全景容器 -->
-    <div id="pano-container">
+    <div id="pano-container" aria-hidden="true">
       <canvas id="pano-canvas"></canvas>
       <div id="pano-preview"></div>
       <div id="hotspot-layer"></div>
@@ -24,24 +41,17 @@
     <!-- 顶部栏 -->
     <header id="topbar">
       <div class="brand">
-        <h1 id="app-title">云上仙都</h1>
-        <p id="app-subtitle">非遗数字化传承 · VR全景云游览</p>
+        <span class="brand-mark"><svg class="ui-icon"><use href="#icon-mountain"/></svg></span>
+        <div><h1 id="app-title">云上仙都</h1><p id="app-subtitle">非遗数字化传承 · VR全景云游览</p></div>
       </div>
       <div class="topbar-right">
         <nav id="scene-tabs" aria-label="场景切换"></nav>
-        <button id="btn-map" class="pill map-btn" title="返回导览地图">🗺 地图</button>
+        <select id="lang-select" class="pill lang-select" title="切换语言" aria-label="切换语言"></select>
+        <button id="btn-map" class="pill map-btn" data-icon="map" title="返回导览首页">导览首页</button>
       </div>
     </header>
 
-    <!-- 底部控制区 -->
-    <div id="controls">
-      <div class="control-group" id="age-group">
-        <span class="control-label" id="age-label">讲解版本</span>
-        <div class="seg" id="age-selector"></div>
-      </div>
-      <select id="lang-select" class="pill lang-select" title="切换语言"></select>
-      <span id="lang-note" class="lang-note hidden"></span>
-    </div>
+    <div class="scene-caption"><svg class="ui-icon"><use href="#icon-compass"/></svg><span id="scene-caption-name">仙都云游</span><span class="scene-caption-note" data-home-i18n="sceneNote">全景漫游 · 拖动探索</span></div>
 
     <!-- AI 讲解面板 -->
     <aside id="guide-panel" class="panel">
@@ -54,12 +64,19 @@
       </div>
 
       <div class="panel-body">
-        <p class="guide-text" id="guide-text">正在生成讲解词…</p>
-
+        <div class="guide-intro"><span class="eyebrow">YOUR CULTURAL COMPANION</span><h2 data-home-i18n="guideHeading">听见山水里的故事</h2></div>
+        <div id="controls">
+          <div class="control-group" id="age-group">
+            <span class="control-label" id="age-label">讲解版本</span>
+            <div class="seg" id="age-selector"></div>
+          </div>
+          <span id="lang-note" class="lang-note hidden"></span>
+        </div>
         <div class="row-actions">
-          <button id="btn-speak" class="btn primary">🔊 播放讲解</button>
+          <button id="btn-speak" class="btn primary" data-icon="headphones">播放讲解</button>
           <button id="btn-stop" class="btn ghost hidden">■ 停止</button>
         </div>
+        <p class="guide-text" id="guide-text">正在生成讲解词…</p>
 
         <div class="keywords-block">
           <p class="keywords-title" id="kw-title">关键词溯源 · 点击释义</p>
@@ -73,22 +90,22 @@
           </div>
           <p class="explain-text" id="explain-text"></p>
           <div class="row-actions">
-            <button id="btn-speak-explain" class="btn primary small">🔊 语音释义</button>
-            <button id="btn-bridge" class="btn ghost small hidden">🌉 文化桥对比</button>
+            <button id="btn-speak-explain" class="btn primary small" data-icon="headphones">语音释义</button>
+            <button id="btn-bridge" class="btn ghost small hidden" data-icon="globe">文化桥对比</button>
             <button id="btn-close-explain" class="btn ghost small">关闭</button>
           </div>
         </div>
 
         <div class="feature-row">
-          <button id="btn-quiz" class="btn ghost small">🎯 小测验</button>
-          <button id="btn-ceremony" class="btn ghost small">📜 祭典流程</button>
-          <button id="btn-artifact" class="btn ghost small">🏺 3D 器物</button>
-          <button id="btn-poster" class="btn ghost small">🖼 分享海报</button>
-          <button id="btn-lexicon" class="btn ghost small">📖 非遗词库</button>
+          <button id="btn-quiz" class="btn ghost small" data-icon="quiz">小测验</button>
+          <button id="btn-ceremony" class="btn ghost small" data-icon="ceremony">祭典流程</button>
+          <button id="btn-artifact" class="btn ghost small" data-icon="artifact">3D 器物</button>
+          <button id="btn-poster" class="btn ghost small" data-icon="image">分享海报</button>
+          <button id="btn-lexicon" class="btn ghost small" data-icon="book">非遗词库</button>
         </div>
 
         <div class="qa-block">
-          <p class="keywords-title" id="qa-title">💬 向 AI 导游提问</p>
+          <p class="keywords-title" id="qa-title" data-icon="chat">向 AI 导游提问</p>
           <div id="qa-log" class="qa-log"></div>
           <div class="qa-input-row">
             <input id="qa-input" type="text" maxlength="120" placeholder="输入问题…" />
@@ -98,45 +115,105 @@
       </div>
     </aside>
 
-    <button id="btn-expand-panel" class="panel-expand hidden">📋 讲解</button>
+    <button id="btn-expand-panel" class="panel-expand hidden" data-icon="headphones">打开讲解</button>
 
     <!-- 地图选择界面（进入场景前的导览图） -->
-    <div id="map-screen">
-      <div class="map-wrap">
+    <main id="map-screen" aria-label="仙都云游首页">
+      <header class="home-header" id="home-top">
+        <a class="home-brand" href="#home-top" data-scroll="home-top" aria-label="云上仙都首页">
+          <span class="brand-mark"><svg class="ui-icon"><use href="#icon-mountain"/></svg></span>
+          <span><strong>云上仙都</strong><small>XIANDU · A JOURNEY BEYOND</small></span>
+        </a>
+        <nav class="home-nav" aria-label="首页导航">
+          <a class="current" href="#destinations" data-scroll="destinations" data-home-i18n="navExplore">探索仙都</a>
+          <a href="#heritage-section" data-scroll="heritage-section" data-home-i18n="navCulture">非遗拾光</a>
+          <a href="#guide-map" data-scroll="guide-map" data-home-i18n="navMap">云游地图</a>
+        </nav>
+        <div class="home-header-actions">
+          <label class="home-language"><svg class="ui-icon"><use href="#icon-globe"/></svg><select id="home-lang-select" aria-label="首页语言"><option value="zh">中文</option><option value="en">English</option><option value="ja">日本語</option><option value="ko">한국어</option></select></label>
+          <button class="btn primary header-start" data-enter-first data-home-i18n="startTour">开启云游</button>
+        </div>
+      </header>
+
+      <section class="home-hero" aria-labelledby="hero-title">
+        <img class="hero-photo" src="/static/assets/panoramas/source/src1.jpg" alt="仙都山峰、云雾与溪上石桥" fetchpriority="high">
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+          <span class="hero-location"><svg class="ui-icon"><use href="#icon-pin"/></svg><span data-home-i18n="location">浙江 · 丽水 · 缙云</span><span class="hero-location-line"></span></span>
+          <p class="hero-kicker">WANDER THROUGH XIANDU</p>
+          <h1 id="hero-title"><span data-home-i18n="heroLine1">一程山水，</span><br><span data-home-i18n="heroLine2">千年回响。</span><span class="hero-seal" aria-hidden="true">仙<br>都</span></h1>
+          <p class="hero-description" data-home-i18n="heroDescription">循着云雾走进仙都，在山水之间，<br>遇见风景，也读懂流传千年的文化。</p>
+          <div class="hero-actions">
+            <button class="btn hero-start" data-enter-first><svg class="ui-icon"><use href="#icon-compass"/></svg><span data-home-i18n="startTour">开启云游</span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
+            <a href="#destinations" data-scroll="destinations" class="hero-secondary"><span data-home-i18n="chooseScene">选择一处风景</span><span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="hero-footnote"><span></span><span data-home-i18n="heroFootnote">让文化可感，让山水可及</span></div>
+        </div>
+        <div class="hero-side-note" aria-hidden="true">山水之间 · 自有天地</div>
+        <div class="hero-image-caption"><span>01 / 03</span><span data-home-i18n="heroCaption">云起仙都 · 溪上人家</span></div>
+      </section>
+
+      <section class="experience-strip" aria-label="云游特色">
+        <div><svg class="ui-icon"><use href="#icon-compass"/></svg><span><strong data-home-i18n="stripTour">全景漫游</strong><small data-home-i18n="stripTourSub">换个视角，看见仙都</small></span></div>
+        <div><svg class="ui-icon"><use href="#icon-headphones"/></svg><span><strong data-home-i18n="stripGuide">随行讲解</strong><small data-home-i18n="stripGuideSub">听见每一处风景的故事</small></span></div>
+        <div><svg class="ui-icon"><use href="#icon-book"/></svg><span><strong data-home-i18n="stripCulture">非遗溯源</strong><small data-home-i18n="stripCultureSub">从一个词，走近一种文化</small></span></div>
+        <div><svg class="ui-icon"><use href="#icon-globe"/></svg><span><strong data-home-i18n="stripLanguage">多语同行</strong><small data-home-i18n="stripLanguageSub">让相遇，跨越语言</small></span></div>
+      </section>
+
+      <section class="destinations home-section" id="destinations" aria-labelledby="destinations-title">
+        <div class="section-heading"><div><span class="eyebrow">EXPLORE THE LANDSCAPE</span><h2 id="destinations-title" data-home-i18n="destinationsTitle">好风景，值得慢慢遇见</h2><p data-home-i18n="destinationsDescription">三处风景，三种走近仙都的方式。选一站，开始你的旅程。</p></div><div class="view-switch" aria-label="景点浏览方式"><button class="active" id="view-cards" aria-pressed="true" data-home-i18n="cardView">景点一览</button><a href="#guide-map" data-scroll="guide-map"><svg class="ui-icon"><use href="#icon-map"/></svg><span data-home-i18n="mapView">地图导览</span></a></div></div>
+        <div id="scene-cards" class="scene-grid"></div>
+      </section>
+
+      <section class="heritage-section home-section" id="heritage-section" aria-labelledby="heritage-heading">
+        <div class="heritage-intro"><span class="eyebrow">BEYOND THE SCENERY</span><h2 id="heritage-heading" data-home-i18n="heritageTitle">山水有形，<br>文化有声。</h2><p data-home-i18n="heritageDescription">不止于看见。在词语、礼乐与器物之间，拾起仙都的文化记忆。</p><span class="heritage-stamp" aria-hidden="true">传<br>承</span></div>
+        <div class="heritage-links">
+          <button data-home-feature="lexicon"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-book"/></svg></span><span><strong data-home-i18n="lexiconFeature">读懂非遗</strong><small data-home-i18n="lexiconDescription">从关键词出发，探寻文化来处</small></span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
+          <button data-home-feature="ceremony"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-ceremony"/></svg></span><span><strong data-home-i18n="ceremonyFeature">走近轩辕祭典</strong><small data-home-i18n="ceremonyDescription">循着仪式，感受传承的温度</small></span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
+          <button data-home-feature="artifact"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-artifact"/></svg></span><span><strong data-home-i18n="artifactFeature">细看礼乐器物</strong><small data-home-i18n="artifactDescription">转动视角，认识编钟与鼎</small></span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
+        </div>
+      </section>
+
+      <section class="map-section home-section" id="guide-map" aria-labelledby="map-heading">
+        <div class="section-heading"><div><span class="eyebrow">FIND YOUR NEXT STOP</span><h2 id="map-heading" data-home-i18n="mapHeading">下一站，去哪里？</h2><p data-home-i18n="mapDescription">沿着导览地图，发现山水与人文的交汇。</p></div><span class="map-notice" data-home-i18n="mapNotice">景点位置为导览示意</span></div>
+        <div class="map-wrap">
         <svg id="map-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id="mapbg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#0e1526"/>
-              <stop offset="1" stop-color="#101a24"/>
+              <stop offset="0" stop-color="#edf1e9"/>
+              <stop offset="1" stop-color="#e3eae0"/>
             </linearGradient>
             <radialGradient id="spotglow" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0" stop-color="rgba(232,178,58,0.30)"/>
-              <stop offset="1" stop-color="rgba(232,178,58,0)"/>
+              <stop offset="0" stop-color="#25594b" stop-opacity="0.14"/>
+              <stop offset="1" stop-color="#25594b" stop-opacity="0"/>
             </radialGradient>
           </defs>
           <rect width="800" height="500" fill="url(#mapbg)"/>
 
           <!-- 山峦剪影 -->
-          <path d="M0 128 L82 58 L150 112 L230 46 L322 128 Z" fill="#16202f"/>
-          <path d="M470 96 L560 34 L640 88 L720 40 L800 98 L800 146 L470 146 Z" fill="#131d2a"/>
+          <path d="M0 128 Q82 12 150 112 Q230 -8 322 128 Z" fill="#d6e0d2"/>
+          <path d="M470 146 Q560 -25 640 88 Q720 -10 800 98 L800 146 Z" fill="#cbd8c8"/>
 
           <!-- 河流 -->
-          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#2b4a6f" stroke-width="20" fill="none" stroke-linecap="round" opacity="0.55"/>
-          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#3f6d9e" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.8"/>
+          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#b3d0cb" stroke-width="30" fill="none" stroke-linecap="round"/>
+          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#e2efea" stroke-width="2" fill="none" stroke-linecap="round"/>
 
           <!-- 景点连线 -->
-          <path d="M165 150 C 265 180, 335 210, 400 235 C 485 266, 560 320, 640 360" stroke="#e8b23a" stroke-width="2" fill="none" stroke-dasharray="6 6" opacity="0.45"/>
+          <path d="M165 150 C 265 180, 335 210, 400 235 C 485 266, 560 320, 640 360" stroke="#698879" stroke-width="2" fill="none" stroke-dasharray="6 6" opacity="0.7"/>
 
           <!-- 标题 -->
-          <text id="map-title" x="400" y="46" text-anchor="middle" fill="#e8b23a" font-size="30" font-weight="700">仙都导览图</text>
-          <text id="map-subtitle" x="400" y="72" text-anchor="middle" fill="#9aa7bd" font-size="14">点击标记，选择要参观的景点</text>
+          <text id="map-title" x="400" y="46" text-anchor="middle" fill="#25594b" font-size="26" font-weight="600">仙都导览图</text>
+          <text id="map-subtitle" x="400" y="72" text-anchor="middle" fill="#62746c" font-size="14">点击标记，选择要参观的景点</text>
 
           <!-- 标记（JS 按 scenes.json 填充） -->
           <g id="map-markers"></g>
         </svg>
         <div class="map-legend" id="map-legend">导览图 · 共 3 处景点</div>
-      </div>
-    </div>
+        </div>
+      </section>
+      <footer class="home-footer"><span class="footer-brand">云上仙都 <small>XIANDU</small></span><p data-home-i18n="footerText">山水相逢，云上再会。</p><span data-home-i18n="footerNote">非遗数字化传承 · 云游体验</span></footer>
+      <div id="home-status" class="home-status hidden" role="status"></div>
+    </main>
 
     <!-- 吉祥物讲解形象：仙都小仙鹤 -->
     <div id="mascot" class="hidden">
@@ -208,10 +285,10 @@
     </div>
 
     <!-- 非遗小测验弹窗 -->
-    <div id="quiz-modal" class="modal hidden">
+    <div id="quiz-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
       <div class="modal-card">
         <div class="modal-head">
-          <span id="quiz-title">🎯 非遗知识小测验</span>
+          <span id="quiz-title" data-icon="quiz">非遗知识小测验</span>
           <button class="modal-close" data-close="quiz-modal">✕</button>
         </div>
         <div class="modal-body">
@@ -223,10 +300,10 @@
     </div>
 
     <!-- 轩辕祭典流程弹窗 -->
-    <div id="ceremony-modal" class="modal hidden">
+    <div id="ceremony-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="ceremony-title">
       <div class="modal-card">
         <div class="modal-head">
-          <span id="ceremony-title">📜 轩辕祭典流程</span>
+          <span id="ceremony-title" data-icon="ceremony">轩辕祭典流程</span>
           <button class="modal-close" data-close="ceremony-modal">✕</button>
         </div>
         <div class="modal-body">
@@ -237,10 +314,10 @@
     </div>
 
     <!-- 文化桥跨文化对比弹窗 -->
-    <div id="bridge-modal" class="modal hidden">
+    <div id="bridge-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="bridge-title">
       <div class="modal-card">
         <div class="modal-head">
-          <span id="bridge-title">🌉 文化桥 · 跨文化对比</span>
+          <span id="bridge-title" data-icon="globe">文化桥 · 跨文化对比</span>
           <button class="modal-close" data-close="bridge-modal">✕</button>
         </div>
         <div class="modal-body">
@@ -255,10 +332,10 @@
     </div>
 
     <!-- 3D 器物展示弹窗 -->
-    <div id="artifact-modal" class="modal hidden">
+    <div id="artifact-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="artifact-title">
       <div class="modal-card">
         <div class="modal-head">
-          <span id="artifact-title">🏺 3D 器物展示</span>
+          <span id="artifact-title" data-icon="artifact">3D 器物展示</span>
           <button class="modal-close" data-close="artifact-modal">✕</button>
         </div>
         <div class="modal-body">
@@ -273,10 +350,10 @@
     </div>
 
     <!-- 分享海报弹窗 -->
-    <div id="poster-modal" class="modal hidden">
+    <div id="poster-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="poster-title">
       <div class="modal-card">
         <div class="modal-head">
-          <span id="poster-title">🖼 分享海报</span>
+          <span id="poster-title" data-icon="image">分享海报</span>
           <button class="modal-close" data-close="poster-modal">✕</button>
         </div>
         <div class="modal-body poster-body">
@@ -290,15 +367,23 @@
     </div>
 
     <!-- 完整非遗词库弹窗 -->
-    <div id="lexicon-modal" class="modal hidden">
+    <div id="lexicon-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="lexicon-title">
       <div class="modal-card">
         <div class="modal-head">
-          <span id="lexicon-title">📖 非遗词库</span>
+          <span id="lexicon-title" data-icon="book">非遗词库</span>
           <button class="modal-close" data-close="lexicon-modal">✕</button>
         </div>
         <div class="modal-body">
           <div id="lexicon-list" class="lexicon-list"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- 无 WebGL 时仍可阅读词条 -->
+    <div id="keyword-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="keyword-modal-term">
+      <div class="modal-card">
+        <div class="modal-head"><span id="keyword-modal-term"></span><button class="modal-close" data-close="keyword-modal" aria-label="关闭">✕</button></div>
+        <div class="modal-body"><p class="explain-text" id="keyword-modal-text"></p></div>
       </div>
     </div>
 
@@ -312,6 +397,7 @@
 
   <script src="/static/js/panorama.js"></script>
   <script src="/static/js/artifact3d.js"></script>
+  <script src="/static/js/home.js"></script>
   <script src="/static/js/app.js"></script>
 </body>
 </html>

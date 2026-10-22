@@ -19,14 +19,16 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from email.utils import format_datetime
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, abort, jsonify, request, send_from_directory
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__, static_folder="static", static_url_path="/static")
@@ -322,16 +324,66 @@ _ASK_FALLBACK = {
 
 def _local_ask(question, lang):
     """无大模型时的本地兜底: 命中词库则返回释义, 否则给引导语。"""
+    question = unicodedata.normalize("NFKC", question).casefold()
+    question = " ".join(question.split())
+    matches = []
     for kw in KEYWORDS["keywords"].values():
-        term = kw["term"].get("zh", "")
-        if term and term in question:
-            return "%s\n\n%s" % (_pick(kw["definition"], lang), _pick(kw["analogy"], lang))
+        for name in kw["term"].values():
+            name = unicodedata.normalize("NFKC", name).casefold()
+            # 同时识别完整词名和括号中的别名, 如 Yellow Emperor (Xuanyuan)。
+            terms = [name] + re.split(r"[()/]", name)
+            for term in terms:
+                term = " ".join(term.split())
+                if not term:
+                    continue
+                if term.isascii():
+                    found = re.search(r"(?<!\w)" + re.escape(term) + r"(?!\w)", question)
+                else:
+                    found = term in question
+                if found:
+                    matches.append((len(term), kw))
+    if matches:
+        kw = max(matches, key=lambda match: match[0])[1]
+        return "%s\n\n%s" % (_pick(kw["definition"], lang), _pick(kw["analogy"], lang))
     return _ASK_FALLBACK.get(lang, _ASK_FALLBACK["zh"])
 
 
 # --------------------------------------------------------------------------- #
 # 页面与 API 路由
 # --------------------------------------------------------------------------- #
+@app.errorhandler(400)
+def bad_request(error):
+    if request.path.startswith("/api/"):
+        return jsonify({"error": error.description}), 400
+    return error
+
+
+def _json_body():
+    body = request.get_json(silent=True)
+    if not isinstance(body, dict):
+        abort(400, description="request body must be a JSON object")
+    return body
+
+
+def _string_field(body, name, default="", max_length=80, required=False):
+    value = body.get(name, default)
+    if not isinstance(value, str):
+        abort(400, description="%s must be a string" % name)
+    value = value.strip()
+    if len(value) > max_length:
+        abort(400, description="%s must be at most %d characters" % (name, max_length))
+    if required and not value:
+        abort(400, description="empty %s" % name)
+    return value
+
+
+def _choice_field(body, name, choices, default):
+    value = _string_field(body, name, default, max_length=16)
+    if value not in choices:
+        abort(400, description="unsupported %s" % name)
+    return value
+
+
 @app.route("/")
 def index():
     return send_from_directory("static", "index.html")
@@ -362,19 +414,21 @@ def api_config():
 
 @app.post("/api/guide")
 def api_guide():
-    body = request.get_json(silent=True) or {}
-    scene_id = body.get("scene_id", SCENES["scenes"][0]["id"])
-    age = body.get("age", "middle") if body.get("age") in _AGES else "middle"
-    lang = body.get("lang", "zh") if body.get("lang") in _LANGS else "zh"
+    body = _json_body()
+    scene_id = _string_field(body, "scene_id", SCENES["scenes"][0]["id"])
+    age = _choice_field(body, "age", _AGES, "middle")
+    lang = _choice_field(body, "lang", _LANGS, "zh")
+    if not any(scene["id"] == scene_id for scene in SCENES["scenes"]):
+        return jsonify({"error": "scene not found"}), 404
     text, mode = compose_guide(scene_id, age, lang)
     return jsonify({"text": text, "mode": mode, "scene_id": scene_id, "age": age, "lang": lang})
 
 
 @app.post("/api/explain")
 def api_explain():
-    body = request.get_json(silent=True) or {}
-    keyword = body.get("keyword", "")
-    lang = body.get("lang", "zh") if body.get("lang") in _LANGS else "zh"
+    body = _json_body()
+    keyword = _string_field(body, "keyword", required=True)
+    lang = _choice_field(body, "lang", _LANGS, "zh")
     result = explain_keyword(keyword, lang)
     if result is None:
         return jsonify({"error": "keyword not found"}), 404
@@ -392,11 +446,9 @@ def api_explain():
 @app.post("/api/ask")
 def api_ask():
     """AI 导游自由问答: 大模型回答, 无 Key 时本地词库兜底。"""
-    body = request.get_json(silent=True) or {}
-    question = (body.get("question") or "").strip()
-    lang = body.get("lang", "zh") if body.get("lang") in _LANGS else "zh"
-    if not question:
-        return jsonify({"error": "empty question"}), 400
+    body = _json_body()
+    question = _string_field(body, "question", max_length=120, required=True)
+    lang = _choice_field(body, "lang", _LANGS, "zh")
 
     cfg = load_config()
     if cfg["dashscope_api_key"]:
@@ -410,11 +462,9 @@ def api_ask():
 @app.post("/api/tts")
 def api_tts():
     """语音合成: 讯飞优先, 失败/未配置降级为浏览器原生 TTS(由前端 speechSynthesis 播报)。"""
-    body = request.get_json(silent=True) or {}
-    text = (body.get("text") or "").strip()
-    lang = body.get("lang", "zh") if body.get("lang") in _LANGS else "zh"
-    if not text:
-        return jsonify({"error": "empty text"}), 400
+    body = _json_body()
+    text = _string_field(body, "text", max_length=8000, required=True)
+    lang = _choice_field(body, "lang", _LANGS, "zh")
 
     # 讯飞 xiaoyan 仅支持中/英; 日/韩语走浏览器原生 TTS(发音更准)
     if lang in ("ja", "ko"):
@@ -436,4 +486,4 @@ def api_tts():
 
 if __name__ == "__main__":
     # host=0.0.0.0 便于手机在同一局域网扫码/访问演示
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)

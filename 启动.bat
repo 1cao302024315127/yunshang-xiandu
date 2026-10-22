@@ -10,5 +10,9 @@ echo 启动后请用浏览器打开:  http://127.0.0.1:5000
 echo 手机同局域网访问:       http://本机IP:5000
 echo 按 Ctrl+C 停止服务
 echo.
-python app.py
+if exist ".conda\envs\yunshang-xiandu\python.exe" (
+    ".conda\envs\yunshang-xiandu\python.exe" app.py
+) else (
+    python app.py
+)
 pause

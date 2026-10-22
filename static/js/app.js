@@ -13,6 +13,7 @@
       guideFail: '讲解词加载失败，请确认后端服务已启动。',
       play: '🔊 播放讲解',
       stop: '■ 停止',
+      speechFail: '语音播放失败，请重试或阅读文字讲解。',
       kwTitle: '关键词溯源 · 点击释义',
       playExplain: '🔊 语音释义',
       close: '关闭',
@@ -40,6 +41,7 @@
       guideFail: 'Failed to load guide. Please start the backend first.',
       play: '🔊 Play Guide',
       stop: '■ Stop',
+      speechFail: 'Audio playback failed. Please retry or read the text.',
       kwTitle: 'Keyword Traceability · Tap to explain',
       playExplain: '🔊 Speak',
       close: 'Close',
@@ -67,6 +69,7 @@
       guideFail: 'ガイドの読み込みに失敗しました。バックエンドを起動してください。',
       play: '🔊 ガイドを再生',
       stop: '■ 停止',
+      speechFail: '音声を再生できませんでした。再試行するか、解説文をお読みください。',
       kwTitle: 'キーワード解説 · タップして解説',
       playExplain: '🔊 音声解説',
       close: '閉じる',
@@ -94,6 +97,7 @@
       guideFail: '가이드 로딩에 실패했습니다. 백엔드를 먼저 실행하세요.',
       play: '🔊 가이드 재생',
       stop: '■ 정지',
+      speechFail: '음성을 재생하지 못했습니다. 다시 시도하거나 해설을 읽어 주세요.',
       kwTitle: '키워드 해설 · 탭하여 해설',
       playExplain: '🔊 음성 해설',
       close: '닫기',
@@ -187,6 +191,7 @@
   var viewer = null;
   var voices = [];
   var currentAudio = null;
+  var currentAudioCleanup = null;
   var mascotTimer = null;
   var speakToken = 0;
   var guideToken = 0;
@@ -194,7 +199,13 @@
 
   function $(id) { return document.getElementById(id); }
   function t(key) { return I18N[state.lang][key]; }
-  function setText(id, txt) { $(id).textContent = txt; }
+  function setText(id, txt) {
+    var el = $(id);
+    var icon = el.getAttribute('data-icon');
+    if (!icon) { el.textContent = txt; return; }
+    var label = String(txt).replace(/^[^\p{L}\p{N}]+/u, '');
+    el.innerHTML = '<svg class="ui-icon" aria-hidden="true"><use href="#icon-' + icon + '"/></svg><span>' + escapeHtml(label) + '</span>';
+  }
   function pick(d) { return d[state.lang] || d.en || d.zh; }
 
   function currentScene() {
@@ -210,27 +221,38 @@
     loadVoices();
   }
 
-  function browserSpeak(text, lang, onend) {
-    if (!('speechSynthesis' in window)) { if (onend) onend(); return false; }
-    window.speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text);
-    var langTag = LANG_MAP[lang] || 'zh-CN';
-    u.lang = langTag;
-    u.rate = 0.95;
-    var prefix = langTag.split('-')[0].toLowerCase();
-    var v = voices.find(function (vv) {
-      return vv.lang && vv.lang.toLowerCase().replace('_', '-').indexOf(prefix) === 0;
-    });
-    if (v) u.voice = v;
-    if (onend) u.onend = onend;
-    window.speechSynthesis.speak(u);
-    return true;
+  function browserSpeak(text, lang, onend, onerror) {
+    var fail = onerror || onend;
+    if (!('speechSynthesis' in window)) { if (fail) fail(); return false; }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      var langTag = LANG_MAP[lang] || 'zh-CN';
+      u.lang = langTag;
+      u.rate = 0.95;
+      var prefix = langTag.split('-')[0].toLowerCase();
+      var v = voices.find(function (vv) {
+        return vv.lang && vv.lang.toLowerCase().replace('_', '-').indexOf(prefix) === 0;
+      });
+      if (v) u.voice = v;
+      if (onend) u.onend = onend;
+      if (fail) u.onerror = fail;
+      window.speechSynthesis.speak(u);
+      return true;
+    } catch (e) {
+      if (fail) fail();
+      return false;
+    }
+  }
+
+  function stopCurrentAudio() {
+    if (currentAudioCleanup) currentAudioCleanup();
   }
 
   function stopSpeak() {
     speakToken++;  // 使进行中的 speakText 结果失效
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-    if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
+    stopCurrentAudio();
     mascotHide();
   }
 
@@ -264,7 +286,7 @@
   }
 
   // 将 base64 音频(若为 PCM16 则包装成 WAV)解码并播放 —— 讯飞模式使用
-  function playAudioBase64(b64, mime, onend) {
+  function playAudioBase64(b64, mime, onend, onerror) {
     var bin = atob(b64);
     var bytes = new Uint8Array(bin.length);
     for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
@@ -276,14 +298,28 @@
     var url = URL.createObjectURL(blob);
     var a = new Audio(url);
     currentAudio = a;
-    var finish = function () {
+    var released = false;
+    var release = function () {
+      if (released) return false;
+      released = true;
+      a.onended = null;
+      a.onerror = null;
+      try { a.pause(); } catch (e) {}
       URL.revokeObjectURL(url);
       if (currentAudio === a) currentAudio = null;
-      if (onend) onend();
+      if (currentAudioCleanup === release) currentAudioCleanup = null;
+      return true;
     };
-    a.onended = finish;
-    a.onerror = finish;
-    a.play();
+    currentAudioCleanup = release;
+    a.onended = function () { if (release() && onend) onend(); };
+    var fail = function () { if (release() && onerror) onerror(); };
+    a.onerror = fail;
+    try {
+      var playing = a.play();
+      if (playing && typeof playing.catch === 'function') playing.catch(fail);
+    } catch (e) {
+      fail();
+    }
   }
 
   function wrapWav(pcm, sampleRate) {
@@ -302,37 +338,51 @@
   }
 
   async function speakText(text, lang) {
-    var token = ++speakToken;
-    // 开始新播报前停止旧音频
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-    if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
+    stopSpeak();
+    var token = speakToken;
     mascotTalk(text);
-    var done = function () { if (token === speakToken) mascotDone(); };
+    var finished = false;
+    var done = function () {
+      if (token !== speakToken || finished) return;
+      finished = true;
+      mascotDone();
+    };
+    var failed = function () {
+      if (token !== speakToken || finished) return;
+      done();
+      toast(t('speechFail'));
+    };
+    var fallback = function () {
+      if (token === speakToken && !finished) browserSpeak(text, lang, done, failed);
+    };
     try {
       var res = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: text, lang: lang }),
       });
+      if (!res.ok) throw new Error('TTS request failed');
       var data = await res.json();
       if (token !== speakToken) return;  // 已停止或已换新
       if (data.mode === 'audio' && data.audio) {
-        playAudioBase64(data.audio, data.mime, done);
+        playAudioBase64(data.audio, data.mime, done, fallback);
       } else {
-        browserSpeak(data.text || text, lang, done);
+        browserSpeak(data.text || text, lang, done, failed);
       }
     } catch (e) {
-      if (token === speakToken) browserSpeak(text, lang, done);
+      fallback();
     }
   }
 
   /* ---------------- 数据加载 ---------------- */
-  function postJSON(url, body) {
-    return fetch(url, {
+  async function postJSON(url, body) {
+    var res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+    if (!res.ok) throw new Error('Request failed: ' + res.status);
+    return res;
   }
 
   function escapeHtml(s) {
@@ -388,6 +438,8 @@
 
   async function loadGuide() {
     if (!state.sceneId) return;
+    stopSpeak();
+    state.guideText = '';
     var scene = currentScene();
     var token = ++guideToken;
     setText('guide-text', t('loadingGuide'));
@@ -413,15 +465,28 @@
     badge.classList.toggle('llm', mode === 'llm');
   }
 
+  function closeExplanation() {
+    explainToken++;
+    state.activeKeyword = null;
+    $('explain-box').classList.add('hidden');
+    highlightChip('');
+    stopSpeak();
+  }
+
   async function explainKeyword(keyword, silent) {
     var kw = state.config.keywords[keyword];
     if (!kw) return;
+    stopSpeak();
     var token = ++explainToken;
     state.activeKeyword = keyword;
     setText('explain-term', pick(kw.term));
     setText('explain-meta', kw.pinyin + ' · ' + catName(kw.category));
     setText('explain-text', '…');
     $('explain-box').classList.remove('hidden');
+    $('guide-panel').classList.remove('collapsed');
+    $('guide-panel').inert = false;
+    $('app').classList.remove('panel-is-collapsed');
+    $('btn-expand-panel').classList.add('hidden');
     var hasBridge = !!(state.config.bridge && state.config.bridge[keyword]);
     $('btn-bridge').classList.toggle('hidden', !hasBridge);
     highlightChip(keyword);
@@ -430,10 +495,12 @@
       var data = await res.json();
       if (token !== explainToken) return;  // 过期响应丢弃
       setText('explain-text', data.text);
+      if ($('explain-box').scrollIntoView) $('explain-box').scrollIntoView({block: 'nearest', behavior: 'smooth'});
       if (!silent) speakText(data.text, state.lang);
     } catch (e) {
       if (token !== explainToken) return;
       setText('explain-text', pick(kw.definition) + '\n\n' + pick(kw.analogy));
+      if ($('explain-box').scrollIntoView) $('explain-box').scrollIntoView({block: 'nearest', behavior: 'smooth'});
     }
   }
 
@@ -447,6 +514,9 @@
       var grp = document.createElementNS(NS, 'g');
       grp.setAttribute('class', 'map-marker' + (isMain ? ' main' : ''));
       grp.setAttribute('transform', 'translate(' + s.map.x + ',' + s.map.y + ')');
+      grp.setAttribute('role', 'button');
+      grp.setAttribute('tabindex', '0');
+      grp.setAttribute('aria-label', pick(s.name));
 
       var glow = document.createElementNS(NS, 'circle');
       glow.setAttribute('r', isMain ? 62 : 46);
@@ -481,7 +551,7 @@
       ic.setAttribute('dominant-baseline', 'central');
       ic.setAttribute('text-anchor', 'middle');
       ic.setAttribute('font-size', isMain ? '15' : '13');
-      ic.textContent = s.icon || '';
+      ic.textContent = String(state.config.scenes.indexOf(s) + 1).padStart(2, '0');
       grp.appendChild(ic);
 
       var hit = document.createElementNS(NS, 'circle');
@@ -509,34 +579,52 @@
       grp.appendChild(tag);
 
       grp.addEventListener('click', function () { enterScene(s.id); });
+      grp.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); enterScene(s.id); }
+      });
       g.appendChild(grp);
     });
   }
 
   function showMap() {
     $('map-screen').classList.remove('hidden');
-    stopSpeak();
-    $('explain-box').classList.add('hidden');
+    $('app').classList.add('is-home');
+    $('app').classList.remove('panel-is-collapsed');
+    $('pano-container').setAttribute('aria-hidden', 'true');
+    closeExplanation();
+    guideToken++;
+    state.guideText = '';
     $('guide-panel').classList.remove('collapsed');
+    $('guide-panel').inert = false;
+    $('btn-expand-panel').classList.add('hidden');
   }
 
   function enterScene(id) {
+    if (!state.config.scenes.some(function (s) { return s.id === id; })) return;
+    if (!viewer && !initViewer()) {
+      toast({zh:'当前浏览器无法开启全景，仍可浏览首页与文化内容。',en:'Panoramas are unavailable in this browser. You can still explore the homepage.',ja:'このブラウザではパノラマを表示できません。',ko:'이 브라우저에서는 파노라마를 표시할 수 없습니다.'}[state.lang]);
+      return;
+    }
+    closeExplanation();
     state.sceneId = id;
-    state.activeKeyword = null;
     $('map-screen').classList.add('hidden');
-    $('explain-box').classList.add('hidden');
-    highlightChip('');
+    $('app').classList.remove('is-home');
+    $('pano-container').setAttribute('aria-hidden', 'false');
+    $('app').classList.remove('panel-is-collapsed');
+    $('guide-panel').classList.remove('collapsed');
+    $('guide-panel').inert = false;
+    $('btn-expand-panel').classList.add('hidden');
     renderTabs();
     renderChips();
     var scene = currentScene();
     setText('panel-scene', pick(scene.name));
+    setText('scene-caption-name', pick(scene.name));
     var pp = $('pano-preview');
     pp.style.backgroundImage = "url('" + scene.panorama.replace('.jpg', '_preview.jpg') + "')";
     pp.classList.remove('hide');
     viewer.setPano(scene.panorama);
     refreshHotspots();
     if (scene.hotspots.length) viewer.faceYaw(scene.hotspots[0].yaw);
-    stopSpeak();
     loadGuide();
   }
 
@@ -547,7 +635,8 @@
     state.config.scenes.forEach(function (s) {
       var b = document.createElement('button');
       b.className = 'tab' + (s.id === state.sceneId ? ' active' : '');
-      b.textContent = (s.icon ? s.icon + ' ' : '') + pick(s.name);
+      b.textContent = pick(s.name);
+      b.setAttribute('aria-pressed', s.id === state.sceneId ? 'true' : 'false');
       b.addEventListener('click', function () { enterScene(s.id); });
       nav.appendChild(b);
     });
@@ -556,7 +645,7 @@
   function renderAgeSelector() {
     var seg = $('age-selector');
     seg.innerHTML = '';
-    Object.keys(state.config.ages).forEach(function (key) {
+    ['youth', 'middle', 'senior'].filter(function (key) { return state.config.ages[key]; }).forEach(function (key) {
       var a = state.config.ages[key];
       var b = document.createElement('button');
       b.className = key === state.age ? 'active' : '';
@@ -648,8 +737,9 @@
     setText('poster-title', POSTER_STR[state.lang].title);
     setText('btn-download', POSTER_STR[state.lang].download);
     setText('btn-share', POSTER_STR[state.lang].share);
-    $('btn-map').textContent = '🗺 ' + t('map');
+    setText('btn-map', {zh:'导览首页',en:'Explore',ja:'ホーム',ko:'홈으로'}[state.lang]);
     $('lang-select').value = state.lang;
+    if (window.XianduHome) window.XianduHome.render(state.config, state.lang);
     renderMap();
     renderTabs();
     renderAgeSelector();
@@ -659,12 +749,19 @@
     refreshOpenContent();
     if (state.sceneId) {
       setText('panel-scene', pick(currentScene().name));
-      loadGuide();
+      setText('scene-caption-name', pick(currentScene().name));
+      if ($('map-screen').classList.contains('hidden')) loadGuide();
     }
   }
 
   /* ---------------- 非遗小测验 ---------------- */
   var quizState = null;
+  var quizTimer = null;
+
+  function clearQuizTimer() {
+    clearTimeout(quizTimer);
+    quizTimer = null;
+  }
 
   function shuffle(arr) {
     var a = arr.slice();
@@ -680,6 +777,7 @@
   }
 
   function startQuiz() {
+    clearQuizTimer();
     var ids = shuffle(Object.keys(state.config.keywords)).slice(0, 5);
     var cats = [], seen = {};
     Object.keys(state.config.keywords).forEach(function (id) {
@@ -690,7 +788,7 @@
     ids.forEach(function (id) {
       var kw = state.config.keywords[id];
       var distractors = shuffle(cats.filter(function (c) { return c !== kw.category; })).slice(0, 3);
-      quizState.qs.push({ term: kw.term, correct: kw.category, options: shuffle([kw.category].concat(distractors)) });
+      quizState.qs.push({ term: kw.term, correct: kw.category, options: shuffle([kw.category].concat(distractors)), answered: false, selected: null });
     });
     openModal('quiz-modal');
     renderQuiz();
@@ -706,22 +804,29 @@
       var b = document.createElement('button');
       b.className = 'quiz-opt';
       b.textContent = catName(opt);
+      b.disabled = q.answered;
+      if (q.answered) {
+        if (opt === q.correct) b.classList.add('correct');
+        else if (opt === q.selected) b.classList.add('wrong');
+      }
       b.addEventListener('click', function () { answerQuiz(opt); });
       box.appendChild(b);
     });
   }
 
   function answerQuiz(opt) {
+    if (!quizState || quizState.idx >= quizState.total) return;
     var q = quizState.qs[quizState.idx];
+    if (q.answered || q.options.indexOf(opt) === -1) return;
+    q.answered = true;
+    q.selected = opt;
     if (opt === q.correct) quizState.score++;
-    var opts = $('quiz-options').children;
-    for (var i = 0; i < opts.length; i++) {
-      opts[i].style.pointerEvents = 'none';
-      if (q.options[i] === q.correct) opts[i].classList.add('correct');
-      else if (q.options[i] === opt) opts[i].classList.add('wrong');
-    }
-    setTimeout(function () {
-      if ($('quiz-modal').classList.contains('hidden')) return;  // 弹窗已关闭则不再跳题
+    renderQuiz();
+    var session = quizState;
+    var index = session.idx;
+    quizTimer = setTimeout(function () {
+      if (quizState !== session || session.idx !== index || $('quiz-modal').classList.contains('hidden')) return;
+      quizTimer = null;
       quizState.idx++;
       if (quizState.idx < quizState.total) renderQuiz();
       else renderQuizResult();
@@ -833,51 +938,47 @@
     var img = new Image();
     img.onload = function () { drawPoster(img, scene); };
     img.onerror = function () { drawPoster(null, scene); };
-    img.src = scene.panorama;
+    img.src = window.XianduHome ? window.XianduHome.coverFor(scene) : scene.panorama;
   }
 
   function drawPoster(img, scene) {
     var c = $('poster-canvas');
     var ctx = c.getContext('2d');
     var W = 600, H = 900;
-    if (img) {
-      var s = Math.max(W / img.width, H / img.height);
-      var dw = img.width * s, dh = img.height * s;
-      ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
-    } else {
-      var g = ctx.createLinearGradient(0, 0, 0, H);
-      g.addColorStop(0, '#1a2a3d'); g.addColorStop(1, '#0b1120');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-    }
-    var ov = ctx.createLinearGradient(0, 0, 0, H);
-    ov.addColorStop(0, 'rgba(10,14,24,0.28)');
-    ov.addColorStop(0.55, 'rgba(10,14,24,0.4)');
-    ov.addColorStop(1, 'rgba(10,14,24,0.86)');
-    ctx.fillStyle = ov; ctx.fillRect(0, 0, W, H);
-
-    ctx.strokeStyle = 'rgba(232,178,58,0.7)'; ctx.lineWidth = 3;
+    ctx.fillStyle = '#f6f5ef'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#c9d1bf'; ctx.lineWidth = 1;
     ctx.strokeRect(24, 24, W - 48, H - 48);
-
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#ffe08a';
-    ctx.font = "bold 52px 'PingFang SC','Microsoft YaHei',sans-serif";
-    ctx.fillText('云上仙都', W / 2, 150);
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.font = "22px 'PingFang SC','Microsoft YaHei',sans-serif";
-    ctx.fillText('非遗数字化传承 · VR全景云游览', W / 2, 192);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = "64px 'PingFang SC','Microsoft YaHei',sans-serif";
-    ctx.fillText(scene.icon || '', W / 2, 430);
-    ctx.font = "bold 60px 'PingFang SC','Microsoft YaHei',sans-serif";
-    ctx.fillText(pick(scene.name), W / 2, 520);
-
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.font = "26px 'PingFang SC','Microsoft YaHei',sans-serif";
-    ctx.fillText('云上仙都 · 非遗 AI 云游览', W / 2, 790);
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.font = "20px sans-serif";
-    ctx.fillText(location.host || 'yunshang-xiandu', W / 2, 830);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#28594b';
+    ctx.font = "34px 'STSong','SimSun',Georgia,serif";
+    ctx.fillText('云上仙都', 48, 78);
+    ctx.fillStyle = '#788570';
+    ctx.font = '11px sans-serif';
+    ctx.fillText('XIANDU  /  A JOURNEY BEYOND', 48, 105);
+    var imageW = W - 96, imageH = 486;
+    ctx.fillStyle = '#dce5d5'; ctx.fillRect(48, 137, imageW, imageH);
+    if (img) {
+      var scale = Math.max(imageW / img.width, imageH / img.height);
+      var sw = imageW / scale, sh = imageH / scale;
+      ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, 48, 137, imageW, imageH);
+    }
+    ctx.fillStyle = '#8a967f';
+    ctx.font = '13px sans-serif';
+    ctx.fillText(String(state.config.scenes.indexOf(scene) + 1).padStart(2, '0') + '  /  ' + String(state.config.scenes.length).padStart(2, '0'), 48, 663);
+    ctx.fillStyle = '#28594b';
+    ctx.font = "44px 'STSong','SimSun',Georgia,serif";
+    ctx.fillText(pick(scene.name), 48, 723, W - 96);
+    ctx.fillStyle = '#7d8872';
+    ctx.font = "18px 'Microsoft YaHei',sans-serif";
+    ctx.fillText(pick(scene.tag), 48, 760, W - 96);
+    ctx.fillStyle = '#b36a50'; ctx.fillRect(W - 83, 646, 35, 35);
+    ctx.fillStyle = '#fff9e9'; ctx.font = "20px 'SimSun',serif";
+    ctx.fillText('游', W - 76, 670);
+    ctx.strokeStyle = '#d4dccb'; ctx.beginPath(); ctx.moveTo(48, 804); ctx.lineTo(W - 48, 804); ctx.stroke();
+    ctx.fillStyle = '#57704f'; ctx.font = "15px 'Microsoft YaHei',sans-serif";
+    ctx.fillText({zh:'山水相逢，云上再会。',en:'Until our paths meet again.',ja:'また、雲の上の仙都で。',ko:'구름 위 선도에서 다시 만나요.'}[state.lang], 48, 839, W - 96);
+    ctx.fillStyle = '#8c9684'; ctx.font = '11px sans-serif';
+    ctx.fillText(location.host || 'yunshang-xiandu', 48, 861);
   }
 
   function downloadPoster() {
@@ -954,6 +1055,10 @@
   function openModal(id) { $(id).classList.remove('hidden'); }
   function closeModal(id) {
     $(id).classList.add('hidden');
+    if (id === 'quiz-modal') {
+      clearQuizTimer();
+      quizState = null;
+    }
     stopSpeak();  // 关闭弹窗时停止相关播报
   }
 
@@ -970,6 +1075,18 @@
         '<span class="lex-cat">' + catName(kw.category) + '</span>';
       el.addEventListener('click', function () {
         closeModal('lexicon-modal');
+        if (!$('map-screen').classList.contains('hidden')) {
+          var scene = state.config.scenes.find(function (s) {
+            return s.hotspots.some(function (h) { return h.keyword === id; });
+          }) || state.config.scenes[0];
+          enterScene(scene.id);
+          if (!$('map-screen').classList.contains('hidden')) {
+            setText('keyword-modal-term', pick(kw.term));
+            setText('keyword-modal-text', pick(kw.definition) + '\n\n' + pick(kw.analogy));
+            openModal('keyword-modal');
+            return;
+          }
+        }
         explainKeyword(id);
       });
       box.appendChild(el);
@@ -999,7 +1116,6 @@
     try {
       viewer = new PanoramaViewer($('pano-canvas'), $('hotspot-layer'));
     } catch (e) {
-      $('webgl-fallback').classList.remove('hidden');
       return false;
     }
     viewer.onLoadingChange = function (loading) {
@@ -1024,21 +1140,23 @@
       var txt = $('explain-text').textContent;
       if (txt) speakText(txt, state.lang);
     });
-    $('btn-close-explain').addEventListener('click', function () {
-      $('explain-box').classList.add('hidden');
-      stopSpeak();
-    });
+    $('btn-close-explain').addEventListener('click', closeExplanation);
     $('lang-select').addEventListener('change', function () {
+      stopSpeak();
       state.lang = this.value;
       applyLang();
     });
     $('panel-close').addEventListener('click', function () {
       var collapsed = $('guide-panel').classList.toggle('collapsed');
       $('btn-expand-panel').classList.toggle('hidden', !collapsed);
+      $('app').classList.toggle('panel-is-collapsed', collapsed);
+      $('guide-panel').inert = collapsed;
     });
     $('btn-expand-panel').addEventListener('click', function () {
       $('guide-panel').classList.remove('collapsed');
       $('btn-expand-panel').classList.add('hidden');
+      $('app').classList.remove('panel-is-collapsed');
+      $('guide-panel').inert = false;
     });
     $('btn-map').addEventListener('click', showMap);
     $('guide-text').addEventListener('click', function (e) {
@@ -1080,13 +1198,15 @@
 
   async function main() {
     bindControls();
-    if (!initViewer()) return;
 
     try {
       var res = await fetch('/api/config');
+      if (!res.ok) throw new Error('Configuration unavailable');
       state.config = await res.json();
     } catch (e) {
       setText('guide-text', '配置加载失败，请确认后端服务已启动 (python app.py)。');
+      setText('home-status', '导览暂时无法加载，请刷新页面重试。');
+      $('home-status').classList.remove('hidden');
       return;
     }
 
@@ -1102,6 +1222,11 @@
       sel.appendChild(o);
     });
     sel.value = state.lang;
+
+    if (window.XianduHome) window.XianduHome.init({
+      config: state.config, enter: enterScene, lexicon: openLexicon, ceremony: openCeremony, artifact: openArtifact,
+      changeLang: function (lang) { stopSpeak(); state.lang = lang; applyLang(); }
+    });
 
     applyLang();  // 渲染地图/标签/年龄选择; 尚未进入场景, 不加载讲解
     showMap();    // 落地页 = 导览地图

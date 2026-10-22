@@ -109,7 +109,7 @@
     this.aPos = gl.getAttribLocation(p, 'aPos');
     this.aColor = gl.getAttribLocation(p, 'aColor');
     this.buf = gl.createBuffer();
-    gl.clearColor(0.09, 0.11, 0.16, 1);
+    gl.clearColor(0.10, 0.18, 0.15, 1);
     gl.enable(gl.DEPTH_TEST);
   };
 
@@ -208,7 +208,7 @@
         r.push([x, y, z2]);
       }
       var n = norm(cross(sub(r[1], r[0]), sub(r[2], r[0])));
-      var shade = 0.32 + 0.72 * Math.max(dot(n, L), 0);
+      var shade = 0.58 + 0.42 * Math.max(dot(n, L), 0);
       var col = [t[3][0] * shade, t[3][1] * shade, t[3][2] * shade];
       var depth = (r[0][2] + r[1][2] + r[2][2]) / 3;
       var sc = [];

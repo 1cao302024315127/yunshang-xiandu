@@ -199,10 +199,12 @@
 
   PanoramaViewer.prototype.setPano = function (url) {
     var self = this;
+    var token = this._panoToken = (this._panoToken || 0) + 1;
     if (this.onLoadingChange) this.onLoadingChange(true);
     this._ready = false;
     var img = new Image();
     img.onload = function () {
+      if (token !== self._panoToken) return;
       var gl = self.gl;
       gl.bindTexture(gl.TEXTURE_2D, self._texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
@@ -211,6 +213,7 @@
       if (self.onLoadingChange) self.onLoadingChange(false);
     };
     img.onerror = function () {
+      if (token !== self._panoToken) return;
       if (self.onLoadingChange) self.onLoadingChange(false);
       if (self.onError) self.onError();
     };
