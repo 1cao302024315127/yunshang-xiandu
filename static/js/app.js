@@ -22,7 +22,6 @@
       hint: '拖动调整视角，点击热点查看释义',
       loading: '全景加载中…',
       map: '地图',
-      mapSubtitle: '点击标记，选择要参观的景点',
       qaTitle: '💬 导览问答',
       qaPlaceholder: '输入景点或文化问题',
       qaSend: '发送',
@@ -49,7 +48,6 @@
       hint: 'Drag to adjust the view. Select a hotspot for details.',
       loading: 'Loading panorama…',
       map: 'Map',
-      mapSubtitle: 'Tap a marker to choose an attraction',
       qaTitle: '💬 Visitor questions',
       qaPlaceholder: 'Ask about a site or cultural term',
       qaSend: 'Send',
@@ -76,7 +74,6 @@
       hint: 'ドラッグで視点を変更。スポットを選択すると解説を表示します。',
       loading: 'パノラマ読み込み中…',
       map: '地図',
-      mapSubtitle: 'マーカーをタップして見学先を選択',
       qaTitle: '💬 観光案内の質問',
       qaPlaceholder: '観光や文化について質問',
       qaSend: '送信',
@@ -103,7 +100,6 @@
       hint: '드래그하여 시점을 조정하고 지점을 선택하여 해설을 확인하세요.',
       loading: '파노라마 로딩 중…',
       map: '지도',
-      mapSubtitle: '마커를 탭하여 관람할 곳 선택',
       qaTitle: '💬 관광 안내 질문',
       qaPlaceholder: '관광지나 문화 관련 질문 입력',
       qaSend: '전송',
@@ -168,7 +164,6 @@
     ja: { btn: '📖 詞庫', title: '📖 無形文化遺産の詞庫' },
     ko: { btn: '📖 용어사전', title: '📖 무형문화유산 용어사전' },
   };
-  var MAP_TITLE = { zh: '仙都导览图', en: 'Xiandu Guide Map', ja: '仙都ガイドマップ', ko: '셴두 안내지도' };
   var FALLBACK_STR = {
     ja: '一部の内容は英語・中国語で表示されます',
     ko: '일부 내용은 영어·중국어로 표시됩니다',
@@ -501,79 +496,6 @@
   }
 
   /* ---------------- 地图 ---------------- */
-  function renderMap() {
-    var g = $('map-markers');
-    var NS = 'http://www.w3.org/2000/svg';
-    g.innerHTML = '';
-    state.config.scenes.forEach(function (s) {
-      var isMain = s.id === 'huangdi_temple';
-      var grp = document.createElementNS(NS, 'g');
-      grp.setAttribute('class', 'map-marker' + (isMain ? ' main' : ''));
-      grp.setAttribute('transform', 'translate(' + s.map.x + ',' + s.map.y + ')');
-      grp.setAttribute('role', 'button');
-      grp.setAttribute('tabindex', '0');
-      grp.setAttribute('aria-label', pick(s.name));
-
-      var glow = document.createElementNS(NS, 'circle');
-      glow.setAttribute('r', isMain ? 62 : 46);
-      glow.setAttribute('fill', 'url(#spotglow)');
-      grp.appendChild(glow);
-
-      var pulse = document.createElementNS(NS, 'circle');
-      pulse.setAttribute('class', 'pulse');
-      pulse.setAttribute('r', isMain ? 15 : 12);
-      pulse.setAttribute('fill', 'none');
-      pulse.setAttribute('stroke', '#e8b23a');
-      pulse.setAttribute('stroke-width', '2');
-      [['r', (isMain ? 15 : 12) + ';' + (isMain ? 34 : 27)], ['opacity', '0.7;0']].forEach(function (p) {
-        var a = document.createElementNS(NS, 'animate');
-        a.setAttribute('attributeName', p[0]);
-        a.setAttribute('values', p[1]);
-        a.setAttribute('dur', '1.7s');
-        a.setAttribute('repeatCount', 'indefinite');
-        pulse.appendChild(a);
-      });
-      grp.appendChild(pulse);
-
-      var core = document.createElementNS(NS, 'circle');
-      core.setAttribute('class', 'core');
-      core.setAttribute('r', 20);
-      core.setAttribute('fill', '#e8b23a');
-      grp.appendChild(core);
-
-      var ic = document.createElementNS(NS, 'text');
-      ic.setAttribute('class', 'mic');
-      ic.setAttribute('y', '0');
-      ic.setAttribute('dominant-baseline', 'central');
-      ic.setAttribute('text-anchor', 'middle');
-      ic.setAttribute('font-size', isMain ? '15' : '13');
-      ic.textContent = String(state.config.scenes.indexOf(s) + 1);
-      grp.appendChild(ic);
-
-      var hit = document.createElementNS(NS, 'circle');
-      hit.setAttribute('class', 'map-hit');
-      hit.setAttribute('r', 32);
-      hit.setAttribute('fill', 'transparent');
-      grp.appendChild(hit);
-
-      var name = document.createElementNS(NS, 'text');
-      name.setAttribute('class', 'mname');
-      name.setAttribute('y', '-38');
-      name.setAttribute('text-anchor', 'middle');
-      name.setAttribute('fill', '#fff');
-      name.setAttribute('font-size', isMain ? '19' : '16');
-      name.setAttribute('font-weight', '600');
-      name.textContent = pick(s.name);
-      grp.appendChild(name);
-
-      grp.addEventListener('click', function () { enterScene(s.id); });
-      grp.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); enterScene(s.id); }
-      });
-      g.appendChild(grp);
-    });
-  }
-
   function showMap() {
     if (viewer) viewer.resetInteraction();
     $('map-screen').classList.remove('hidden');
@@ -702,8 +624,6 @@
     setText('btn-close-explain', t('close'));
     setText('hint', t('hint'));
     setText('loading-text', t('loading'));
-    setText('map-subtitle', t('mapSubtitle'));
-    setText('map-title', MAP_TITLE[state.lang]);
     setText('btn-lexicon', LEXICON_STR[state.lang].btn);
     setText('lexicon-title', LEXICON_STR[state.lang].title);
     var fallback = (state.lang === 'ja' || state.lang === 'ko');
@@ -729,7 +649,6 @@
     setText('btn-map', {zh:'导览首页',en:'Home',ja:'ホーム',ko:'홈으로'}[state.lang]);
     $('lang-select').value = state.lang;
     if (window.XianduHome) window.XianduHome.render(state.config, state.lang);
-    renderMap();
     renderTabs();
     renderAgeSelector();
     renderChips();

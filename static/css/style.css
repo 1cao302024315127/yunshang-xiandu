@@ -281,16 +281,6 @@ html, body {
   background: radial-gradient(120% 120% at 50% 18%, #0e1830 0%, #0a101c 62%);
 }
 .map-wrap { position: relative; width: min(92vw, 860px); }
-#map-svg {
-  width: 100%; height: auto; display: block;
-  filter: drop-shadow(0 12px 44px rgba(0, 0, 0, 0.55));
-}
-.map-marker { cursor: pointer; }
-.map-marker .mname { font-family: inherit; transition: fill .2s; }
-.map-marker .core { transition: fill .2s; }
-.map-marker:hover .mname { fill: #ffe08a; }
-.map-marker:hover .core { fill: #ffd75e; }
-.map-legend { text-align: center; margin-top: 10px; color: var(--muted); font-size: 13px; }
 
 /* 顶部右侧 */
 .topbar-right { display: flex; align-items: center; gap: 10px; }

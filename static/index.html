@@ -163,34 +163,30 @@
       </section>
 
       <section class="map-section home-section" id="guide-map" aria-labelledby="map-heading">
-        <div class="section-heading"><div><h2 id="map-heading" data-home-i18n="mapHeading">导览地图</h2><p data-home-i18n="mapDescription">点击标记或下方景点名称进入浏览。位置仅供示意。</p></div></div>
+        <div class="section-heading"><div><h2 id="map-heading" data-home-i18n="mapHeading">导览地图</h2><p data-home-i18n="mapDescription">查看景区游览图，可放大查看路线；点击下方景点名称进入云游。</p></div></div>
         <div class="map-wrap">
-        <svg id="map-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" aria-labelledby="map-title map-subtitle">
-          <title id="map-title">仙都导览图</title>
-          <desc id="map-subtitle">点击标记，选择要参观的景点</desc>
-          <defs>
-            <linearGradient id="mapbg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#edf1e9"/>
-              <stop offset="1" stop-color="#e3eae0"/>
-            </linearGradient>
-            <radialGradient id="spotglow" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0" stop-color="#25594b" stop-opacity="0.14"/>
-              <stop offset="1" stop-color="#25594b" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <rect width="800" height="500" fill="url(#mapbg)"/>
-
-          <!-- 山峦剪影 -->
-          <path d="M0 128 Q82 12 150 112 Q230 -8 322 128 Z" fill="#d6e0d2"/>
-          <path d="M470 146 Q560 -25 640 88 Q720 -10 800 98 L800 146 Z" fill="#cbd8c8"/>
-
-          <!-- 河流 -->
-          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#b3d0cb" stroke-width="30" fill="none" stroke-linecap="round"/>
-          <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#e2efea" stroke-width="2" fill="none" stroke-linecap="round"/>
-
-          <!-- 标记（JS 按 scenes.json 填充） -->
-          <g id="map-markers"></g>
-        </svg>
+          <figure class="visitor-map">
+            <div class="map-toolbar">
+              <strong data-home-i18n="mapImageTitle">仙都景区全景图</strong>
+              <div class="map-tools" role="group" aria-label="地图缩放" data-home-label="mapControls">
+                <button id="map-zoom-out" type="button" aria-label="缩小地图" data-home-label="mapZoomOut" disabled>−</button>
+                <output id="map-zoom" aria-live="polite">100%</output>
+                <button id="map-zoom-in" type="button" aria-label="放大地图" data-home-label="mapZoomIn">+</button>
+                <button id="map-reset" type="button" data-home-i18n="mapReset">全图</button>
+                <a href="/static/assets/maps/xiandu-visitor-map.jpg" target="_blank" rel="noopener" data-home-i18n="mapOriginal">查看原图</a>
+              </div>
+            </div>
+            <div id="map-viewport" class="map-viewport" tabindex="0" role="region" aria-label="仙都景区游览图，可放大后拖动或滚动查看" data-home-label="mapViewport">
+              <div id="map-canvas" class="map-canvas">
+                <img id="visitor-map-image" src="/static/assets/maps/xiandu-visitor-map.jpg" width="700" height="733" alt="仙都景区全景图，包含景点、游览道路、溪流和服务设施图例" draggable="false" data-home-alt="mapImageAlt">
+              </div>
+            </div>
+            <p id="map-image-error" class="map-image-error hidden" role="status" data-home-i18n="mapImageError">游览图暂时无法显示，可查看下方图源或选择景点继续云游。</p>
+            <figcaption class="map-source">
+              <a href="https://www.meet99.com/jingdian-xiandufengjingqu.html" target="_blank" rel="noopener noreferrer" data-home-i18n="mapSource">图源：相约久久 · 仙都旅游攻略</a>
+              <span data-home-i18n="mapNote">游览路线与开放情况以景区现场公告为准。</span>
+            </figcaption>
+          </figure>
         <div class="map-scene-links" id="map-scene-links"></div>
         </div>
       </section>

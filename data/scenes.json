@@ -6,8 +6,10 @@
     "ko": "구름 위의 선도 · 무형문화유산의 디지털 계승 및 VR 파노라마 클라우드 관광"
   },
   "map": {
-    "width": 800,
-    "height": 500
+    "width": 700,
+    "height": 733,
+    "image": "/static/assets/maps/xiandu-visitor-map.jpg",
+    "source": "https://www.meet99.com/jingdian-xiandufengjingqu.html"
   },
   "scenes": [
     {
@@ -26,10 +28,6 @@
       },
       "icon": "🌉",
       "panorama": "/static/assets/panoramas/dingzi_bridge.jpg",
-      "map": {
-        "x": 165,
-        "y": 150
-      },
       "guide": {
         "zh": "丁字桥是仙都景区内一座古朴的石桥，横跨清溪，因桥形呈“丁”字而得名。它连接着仙都的山水与街巷，是游客穿行、驻足、远眺的必经之地。桥下溪水潺潺，两岸绿意葱茏，古朴与自然在此交融，是仙都山水画卷里一处充满生活气息的节点。",
         "en": "Dingzi Bridge is a rustic stone bridge in the Xiandu Scenic Area, named for its T-shaped layout. Spanning a clear stream, it links the landscape with the old lanes — a place where visitors pause to gaze across the water amid lush greenery, simplicity and nature meeting here in Xiandu's landscape scroll.",
@@ -67,10 +65,6 @@
       },
       "icon": "📚",
       "panorama": "/static/assets/panoramas/yantuo_bookstore.jpg",
-      "map": {
-        "x": 640,
-        "y": 360
-      },
       "guide": {
         "zh": "岩拓书店是仙都景区内一处将书香与山水文化融合的文创阅读空间。店内陈设雅致，融入非遗元素与现代设计，让游客在游览之余得以静心翻阅，在纸墨与山水之间品味仙都的文化记忆。",
         "en": "Yantuo Bookstore is a cultural-creative reading space in Xiandu that blends books with the region's landscape culture. Elegantly furnished, it weaves intangible-heritage motifs into modern design, offering visitors a quiet place to read and savor Xiandu's cultural memory.",
@@ -108,10 +102,6 @@
       },
       "icon": "🏛️",
       "panorama": "/static/assets/panoramas/huangdi_temple.jpg",
-      "map": {
-        "x": 400,
-        "y": 235
-      },
       "guide": {
         "zh": "黄帝祠宇始建于东晋，原名“缙云堂”，是中国南方祭祀轩辕黄帝的核心场所，被誉为“天下第一祠”，与陕西黄帝陵并称“北陵南祠”。每年清明、重阳，这里都会举行隆重的“缙云轩辕祭典”。祠宇依山面水，红墙黄瓦，殿内供奉着中华民族人文始祖轩辕黄帝，庄严肃穆。",
         "en": "The Huangdi Ancestral Temple was first built in the Eastern Jin dynasty under the name 'Jinyun Hall'. It is the core site for worshipping the Yellow Emperor in southern China, honored as the 'Number One Ancestral Temple Under Heaven', and is paired with the Huangdi Mausoleum in Shaanxi as 'North Mausoleum, South Temple'. Every year at Qingming and the Double Ninth Festival, the grand 'Jinyun Xuanyuan Ceremony' is held here. The temple faces water with mountains behind, red walls and yellow tiles, enshrining the Yellow Emperor — solemn and majestic.",

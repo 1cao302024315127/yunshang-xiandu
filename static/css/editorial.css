@@ -72,14 +72,23 @@ button:disabled { cursor:wait; opacity:.55; }
 .heritage-links button > .ui-icon { margin:7px 0 0 auto; width:20px; height:20px; }
 .heritage-links button:hover strong { text-decoration:underline; text-underline-offset:5px; }
 .map-section { padding-bottom:60px; }
-.map-wrap { width:100%; border-radius:8px; border:1px solid var(--border); overflow:hidden; background:#e8eee3; }
-#map-svg { width:100%; max-height:400px; filter:none; }
-.map-marker .mname { font-family:inherit; fill:#274e3e; font-size:24px; }
-.map-marker .core { fill:#2d604e; stroke:#f8f8e9; stroke-width:2px; }
-.map-marker .pulse { stroke:#397255; }
-.map-marker .mic { fill:#fff; font:18px "Segoe UI",sans-serif; }
-.map-marker:hover .core,.map-marker:focus-visible .core { fill:#a4533d; }
-.map-marker:hover .mname { fill:#a4533d; }
+.map-wrap { width:100%; border-radius:8px; border:1px solid var(--border); overflow:hidden; background:#eee6da; }
+.visitor-map { margin:0; }
+.map-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; padding:16px 20px; background:#faf8f2; border-bottom:1px solid #d8cdbd; }
+.map-toolbar strong { font-size:18px; font-weight:600; }
+.map-tools { display:flex; align-items:center; flex-wrap:wrap; gap:8px; font-size:16px; }
+.map-tools button,.map-tools a { min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center; padding:8px 12px; background:#fffdf8; color:var(--accent); border:1px solid #c6cebd; border-radius:4px; font:inherit; cursor:pointer; }
+.map-tools button:hover,.map-tools a:hover { background:#e8efdf; }
+.map-tools button:disabled { opacity:.4; cursor:default; }
+#map-zoom { min-width:48px; text-align:center; font-variant-numeric:tabular-nums; }
+.map-viewport { height:clamp(360px,55vw,600px); overflow:auto; position:relative; background:#d4c3af; scrollbar-color:#a08f77 #e5d9cb; }
+.map-viewport.can-pan { cursor:grab; }
+.map-viewport.is-dragging { cursor:grabbing; user-select:none; }
+.map-canvas { display:flex; align-items:center; justify-content:center; min-width:100%; min-height:100%; }
+#visitor-map-image { display:block; width:min(100%,573px); height:auto; max-width:none; flex:none; }
+.map-source { display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 20px; padding:14px 20px; background:#faf8f2; color:var(--muted); font-size:16px; line-height:1.7; }
+.map-source a { color:var(--accent); text-decoration:underline; text-underline-offset:4px; }
+.map-image-error { margin:0; padding:20px; background:#fff3df; color:#784f2c; font-size:16px; }
 .map-scene-links { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid #d0dccb; background:#f8faf4; }
 .map-scene-links button { display:flex; align-items:center; min-width:0; gap:12px; padding:20px; text-align:left; background:transparent; border:0; border-right:1px solid var(--border); font-size:17px; line-height:1.5; cursor:pointer; }
 .map-scene-links button:last-child { border:0; }
@@ -227,8 +236,6 @@ button:disabled { cursor:wait; opacity:.55; }
   .scene-grid { grid-template-columns:1fr; gap:24px; }
   .scene-card { flex-direction:row; } .scene-card-image { width:42%; aspect-ratio:auto; flex-shrink:0; } .scene-card-body p { margin-bottom:18px; }
   .section-heading h2,.heritage-intro h2 { font-size:28px; }
-  #map-svg { max-height:360px; }
-  .map-marker .mname { display:none; } .map-marker .core { r:56px; } .map-marker .mic { font-size:44px; } .map-marker .pulse { display:none; } .map-marker .map-hit { r:70px; }
   .map-scene-links { grid-template-columns:1fr; } .map-scene-links button { border-right:0; border-bottom:1px solid var(--border); }
   #topbar { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:10px; top:12px; left:12px; right:12px; }
   .topbar-right { display:contents; } #scene-tabs { grid-column:1/-1; grid-row:2; width:100%; justify-content:flex-start; overflow-x:auto; overscroll-behavior-inline:contain; scrollbar-width:thin; scrollbar-color:#b5c6a9 transparent; }
@@ -262,6 +269,7 @@ button:disabled { cursor:wait; opacity:.55; }
   .heritage-links button { gap:10px; } .heritage-links strong { font-size:20px; } .heritage-links small { margin-top:6px; }
   .heritage-icon { width:28px; } .heritage-icon .ui-icon { width:26px; height:26px; }
   .map-section { padding-bottom:40px; } .map-scene-links button { padding:18px; gap:10px; }
+  .map-toolbar { padding:14px; } .map-tools { gap:6px; } .map-tools button,.map-tools a { padding:8px; } .map-source { padding:14px; }
   .home-footer { padding:24px 20px; flex-wrap:wrap; gap:10px 20px; }
   .brand h1 { font-size:18px; letter-spacing:0; line-height:1.4; }
   .pill { padding:8px; } .map-btn .ui-icon { display:none; } .lang-select { max-width:96px; } #scene-tabs { gap:4px; } .tab { padding:8px 5px; }
