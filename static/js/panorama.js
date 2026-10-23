@@ -14,7 +14,7 @@
   var FOV_Y = 75 * DEG;              // 垂直视场角
   var TAN_HALF_FOV = Math.tan(FOV_Y / 2);
   var AUTO_SPEED = 0.9 * DEG;        // 自动旋转角速度(弧度/秒)
-  var RESUME_DELAY = 4000;           // 交互后自动旋转恢复延迟(毫秒)
+  var PITCH_LIMIT = 89 * DEG;
 
   var VERT_SRC = [
     'attribute vec2 aPos;',
@@ -76,14 +76,7 @@
     this._texture = null;
     this._image = null;
     this._ready = false;
-    this._dragging = false;
-    this._resumeAt = 0;
-    this._lastX = 0;
-    this._lastY = 0;
     this._aspect = 1;
-    this.vx = 0;
-    this.vy = 0;
-    this._lastMoveTime = 0;
     this._targetYaw = null;
 
     this._initGL();
@@ -145,6 +138,8 @@
     var w = this.canvas.clientWidth;
     var h = this.canvas.clientHeight;
     if (w === 0 || h === 0) { w = window.innerWidth; h = window.innerHeight; }
+    if (this._drag && (w !== this._w || h !== this._h || dpr !== this._dpr)) this.resetInteraction();
+    this._w = w; this._h = h; this._dpr = dpr;
     this.canvas.width = Math.floor(w * dpr);
     this.canvas.height = Math.floor(h * dpr);
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
@@ -153,51 +148,77 @@
 
   PanoramaViewer.prototype._initEvents = function () {
     var self = this;
-    var c = this.canvas;
-
-    function pos(e) {
-      var r = c.getBoundingClientRect();
-      return { x: e.clientX - r.left, y: e.clientY - r.top };
-    }
-
-    c.addEventListener('pointerdown', function (e) {
-      self._dragging = true;
-      self._resumeAt = Infinity;
-      self._targetYaw = null;
-      self.vx = 0; self.vy = 0;
-      var p = pos(e);
-      self._lastX = p.x; self._lastY = p.y;
-      self._lastMoveTime = performance.now();
-      c.setPointerCapture && c.setPointerCapture(e.pointerId);
+    this._drag = new global.RotationDrag(this.canvas, this, {
+      pitchLimit: PITCH_LIMIT,
+      autoSpeed: AUTO_SPEED,
+      begin: function (e) { return self._setAnchor(e); },
+      move: function (e) { self._dragTo(e); },
+      reset: function () { self._anchor = null; self._targetYaw = null; },
     });
+  };
 
-    c.addEventListener('pointermove', function (e) {
-      if (!self._dragging) return;
-      var p = pos(e);
-      var dx = p.x - self._lastX;
-      var dy = p.y - self._lastY;
-      self._lastX = p.x; self._lastY = p.y;
-      var now = performance.now();
-      var dt = Math.max((now - self._lastMoveTime) / 1000, 0.001);
-      self._lastMoveTime = now;
-      self.yaw += dx * 0.005;
-      self.pitch += dy * 0.005;
-      if (self.pitch > 89 * DEG) self.pitch = 89 * DEG;
-      if (self.pitch < -89 * DEG) self.pitch = -89 * DEG;
-      self.vx = (dx * 0.005) / dt;   // 记录角速度, 松手后惯性滑行
-      self.vy = (dy * 0.005) / dt;
-    });
+  PanoramaViewer.prototype.resetInteraction = function () {
+    if (this._drag) this._drag.reset();
+    this._targetYaw = null;
+  };
 
-    function end() {
-      self._dragging = false;
-      self._resumeAt = performance.now() + RESUME_DELAY;
+  PanoramaViewer.prototype._pointerRay = function (e) {
+    var r = this.canvas.getBoundingClientRect();
+    if (!r.width || !r.height) return null;
+    var x = (2 * (e.clientX - r.left) / r.width - 1) * TAN_HALF_FOV * this._aspect;
+    var y = (1 - 2 * (e.clientY - r.top) / r.height) * TAN_HALF_FOV;
+    var length = Math.sqrt(x * x + y * y + 1);
+    return [x / length, y / length, 1 / length];
+  };
+
+  PanoramaViewer.prototype._setAnchor = function (e) {
+    var ray = this._pointerRay(e);
+    if (!ray) return false;
+    var cy = Math.cos(this.yaw), sy = Math.sin(this.yaw);
+    var cp = Math.cos(this.pitch), sp = Math.sin(this.pitch);
+    var z = cp * ray[2] - sp * ray[1];
+    this._anchor = [cy * ray[0] + sy * z, cp * ray[1] + sp * ray[2], -sy * ray[0] + cy * z];
+    this._anchorYaw = this.yaw;
+    this._anchorPitch = this.pitch;
+    return true;
+  };
+
+  function wrapAngle(a) { return Math.atan2(Math.sin(a), Math.cos(a)); }
+
+  PanoramaViewer.prototype._dragTo = function (e) {
+    var ray = this._pointerRay(e), anchor = this._anchor;
+    if (!ray || !anchor) return;
+    // Invert the exact camera basis also used by the shader and _project.
+    // There are two pitch solutions near a pole; keep the closest valid pose
+    // to the press pose, so splitting a move into more events changes nothing.
+    var radius = Math.sqrt(ray[1] * ray[1] + ray[2] * ray[2]);
+    var ratio = anchor[1] / radius;
+    var angle = Math.asin(Math.max(-1, Math.min(1, ratio)));
+    var offset = Math.atan2(ray[1], ray[2]);
+    var candidates = [angle - offset, PI - angle - offset];
+    var best = null;
+    for (var i = 0; i < candidates.length; i++) {
+      var raw = wrapAngle(candidates[i]);
+      var pitch = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, raw));
+      var q = Math.cos(pitch) * ray[2] - Math.sin(pitch) * ray[1];
+      var yaw = Math.atan2(anchor[0], anchor[2]) - Math.atan2(ray[0], q);
+      yaw = this._anchorYaw + wrapAngle(yaw - this._anchorYaw);
+      var projectedY = Math.cos(pitch) * ray[1] + Math.sin(pitch) * ray[2];
+      var error = Math.abs(projectedY - anchor[1]);
+      var score = Math.pow(pitch - this._anchorPitch, 2) + Math.pow(yaw - this._anchorYaw, 2);
+      if (!best || error < best.error - 1e-10 || (Math.abs(error - best.error) < 1e-10 && score < best.score)) {
+        best = { yaw: yaw, pitch: pitch, error: error, score: score, limited: Math.abs(raw - pitch) > 1e-10 };
+      }
     }
-    c.addEventListener('pointerup', end);
-    c.addEventListener('pointercancel', end);
-    c.addEventListener('pointerleave', end);
+    this.yaw = best.yaw;
+    this.pitch = best.pitch;
+    // Rebase at a pitch limit or an unreachable polar ray; reversing the
+    // pointer then responds immediately instead of unwinding an overshoot.
+    if (best.limited || Math.abs(ratio) > 1) this._setAnchor(e);
   };
 
   PanoramaViewer.prototype.setPano = function (url) {
+    this.resetInteraction();
     var self = this;
     var token = this._panoToken = (this._panoToken || 0) + 1;
     if (this.onLoadingChange) this.onLoadingChange(true);
@@ -304,6 +325,7 @@
     this._lastTime = now;
 
     if (this._targetYaw !== null) {
+      this._drag.lastTick = now;
       // 镜头缓动转向目标(faceYaw)
       var diff = this._targetYaw - this.yaw;
       if (Math.abs(diff) < 0.003) {
@@ -312,20 +334,7 @@
       } else {
         this.yaw += diff * Math.min(1, dt * 5);
       }
-    } else if (!this._dragging) {
-      // 惯性滑行
-      if (Math.abs(this.vx) > 0.02 || Math.abs(this.vy) > 0.02) {
-        this.yaw += this.vx * dt;
-        this.pitch += this.vy * dt;
-        if (this.pitch > 89 * DEG) this.pitch = 89 * DEG;
-        if (this.pitch < -89 * DEG) this.pitch = -89 * DEG;
-        var f = Math.pow(0.05, dt);
-        this.vx *= f; this.vy *= f;
-        this._resumeAt = now + RESUME_DELAY;
-      } else if (now >= this._resumeAt) {
-        this.yaw += AUTO_SPEED * dt;
-      }
-    }
+    } else this._drag.tick(now);
 
     this._updatePins();
     this._draw();
@@ -334,6 +343,7 @@
 
   // 让镜头平滑转向指定方位角(度), 用于进入场景时对准首个热点
   PanoramaViewer.prototype.faceYaw = function (yawDeg) {
+    this.resetInteraction();
     var target = yawDeg * DEG;
     var d = target - this.yaw;
     d = Math.atan2(Math.sin(d), Math.cos(d));  // 取最短路径

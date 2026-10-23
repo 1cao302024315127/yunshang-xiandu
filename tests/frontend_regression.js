@@ -73,14 +73,15 @@ function createRuntime() {
   source = source.replace(/\}\)\(\);\s*$/, `globalThis.testApp = {
     state, explainKeyword, enterScene, showMap, bindControls, startQuiz, answerQuiz,
     refreshOpenContent, closeModal, speakText, stopSpeak, loadGuide,
-    setViewer(v) { viewer = v; }, getQuiz() { return quizState; }
+    setViewer(v) { viewer = v; }, getQuiz() { return quizState; },
+    setArtifactViewer(v) { artifactViewer = v; }
   };\n})();`);
   vm.createContext(context);
   vm.runInContext(source, context);
   const api = context.testApp;
   api.state.config = config;
   api.state.sceneId = config.scenes[0].id;
-  api.setViewer({setPano() {}, setHotspots() {}, faceYaw() {}});
+  api.setViewer({setPano() {}, setHotspots() {}, faceYaw() {}, resetInteraction() {}});
   return {api, context, get, timers, requests, utterances, revoked};
 }
 
@@ -235,8 +236,22 @@ async function audioCancellationAndCompletion() {
   assert.equal(browser.get('btn-stop').classList.contains('hidden'), true);
 }
 
+function viewerLifecycle() {
+  const r = createRuntime();
+  let panoResets = 0, artifactResets = 0;
+  r.api.setViewer({resetInteraction() { panoResets++; }});
+  r.api.setArtifactViewer({resetInteraction() { artifactResets++; }});
+  r.api.showMap();
+  assert.equal(panoResets, 1);
+  r.api.closeModal('artifact-modal');
+  assert.equal(artifactResets, 1);
+  r.api.closeModal('bridge-modal');
+  assert.equal(artifactResets, 1);
+}
+
 (async () => {
-  for (const test of [explanations, guides, panoramas, quizzes, audioFailures, audioCancellationAndCompletion]) {
+  for (const test of [explanations, guides, panoramas, quizzes, audioFailures, audioCancellationAndCompletion,
+    viewerLifecycle, ...require('./drag_regression')]) {
     await test(); console.log('PASS ' + test.name);
   }
 })().catch(error => { console.error(error); process.exitCode = 1; });

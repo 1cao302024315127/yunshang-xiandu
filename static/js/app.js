@@ -575,6 +575,7 @@
   }
 
   function showMap() {
+    if (viewer) viewer.resetInteraction();
     $('map-screen').classList.remove('hidden');
     $('app').classList.add('is-home');
     $('app').classList.remove('panel-is-collapsed');
@@ -913,9 +914,9 @@
         var kw = state.config.keywords[artifactType];
         if (kw) speakText(pick(kw.definition) + '\n' + pick(kw.analogy), state.lang);
       };
-      setTimeout(function () { artifactViewer._resize(); }, 60);
     }
     setArtifactTab(artifactType);
+    artifactViewer._resize();
   }
 
   /* ---------------- 分享海报 ---------------- */
@@ -1032,6 +1033,7 @@
   function openModal(id) { $(id).classList.remove('hidden'); }
   function closeModal(id) {
     $(id).classList.add('hidden');
+    if (id === 'artifact-modal' && artifactViewer) artifactViewer.resetInteraction();
     if (id === 'quiz-modal') {
       clearQuizTimer();
       quizState = null;

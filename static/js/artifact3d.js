@@ -7,6 +7,10 @@
 (function (global) {
   'use strict';
 
+  var PITCH_LIMIT = 1.2;
+  var CAMERA_DISTANCE = 4.2;
+  var MODEL_SCALE = 1.9;
+
   var VERT = [
     'attribute vec2 aPos;',
     'attribute vec3 aColor;',
@@ -87,7 +91,6 @@
     var self = this;
     window.addEventListener('resize', function () { self._resize(); });
     this._bindDrag();
-    this._last = performance.now();
     this._loop = this._loop.bind(this);
     requestAnimationFrame(this._loop);
   }
@@ -117,36 +120,69 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var w = this.canvas.clientWidth, h = this.canvas.clientHeight;
     if (!w || !h) { w = 320; h = 280; }
+    if (this._drag && (w !== this._w || h !== this._h || dpr !== this._dpr)) this.resetInteraction();
     this.canvas.width = Math.floor(w * dpr);
     this.canvas.height = Math.floor(h * dpr);
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-    this._w = w; this._h = h;
+    this._w = w; this._h = h; this._dpr = dpr;
   };
 
   Artifact3D.prototype._bindDrag = function () {
-    var self = this, c = this.canvas;
-    var downX = 0, downY = 0, moved = false, t0 = 0;
-    c.addEventListener('pointerdown', function (e) {
-      self.auto = false;
-      downX = e.clientX; downY = e.clientY; moved = false; t0 = performance.now();
-      c.setPointerCapture && c.setPointerCapture(e.pointerId);
-    });
-    c.addEventListener('pointermove', function (e) {
-      if (e.buttons !== 1 && e.pointerType !== 'touch') return;
-      var dx = e.clientX - downX, dy = e.clientY - downY;
-      if (Math.abs(dx) + Math.abs(dy) > 5) moved = true;
-      self.yaw += dx * 0.01;
-      self.pitch = Math.max(-1.2, Math.min(1.2, self.pitch + dy * 0.01));
-    });
-    c.addEventListener('pointerup', function (e) {
-      var dt = performance.now() - t0;
-      var dx = e.clientX - downX, dy = e.clientY - downY;
-      if (!moved && dt < 400 && Math.abs(dx) + Math.abs(dy) < 6) {
+    var self = this;
+    this._drag = new global.RotationDrag(this.canvas, this, {
+      pitchLimit: PITCH_LIMIT,
+      autoSpeed: 0.5,
+      begin: function (e) {
+        var bounds = self._screenBounds();
+        if (!bounds) return false;
+        self._dragBase = { x: e.clientX, y: e.clientY, yaw: self.yaw, pitch: self.pitch, w: bounds.width, h: bounds.height };
+        return true;
+      },
+      move: function (e) {
+        var b = self._dragBase;
+        self.yaw = b.yaw - 2 * (e.clientX - b.x) / b.w;
+        var pitch = b.pitch - 2 * (e.clientY - b.y) / b.h;
+        self.pitch = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, pitch));
+        if (pitch !== self.pitch) { b.pitch = self.pitch; b.y = e.clientY; }
+      },
+      tap: function () {
         if (self.onTap) self.onTap();
         self._chime();
-      }
-      self.auto = true;
+      },
+      reset: function () { self._dragBase = null; },
     });
+  };
+
+  Artifact3D.prototype.resetInteraction = function () {
+    if (this._drag) this._drag.reset();
+  };
+
+  function rotateVertex(p, cy, sy, cx, sx) {
+    var x = cy * p[0] + sy * p[2];
+    var z = -sy * p[0] + cy * p[2];
+    return [x, cx * p[1] - sx * z, sx * p[1] + cx * z];
+  }
+
+  function projectVertex(p) {
+    var scale = CAMERA_DISTANCE / (CAMERA_DISTANCE - p[2]) / MODEL_SCALE;
+    return [p[0] * scale, p[1] * scale];
+  }
+
+  Artifact3D.prototype._screenBounds = function () {
+    var w = this.canvas.clientWidth, h = this.canvas.clientHeight;
+    if (!w || !h) return null;
+    var cy = Math.cos(this.yaw), sy = Math.sin(this.yaw);
+    var cx = Math.cos(this.pitch), sx = Math.sin(this.pitch);
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    this.tris.forEach(function (t) {
+      for (var k = 0; k < 3; k++) {
+        var p = projectVertex(rotateVertex(t[k], cy, sy, cx, sx));
+        minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]);
+        minY = Math.min(minY, p[1]); maxY = Math.max(maxY, p[1]);
+      }
+    });
+    var width = (maxX - minX) * w / 2, height = (maxY - minY) * h / 2;
+    return width >= 1 && height >= 1 ? { width: width, height: height } : null;
   };
 
   Artifact3D.prototype._chime = function () {
@@ -167,6 +203,7 @@
   };
 
   Artifact3D.prototype.setType = function (type) {
+    this.resetInteraction();
     this.tris = type === 'ding' ? buildDing() : buildBianzhong();
     this.yaw = 0.6;
   };
@@ -182,9 +219,7 @@
   function dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
 
   Artifact3D.prototype._loop = function (now) {
-    var dt = Math.min((now - this._last) / 1000, 0.1);
-    this._last = now;
-    if (this.auto) this.yaw += dt * 0.5;
+    this._drag.tick(now);
     this._draw();
     requestAnimationFrame(this._loop);
   };
@@ -193,19 +228,13 @@
     var gl = this.gl;
     var cy = Math.cos(this.yaw), sy = Math.sin(this.yaw);
     var cx = Math.cos(this.pitch), sx = Math.sin(this.pitch);
-    var D = 4.2, SCALE = 1.9;
     var L = norm([0.5, 0.8, 0.6]);
     var items = [];
 
     this.tris.forEach(function (t) {
       var r = [];
       for (var k = 0; k < 3; k++) {
-        var p = t[k];
-        var x = cy * p[0] + sy * p[2];
-        var z = -sy * p[0] + cy * p[2];
-        var y = cx * p[1] - sx * z;
-        var z2 = sx * p[1] + cx * z;
-        r.push([x, y, z2]);
+        r.push(rotateVertex(t[k], cy, sy, cx, sx));
       }
       var n = norm(cross(sub(r[1], r[0]), sub(r[2], r[0])));
       var shade = 0.58 + 0.42 * Math.max(dot(n, L), 0);
@@ -213,8 +242,7 @@
       var depth = (r[0][2] + r[1][2] + r[2][2]) / 3;
       var sc = [];
       for (var k = 0; k < 3; k++) {
-        var persp = D / (D - r[k][2]);
-        sc.push([r[k][0] * persp / SCALE, r[k][1] * persp / SCALE]);
+        sc.push(projectVertex(r[k]));
       }
       items.push({ depth: depth, s: sc, c: col });
     });

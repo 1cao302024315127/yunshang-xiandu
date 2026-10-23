@@ -490,6 +490,7 @@ html, body {
   touch-action: none; cursor: grab;
 }
 .artifact-hint { text-align: center; color: var(--muted); font-size: 12px; margin-top: 10px; }
+#artifact-canvas:active { cursor: grabbing; }
 
 /* ---------- 分享海报 ---------- */
 .poster-body { text-align: center; }
