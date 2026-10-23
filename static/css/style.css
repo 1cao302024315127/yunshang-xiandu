@@ -18,6 +18,8 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
   color: var(--text);
   background: var(--bg);
   -webkit-tap-highlight-color: transparent;

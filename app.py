@@ -222,7 +222,7 @@ def _llm_guide(scene, age_style, lang, cfg):
     system = (
         f"你是一位精通中国传统文化与缙云仙都景区非遗的资深导游。"
         f"请面向「{_pick(age_style['label'], lang)}」的游客讲解, 风格要求: {age_style['tone']}。"
-        f"请用{lang_name}输出, 语言自然、口语化、有感染力, 篇幅150字左右。"
+        f"请用{lang_name}输出, 语言清楚、客观、便于听读, 不使用宣传口号, 篇幅150字左右。"
         f"以下是你需要讲解的景点事实(可润色但不要编造史实):\n{_pick(scene['guide'], lang)}"
     )
     messages = [

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f5ef">
-  <meta name="description" content="循着山水，走近仙都。探索丁字桥、岩拓书店与黄帝祠宇，听导览、读非遗，开启一段云上文化之旅。">
-  <title>云上仙都 · 非遗数字化传承与VR全景云游览</title>
+  <meta name="description" content="云上仙都景点与文化导览。在线浏览丁字桥、岩拓书店和黄帝祠宇，查看景点讲解、非遗词库与祭典介绍。">
+  <title>云上仙都 · 景点与文化导览</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/editorial.css">
 </head>
@@ -35,14 +35,14 @@
         <div class="spinner-wrap"><div class="spinner"></div><span class="spinner-crane">🦢</span></div>
         <p id="loading-text">全景加载中…</p>
       </div>
-      <div id="hint" class="hint">拖动 / 滑动旋转视角 · 点击闪光图标探索非遗</div>
+      <div id="hint" class="hint">拖动调整视角，点击热点查看释义</div>
     </div>
 
     <!-- 顶部栏 -->
     <header id="topbar">
       <div class="brand">
         <span class="brand-mark"><svg class="ui-icon"><use href="#icon-mountain"/></svg></span>
-        <div><h1 id="app-title">云上仙都</h1><p id="app-subtitle">非遗数字化传承 · VR全景云游览</p></div>
+        <div><h1 id="app-title" data-home-i18n="brandName">云上仙都</h1><p id="app-subtitle">景点与文化导览</p></div>
       </div>
       <div class="topbar-right">
         <nav id="scene-tabs" aria-label="场景切换"></nav>
@@ -51,7 +51,7 @@
       </div>
     </header>
 
-    <div class="scene-caption"><svg class="ui-icon"><use href="#icon-compass"/></svg><span id="scene-caption-name">仙都云游</span><span class="scene-caption-note" data-home-i18n="sceneNote">全景漫游 · 拖动探索</span></div>
+    <div class="scene-caption"><svg class="ui-icon"><use href="#icon-compass"/></svg><span id="scene-caption-name">仙都云游</span></div>
 
     <!-- AI 讲解面板 -->
     <aside id="guide-panel" class="panel">
@@ -64,7 +64,7 @@
       </div>
 
       <div class="panel-body">
-        <div class="guide-intro"><span class="eyebrow">YOUR CULTURAL COMPANION</span><h2 data-home-i18n="guideHeading">听见山水里的故事</h2></div>
+        <div class="guide-intro"><h2 data-home-i18n="guideHeading">景点讲解</h2></div>
         <div id="controls">
           <div class="control-group" id="age-group">
             <span class="control-label" id="age-label">讲解版本</span>
@@ -79,7 +79,7 @@
         <p class="guide-text" id="guide-text">正在生成讲解词…</p>
 
         <div class="keywords-block">
-          <p class="keywords-title" id="kw-title">关键词溯源 · 点击释义</p>
+          <p class="keywords-title" id="kw-title">相关词条</p>
           <div id="keyword-chips" class="chips"></div>
         </div>
 
@@ -105,7 +105,7 @@
         </div>
 
         <div class="qa-block">
-          <p class="keywords-title" id="qa-title" data-icon="chat">向 AI 导游提问</p>
+          <p class="keywords-title" id="qa-title" data-icon="chat">导览问答</p>
           <div id="qa-log" class="qa-log"></div>
           <div class="qa-input-row">
             <input id="qa-input" type="text" maxlength="120" placeholder="输入问题…" />
@@ -122,16 +122,15 @@
       <header class="home-header" id="home-top">
         <a class="home-brand" href="#home-top" data-scroll="home-top" aria-label="云上仙都首页">
           <span class="brand-mark"><svg class="ui-icon"><use href="#icon-mountain"/></svg></span>
-          <span><strong>云上仙都</strong><small>XIANDU · A JOURNEY BEYOND</small></span>
+          <strong data-home-i18n="brandName">云上仙都</strong>
         </a>
         <nav class="home-nav" aria-label="首页导航">
-          <a class="current" href="#destinations" data-scroll="destinations" data-home-i18n="navExplore">探索仙都</a>
-          <a href="#heritage-section" data-scroll="heritage-section" data-home-i18n="navCulture">非遗拾光</a>
-          <a href="#guide-map" data-scroll="guide-map" data-home-i18n="navMap">云游地图</a>
+          <a href="#destinations" data-scroll="destinations" data-home-i18n="navExplore">景点介绍</a>
+          <a href="#heritage-section" data-scroll="heritage-section" data-home-i18n="navCulture">非遗文化</a>
+          <a href="#guide-map" data-scroll="guide-map" data-home-i18n="navMap">导览地图</a>
         </nav>
         <div class="home-header-actions">
           <label class="home-language"><svg class="ui-icon"><use href="#icon-globe"/></svg><select id="home-lang-select" aria-label="首页语言"><option value="zh">中文</option><option value="en">English</option><option value="ja">日本語</option><option value="ko">한국어</option></select></label>
-          <button class="btn primary header-start" data-enter-first data-home-i18n="startTour">开启云游</button>
         </div>
       </header>
 
@@ -139,45 +138,36 @@
         <img class="hero-photo" src="/static/assets/panoramas/source/src1.jpg" alt="仙都山峰、云雾与溪上石桥" fetchpriority="high">
         <div class="hero-shade"></div>
         <div class="hero-content">
-          <span class="hero-location"><svg class="ui-icon"><use href="#icon-pin"/></svg><span data-home-i18n="location">浙江 · 丽水 · 缙云</span><span class="hero-location-line"></span></span>
-          <p class="hero-kicker">WANDER THROUGH XIANDU</p>
-          <h1 id="hero-title"><span data-home-i18n="heroLine1">一程山水，</span><br><span data-home-i18n="heroLine2">千年回响。</span><span class="hero-seal" aria-hidden="true">仙<br>都</span></h1>
-          <p class="hero-description" data-home-i18n="heroDescription">循着云雾走进仙都，在山水之间，<br>遇见风景，也读懂流传千年的文化。</p>
+          <span class="hero-location"><svg class="ui-icon"><use href="#icon-pin"/></svg><span data-home-i18n="location">浙江 · 丽水 · 缙云</span></span>
+          <h1 id="hero-title"><span data-home-i18n="heroLine1">一程山水，</span><br><span data-home-i18n="heroLine2">千年回响。</span></h1>
+          <p class="hero-description" data-home-i18n="heroDescription">在线浏览仙都景点，查看景点讲解与非遗文化内容。</p>
           <div class="hero-actions">
-            <button class="btn hero-start" data-enter-first><svg class="ui-icon"><use href="#icon-compass"/></svg><span data-home-i18n="startTour">开启云游</span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
-            <a href="#destinations" data-scroll="destinations" class="hero-secondary"><span data-home-i18n="chooseScene">选择一处风景</span><span aria-hidden="true">↗</span></a>
+            <button class="btn hero-start" data-enter-first><svg class="ui-icon"><use href="#icon-compass"/></svg><span data-home-i18n="startTour">开始游览</span></button>
+            <a href="#destinations" data-scroll="destinations" class="hero-secondary"><span data-home-i18n="chooseScene">选择景点</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
           </div>
-          <div class="hero-footnote"><span></span><span data-home-i18n="heroFootnote">让文化可感，让山水可及</span></div>
         </div>
-        <div class="hero-side-note" aria-hidden="true">山水之间 · 自有天地</div>
-        <div class="hero-image-caption"><span>01 / 03</span><span data-home-i18n="heroCaption">云起仙都 · 溪上人家</span></div>
-      </section>
-
-      <section class="experience-strip" aria-label="云游特色">
-        <div><svg class="ui-icon"><use href="#icon-compass"/></svg><span><strong data-home-i18n="stripTour">全景漫游</strong><small data-home-i18n="stripTourSub">换个视角，看见仙都</small></span></div>
-        <div><svg class="ui-icon"><use href="#icon-headphones"/></svg><span><strong data-home-i18n="stripGuide">随行讲解</strong><small data-home-i18n="stripGuideSub">听见每一处风景的故事</small></span></div>
-        <div><svg class="ui-icon"><use href="#icon-book"/></svg><span><strong data-home-i18n="stripCulture">非遗溯源</strong><small data-home-i18n="stripCultureSub">从一个词，走近一种文化</small></span></div>
-        <div><svg class="ui-icon"><use href="#icon-globe"/></svg><span><strong data-home-i18n="stripLanguage">多语同行</strong><small data-home-i18n="stripLanguageSub">让相遇，跨越语言</small></span></div>
       </section>
 
       <section class="destinations home-section" id="destinations" aria-labelledby="destinations-title">
-        <div class="section-heading"><div><span class="eyebrow">EXPLORE THE LANDSCAPE</span><h2 id="destinations-title" data-home-i18n="destinationsTitle">好风景，值得慢慢遇见</h2><p data-home-i18n="destinationsDescription">三处风景，三种走近仙都的方式。选一站，开始你的旅程。</p></div><div class="view-switch" aria-label="景点浏览方式"><button class="active" id="view-cards" aria-pressed="true" data-home-i18n="cardView">景点一览</button><a href="#guide-map" data-scroll="guide-map"><svg class="ui-icon"><use href="#icon-map"/></svg><span data-home-i18n="mapView">地图导览</span></a></div></div>
+        <div class="section-heading"><div><h2 id="destinations-title" data-home-i18n="destinationsTitle">景点介绍</h2><p data-home-i18n="destinationsDescription">选择景点，查看场景与讲解。</p></div><a class="section-map-link" href="#guide-map" data-scroll="guide-map"><svg class="ui-icon" aria-hidden="true"><use href="#icon-map"/></svg><span data-home-i18n="mapView">查看地图</span></a></div>
         <div id="scene-cards" class="scene-grid"></div>
       </section>
 
       <section class="heritage-section home-section" id="heritage-section" aria-labelledby="heritage-heading">
-        <div class="heritage-intro"><span class="eyebrow">BEYOND THE SCENERY</span><h2 id="heritage-heading" data-home-i18n="heritageTitle">山水有形，<br>文化有声。</h2><p data-home-i18n="heritageDescription">不止于看见。在词语、礼乐与器物之间，拾起仙都的文化记忆。</p><span class="heritage-stamp" aria-hidden="true">传<br>承</span></div>
+        <div class="heritage-intro"><h2 id="heritage-heading" data-home-i18n="heritageTitle">非遗文化</h2><p data-home-i18n="heritageDescription">查阅文化词条，了解轩辕祭典与礼乐器物。</p></div>
         <div class="heritage-links">
-          <button data-home-feature="lexicon"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-book"/></svg></span><span><strong data-home-i18n="lexiconFeature">读懂非遗</strong><small data-home-i18n="lexiconDescription">从关键词出发，探寻文化来处</small></span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
-          <button data-home-feature="ceremony"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-ceremony"/></svg></span><span><strong data-home-i18n="ceremonyFeature">走近轩辕祭典</strong><small data-home-i18n="ceremonyDescription">循着仪式，感受传承的温度</small></span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
-          <button data-home-feature="artifact"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-artifact"/></svg></span><span><strong data-home-i18n="artifactFeature">细看礼乐器物</strong><small data-home-i18n="artifactDescription">转动视角，认识编钟与鼎</small></span><svg class="ui-icon"><use href="#icon-arrow"/></svg></button>
+          <button data-home-feature="lexicon"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-book"/></svg></span><span><strong data-home-i18n="lexiconFeature">非遗词库</strong><small data-home-i18n="lexiconDescription">文化词条与释义</small></span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+          <button data-home-feature="ceremony"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-ceremony"/></svg></span><span><strong data-home-i18n="ceremonyFeature">轩辕祭典</strong><small data-home-i18n="ceremonyDescription">祭典流程与仪式说明</small></span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+          <button data-home-feature="artifact"><span class="heritage-icon"><svg class="ui-icon"><use href="#icon-artifact"/></svg></span><span><strong data-home-i18n="artifactFeature">3D 器物</strong><small data-home-i18n="artifactDescription">编钟与鼎的三维示意</small></span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
         </div>
       </section>
 
       <section class="map-section home-section" id="guide-map" aria-labelledby="map-heading">
-        <div class="section-heading"><div><span class="eyebrow">FIND YOUR NEXT STOP</span><h2 id="map-heading" data-home-i18n="mapHeading">下一站，去哪里？</h2><p data-home-i18n="mapDescription">沿着导览地图，发现山水与人文的交汇。</p></div><span class="map-notice" data-home-i18n="mapNotice">景点位置为导览示意</span></div>
+        <div class="section-heading"><div><h2 id="map-heading" data-home-i18n="mapHeading">导览地图</h2><p data-home-i18n="mapDescription">点击标记或下方景点名称进入浏览。位置仅供示意。</p></div></div>
         <div class="map-wrap">
-        <svg id="map-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+        <svg id="map-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" aria-labelledby="map-title map-subtitle">
+          <title id="map-title">仙都导览图</title>
+          <desc id="map-subtitle">点击标记，选择要参观的景点</desc>
           <defs>
             <linearGradient id="mapbg" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stop-color="#edf1e9"/>
@@ -198,20 +188,13 @@
           <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#b3d0cb" stroke-width="30" fill="none" stroke-linecap="round"/>
           <path d="M0 386 C 200 330, 300 424, 500 384 C 650 352, 720 404, 800 362" stroke="#e2efea" stroke-width="2" fill="none" stroke-linecap="round"/>
 
-          <!-- 景点连线 -->
-          <path d="M165 150 C 265 180, 335 210, 400 235 C 485 266, 560 320, 640 360" stroke="#698879" stroke-width="2" fill="none" stroke-dasharray="6 6" opacity="0.7"/>
-
-          <!-- 标题 -->
-          <text id="map-title" x="400" y="46" text-anchor="middle" fill="#25594b" font-size="26" font-weight="600">仙都导览图</text>
-          <text id="map-subtitle" x="400" y="72" text-anchor="middle" fill="#62746c" font-size="14">点击标记，选择要参观的景点</text>
-
           <!-- 标记（JS 按 scenes.json 填充） -->
           <g id="map-markers"></g>
         </svg>
-        <div class="map-legend" id="map-legend">导览图 · 共 3 处景点</div>
+        <div class="map-scene-links" id="map-scene-links"></div>
         </div>
       </section>
-      <footer class="home-footer"><span class="footer-brand">云上仙都 <small>XIANDU</small></span><p data-home-i18n="footerText">山水相逢，云上再会。</p><span data-home-i18n="footerNote">非遗数字化传承 · 云游体验</span></footer>
+      <footer class="home-footer"><span class="footer-brand" data-home-i18n="brandName">云上仙都</span><p data-home-i18n="footerNote">景点与文化导览</p></footer>
       <div id="home-status" class="home-status hidden" role="status"></div>
     </main>
 
@@ -391,7 +374,7 @@
     <div id="toast" class="hidden"></div>
 
     <div id="webgl-fallback" class="hidden">
-      当前浏览器不支持 WebGL，无法渲染 360° 全景。请使用最新版 Chrome / Edge / 微信内置浏览器访问。
+      当前浏览器无法显示全景场景，仍可浏览首页、词库和祭典介绍。
     </div>
   </div>
 

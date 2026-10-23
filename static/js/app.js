@@ -7,25 +7,24 @@
 
   var I18N = {
     zh: {
-      subtitle: '非遗数字化传承 · VR全景云游览',
+      subtitle: '景点与文化导览',
       ageLabel: '讲解版本',
       loadingGuide: '正在生成讲解词…',
       guideFail: '讲解词加载失败，请确认后端服务已启动。',
       play: '🔊 播放讲解',
       stop: '■ 停止',
       speechFail: '语音播放失败，请重试或阅读文字讲解。',
-      kwTitle: '关键词溯源 · 点击释义',
+      kwTitle: '相关词条',
       playExplain: '🔊 语音释义',
       close: '关闭',
-      localMode: '本地模式',
-      llmMode: '大模型模式',
-      hint: '拖动 / 滑动旋转视角 · 点击闪光图标探索非遗',
+      localMode: '基础讲解',
+      llmMode: 'AI 讲解',
+      hint: '拖动调整视角，点击热点查看释义',
       loading: '全景加载中…',
       map: '地图',
       mapSubtitle: '点击标记，选择要参观的景点',
-      mapLegend: '仙都导览图 · 共 3 处景点',
-      qaTitle: '💬 向 AI 导游提问',
-      qaPlaceholder: '输入问题，如：祭祀和扫墓有何不同？',
+      qaTitle: '💬 导览问答',
+      qaPlaceholder: '输入景点或文化问题',
       qaSend: '发送',
       quizBtn: '🎯 小测验',
       ceremonyBtn: '📜 祭典流程',
@@ -35,25 +34,24 @@
       quizAgain: '再来一次',
     },
     en: {
-      subtitle: 'ICH Digital Inheritance · VR Panoramic Tour',
+      subtitle: 'Visitor guide',
       ageLabel: 'Guide Edition',
       loadingGuide: 'Generating guide…',
       guideFail: 'Failed to load guide. Please start the backend first.',
       play: '🔊 Play Guide',
       stop: '■ Stop',
       speechFail: 'Audio playback failed. Please retry or read the text.',
-      kwTitle: 'Keyword Traceability · Tap to explain',
+      kwTitle: 'Related terms',
       playExplain: '🔊 Speak',
       close: 'Close',
-      localMode: 'Local Mode',
-      llmMode: 'LLM Mode',
-      hint: 'Drag / swipe to rotate · Tap glowing icons to explore ICH',
+      localMode: 'Standard guide',
+      llmMode: 'AI guide',
+      hint: 'Drag to adjust the view. Select a hotspot for details.',
       loading: 'Loading panorama…',
       map: 'Map',
       mapSubtitle: 'Tap a marker to choose an attraction',
-      mapLegend: 'Xiandu Guide Map · 3 attractions',
-      qaTitle: '💬 Ask the AI Guide',
-      qaPlaceholder: 'Ask, e.g. What is a sacrificial rite?',
+      qaTitle: '💬 Visitor questions',
+      qaPlaceholder: 'Ask about a site or cultural term',
       qaSend: 'Send',
       quizBtn: '🎯 Quiz',
       ceremonyBtn: '📜 Ceremony',
@@ -63,25 +61,24 @@
       quizAgain: 'Try again',
     },
     ja: {
-      subtitle: '無形文化遺産のデジタル継承 · VRパノラマツアー',
+      subtitle: '観光・文化ガイド',
       ageLabel: 'ガイド版',
       loadingGuide: 'ガイドを生成中…',
       guideFail: 'ガイドの読み込みに失敗しました。バックエンドを起動してください。',
       play: '🔊 ガイドを再生',
       stop: '■ 停止',
       speechFail: '音声を再生できませんでした。再試行するか、解説文をお読みください。',
-      kwTitle: 'キーワード解説 · タップして解説',
+      kwTitle: '関連用語',
       playExplain: '🔊 音声解説',
       close: '閉じる',
-      localMode: 'ローカルモード',
-      llmMode: 'AIモード',
-      hint: 'ドラッグ/スワイプで回転 · 光るアイコンをタップ',
+      localMode: '基本解説',
+      llmMode: 'AI解説',
+      hint: 'ドラッグで視点を変更。スポットを選択すると解説を表示します。',
       loading: 'パノラマ読み込み中…',
       map: '地図',
       mapSubtitle: 'マーカーをタップして見学先を選択',
-      mapLegend: '仙都ガイドマップ · 3つのスポット',
-      qaTitle: '💬 AIガイドに質問',
-      qaPlaceholder: '質問を入力（例：祭祀とは？）',
+      qaTitle: '💬 観光案内の質問',
+      qaPlaceholder: '観光や文化について質問',
       qaSend: '送信',
       quizBtn: '🎯 クイズ',
       ceremonyBtn: '📜 祭典',
@@ -91,25 +88,24 @@
       quizAgain: 'もう一度',
     },
     ko: {
-      subtitle: '무형문화유산 디지털 계승 · VR 파노라마 투어',
+      subtitle: '관광 및 문화 안내',
       ageLabel: '가이드 버전',
       loadingGuide: '가이드 생성 중…',
       guideFail: '가이드 로딩에 실패했습니다. 백엔드를 먼저 실행하세요.',
       play: '🔊 가이드 재생',
       stop: '■ 정지',
       speechFail: '음성을 재생하지 못했습니다. 다시 시도하거나 해설을 읽어 주세요.',
-      kwTitle: '키워드 해설 · 탭하여 해설',
+      kwTitle: '관련 용어',
       playExplain: '🔊 음성 해설',
       close: '닫기',
-      localMode: '로컬 모드',
-      llmMode: 'AI 모드',
-      hint: '드래그/스와이프로 회전 · 빛나는 아이콘 탭',
+      localMode: '기본 해설',
+      llmMode: 'AI 해설',
+      hint: '드래그하여 시점을 조정하고 지점을 선택하여 해설을 확인하세요.',
       loading: '파노라마 로딩 중…',
       map: '지도',
       mapSubtitle: '마커를 탭하여 관람할 곳 선택',
-      mapLegend: '셴두 가이드 맵 · 3곳',
-      qaTitle: '💬 AI 가이드에게 질문',
-      qaPlaceholder: '질문 입력 (예: 제사란 무엇인가요?)',
+      qaTitle: '💬 관광 안내 질문',
+      qaPlaceholder: '관광지나 문화 관련 질문 입력',
       qaSend: '전송',
       quizBtn: '🎯 퀴즈',
       ceremonyBtn: '📜 제례',
@@ -541,7 +537,7 @@
 
       var core = document.createElementNS(NS, 'circle');
       core.setAttribute('class', 'core');
-      core.setAttribute('r', isMain ? 15 : 13);
+      core.setAttribute('r', 20);
       core.setAttribute('fill', '#e8b23a');
       grp.appendChild(core);
 
@@ -551,32 +547,24 @@
       ic.setAttribute('dominant-baseline', 'central');
       ic.setAttribute('text-anchor', 'middle');
       ic.setAttribute('font-size', isMain ? '15' : '13');
-      ic.textContent = String(state.config.scenes.indexOf(s) + 1).padStart(2, '0');
+      ic.textContent = String(state.config.scenes.indexOf(s) + 1);
       grp.appendChild(ic);
 
       var hit = document.createElementNS(NS, 'circle');
-      hit.setAttribute('r', 28);
+      hit.setAttribute('class', 'map-hit');
+      hit.setAttribute('r', 32);
       hit.setAttribute('fill', 'transparent');
       grp.appendChild(hit);
 
       var name = document.createElementNS(NS, 'text');
       name.setAttribute('class', 'mname');
-      name.setAttribute('y', '-26');
+      name.setAttribute('y', '-38');
       name.setAttribute('text-anchor', 'middle');
       name.setAttribute('fill', '#fff');
       name.setAttribute('font-size', isMain ? '19' : '16');
       name.setAttribute('font-weight', '600');
       name.textContent = pick(s.name);
       grp.appendChild(name);
-
-      var tag = document.createElementNS(NS, 'text');
-      tag.setAttribute('class', 'mtag');
-      tag.setAttribute('y', '42');
-      tag.setAttribute('text-anchor', 'middle');
-      tag.setAttribute('fill', '#9aa7bd');
-      tag.setAttribute('font-size', '12');
-      tag.textContent = pick(s.tag);
-      grp.appendChild(tag);
 
       grp.addEventListener('click', function () { enterScene(s.id); });
       grp.addEventListener('keydown', function (event) {
@@ -639,6 +627,7 @@
       b.setAttribute('aria-pressed', s.id === state.sceneId ? 'true' : 'false');
       b.addEventListener('click', function () { enterScene(s.id); });
       nav.appendChild(b);
+      if (s.id === state.sceneId && b.scrollIntoView) b.scrollIntoView({block:'nearest', inline:'nearest'});
     });
   }
 
@@ -713,7 +702,6 @@
     setText('hint', t('hint'));
     setText('loading-text', t('loading'));
     setText('map-subtitle', t('mapSubtitle'));
-    setText('map-legend', t('mapLegend'));
     setText('map-title', MAP_TITLE[state.lang]);
     setText('btn-lexicon', LEXICON_STR[state.lang].btn);
     setText('lexicon-title', LEXICON_STR[state.lang].title);
@@ -737,7 +725,7 @@
     setText('poster-title', POSTER_STR[state.lang].title);
     setText('btn-download', POSTER_STR[state.lang].download);
     setText('btn-share', POSTER_STR[state.lang].share);
-    setText('btn-map', {zh:'导览首页',en:'Explore',ja:'ホーム',ko:'홈으로'}[state.lang]);
+    setText('btn-map', {zh:'导览首页',en:'Home',ja:'ホーム',ko:'홈으로'}[state.lang]);
     $('lang-select').value = state.lang;
     if (window.XianduHome) window.XianduHome.render(state.config, state.lang);
     renderMap();
@@ -950,11 +938,8 @@
     ctx.strokeRect(24, 24, W - 48, H - 48);
     ctx.textAlign = 'left';
     ctx.fillStyle = '#28594b';
-    ctx.font = "34px 'STSong','SimSun',Georgia,serif";
-    ctx.fillText('云上仙都', 48, 78);
-    ctx.fillStyle = '#788570';
-    ctx.font = '11px sans-serif';
-    ctx.fillText('XIANDU  /  A JOURNEY BEYOND', 48, 105);
+    ctx.font = "42px 'STSong','SimSun',Georgia,serif";
+    ctx.fillText($('app-title').textContent, 48, 86, W - 96);
     var imageW = W - 96, imageH = 486;
     ctx.fillStyle = '#dce5d5'; ctx.fillRect(48, 137, imageW, imageH);
     if (img) {
@@ -962,23 +947,15 @@
       var sw = imageW / scale, sh = imageH / scale;
       ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, 48, 137, imageW, imageH);
     }
-    ctx.fillStyle = '#8a967f';
-    ctx.font = '13px sans-serif';
-    ctx.fillText(String(state.config.scenes.indexOf(scene) + 1).padStart(2, '0') + '  /  ' + String(state.config.scenes.length).padStart(2, '0'), 48, 663);
     ctx.fillStyle = '#28594b';
-    ctx.font = "44px 'STSong','SimSun',Georgia,serif";
-    ctx.fillText(pick(scene.name), 48, 723, W - 96);
-    ctx.fillStyle = '#7d8872';
-    ctx.font = "18px 'Microsoft YaHei',sans-serif";
-    ctx.fillText(pick(scene.tag), 48, 760, W - 96);
-    ctx.fillStyle = '#b36a50'; ctx.fillRect(W - 83, 646, 35, 35);
-    ctx.fillStyle = '#fff9e9'; ctx.font = "20px 'SimSun',serif";
-    ctx.fillText('游', W - 76, 670);
+    ctx.font = "48px 'STSong','SimSun',Georgia,serif";
+    ctx.fillText(pick(scene.name), 48, 695, W - 96);
+    ctx.fillStyle = '#56675b';
+    ctx.font = "30px 'Microsoft YaHei',sans-serif";
+    ctx.fillText(pick(scene.tag), 48, 752, W - 96);
     ctx.strokeStyle = '#d4dccb'; ctx.beginPath(); ctx.moveTo(48, 804); ctx.lineTo(W - 48, 804); ctx.stroke();
-    ctx.fillStyle = '#57704f'; ctx.font = "15px 'Microsoft YaHei',sans-serif";
-    ctx.fillText({zh:'山水相逢，云上再会。',en:'Until our paths meet again.',ja:'また、雲の上の仙都で。',ko:'구름 위 선도에서 다시 만나요.'}[state.lang], 48, 839, W - 96);
-    ctx.fillStyle = '#8c9684'; ctx.font = '11px sans-serif';
-    ctx.fillText(location.host || 'yunshang-xiandu', 48, 861);
+    ctx.fillStyle = '#56675b'; ctx.font = "30px 'Microsoft YaHei',sans-serif";
+    ctx.fillText(t('subtitle'), 48, 850, W - 96);
   }
 
   function downloadPoster() {
